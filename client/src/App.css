@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+
+/* Window.css */
+.window{
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.window-header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.window-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.window-close-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.window-content{
+  padding: 16px;
+}
