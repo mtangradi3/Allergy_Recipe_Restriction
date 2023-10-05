@@ -1,52 +1,44 @@
 // UserProfile.js
 import React from "react";
+import { useLocation } from "react-router-dom";
 
-// Function to open a pop-up window with custom content
-export function openPopup(content) {
-  const popupWindow = window.open("", "MyPopup", "width=600,height=400");
-  popupWindow.document.write("<html><head><style>");
-  popupWindow.document.write(`
-    /* Add CSS styles for button spacing and alignment */
-    button {
-      display: block;
-      margin: 10px 0;
-      width: 100%; /* Makes the buttons longer */
-      height: 20%;
-    }
-  `);
-  popupWindow.document.write("</style></head><body>");
-  popupWindow.document.write(content);
+function UserProfile() {
+  // Declared constants
+  const location = useLocation();
+  const { firstName, lastName } = location.state || {};
 
-  // Add buttons with event handlers
-  popupWindow.document.write('<button id="button1">Allergies</button>');
-  popupWindow.document.write('<button id="button2">Groups</button>');
-  popupWindow.document.write('<button id="button3">Favorites</button>');
-  popupWindow.document.write('<button id="button4">Meals</button>');
+  // CSS formatting of the buttons
+  const buttonStyle = {
+    display: "block",
+    width: "100%",
+    padding: "20px 0",
+    fontSize: "20px",
+    margin: "10px 0",
+    backgroundColor: "#007BFF", // example color, choose what you like
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+  };
 
-  // Add scripts for button functionality
-  popupWindow.document.write(`
-    <script>
-      document.getElementById('button1').addEventListener('click', function() {
-        // Button 1 functionality
-        alert('Button 1 clicked!');
-      });
-      
-      document.getElementById('button2').addEventListener('click', function() {
-        // Button 2 functionality
-        alert('Button 2 clicked!');
-      });
-
-      document.getElementById('button3').addEventListener('click', function() {
-        // Button 3 functionality
-        alert('Button 3 clicked!');
-      });
-
-      document.getElementById('button4').addEventListener('click', function() {
-        // Button 4 functionality
-        alert('Button 4 clicked!');
-      });
-    </script>
-  `);
-
-  popupWindow.document.write("</body></html>");
+  return (
+    <div>
+      <h2>
+        Welcome, {firstName} {lastName}!
+      </h2>
+      <button style={buttonStyle} onClick={() => alert("Button 1 clicked!")}>
+        Allergies
+      </button>
+      <button style={buttonStyle} onClick={() => alert("Button 2 clicked!")}>
+        Groups
+      </button>
+      <button style={buttonStyle} onClick={() => alert("Button 3 clicked!")}>
+        Favorites
+      </button>
+      <button style={buttonStyle} onClick={() => alert("Button 4 clicked!")}>
+        Meals
+      </button>
+    </div> // Header title with first name and last name, and made buttons
+  );
 }
+
+export default UserProfile;

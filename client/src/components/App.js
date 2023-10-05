@@ -1,36 +1,29 @@
-import logo from '../logo.svg';
-import '../App.css';
-import {API_TEST} from "../utils/constant";
-import axios from 'axios';
-import Header from './Header'
-import Footer from './Footer'
+import logo from "../logo.svg";
+import "../App.css";
+import { API_TEST } from "../utils/constant";
+import axios from "axios";
+import Header from "./Header";
+import UserProfile from "./UserProfile";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 
 function App() {
+  const testapi = axios.get(API_TEST);
 
- const testapi = axios.get(API_TEST)
+  console.log(testapi);
 
-    console.log(testapi)
-
+  /* Routes the webpages from the main registration menu to the user profile */
   return (
-    <div className="App">
-        <Header />
-        {/*
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-                Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Learn React
-            </a>
-        </header>
-        */}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/" element={<Header />} />
+      </Routes>
+    </Router>
   );
 }
 export default App;
