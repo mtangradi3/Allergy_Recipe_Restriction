@@ -3,10 +3,17 @@ import "../App.css";
 import { API_TEST } from "../utils/constant";
 import axios from "axios";
 import React, { useState } from "react";
-import { openPopup } from "./UserProfile";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 
 /* Form for the user to fill out including first name, last name, and email address */
 function UserForm() {
+  const navigate = useNavigate();
+
   // State variables to store user input
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -16,18 +23,15 @@ function UserForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Open a pop-up window after form submission
-    const userProfilePopUpContent = `<h2>Welcome ${firstName} ${lastName}</h2>`;
-
-    // Open a pop-up window for the user profile
-    openPopup(userProfilePopUpContent);
+    // Navigate to user screen and pass user data
+    navigate("/user-profile", { state: { firstName, lastName } });
   };
 
   return (
     // Send data to server below this comment to be added later
 
     // Determines what happens when you hit submit
-    // So far it is only console logging the information
+    // Determines what the firstName, lastName, and email field do and their behaviors
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="firstName">First Name:</label>
