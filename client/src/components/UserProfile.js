@@ -1,11 +1,12 @@
 // UserProfile.js
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function UserProfile() {
   // Declared constants
+  const navigate = useNavigate();
   const location = useLocation();
-  const { firstName, lastName } = location.state || {};
+  const { firstName, lastName, email } = location.state || {};
 
   // CSS formatting of the buttons
   const buttonStyle = {
@@ -25,17 +26,35 @@ function UserProfile() {
       <h2>
         Welcome, {firstName} {lastName}!
       </h2>
-      <button style={buttonStyle} onClick={() => alert("Button 1 clicked!")}>
+      <button
+        style={buttonStyle}
+        onClick={() => navigate("/user-profile/allergies")}
+      >
         Allergies
       </button>
-      <button style={buttonStyle} onClick={() => alert("Button 2 clicked!")}>
+      <button
+        style={buttonStyle}
+        onClick={() => navigate("/user-profile/groups")}
+      >
         Groups
       </button>
-      <button style={buttonStyle} onClick={() => alert("Button 3 clicked!")}>
+      <button
+        style={buttonStyle}
+        onClick={() => navigate("/user-profile/favorites")}
+      >
         Favorites
       </button>
-      <button style={buttonStyle} onClick={() => alert("Button 4 clicked!")}>
+      <button
+        style={buttonStyle}
+        onClick={() => navigate("/user-profile/meals")}
+      >
         Meals
+      </button>
+      <button
+        style={buttonStyle}
+        onClick={() => navigate("/user-profile/allmeals")}
+      >
+        All Meals
       </button>
     </div> // Header title with first name and last name, and made buttons
   );
