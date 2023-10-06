@@ -3,12 +3,7 @@ import "../App.css";
 import { API_TEST } from "../utils/constant";
 import axios from "axios";
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 /* Form for the user to fill out including first name, last name, and email address */
 function UserForm() {
@@ -24,7 +19,7 @@ function UserForm() {
     e.preventDefault();
 
     // Navigate to user screen and pass user data
-    navigate("/user-profile", { state: { firstName, lastName } });
+    navigate("/user-profile", { state: { firstName, lastName, email } });
   };
 
   return (

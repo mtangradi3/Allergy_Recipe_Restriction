@@ -2,14 +2,15 @@ import logo from "../logo.svg";
 import "../App.css";
 import { API_TEST } from "../utils/constant";
 import axios from "axios";
+// Components
+import Allergies from "./Allergies";
+import Groups from "./Groups";
+import Favorites from "./Favorites";
+import Meals from "./Meals";
+import AllMeals from "./AllMeals";
 import Header from "./Header";
 import UserProfile from "./UserProfile";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const testapi = axios.get(API_TEST);
@@ -20,8 +21,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/" element={<Header />} />
+        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/user-profile/allergies" element={<Allergies />} />
+        <Route path="/user-profile/groups" element={<Groups />} />
+        <Route path="/user-profile/favorites" element={<Favorites />} />
+        <Route path="/user-profile/meals" element={<Meals />} />
+        <Route path="/user-profile/allmeals" element={<AllMeals />} />
       </Routes>
     </Router>
   );
