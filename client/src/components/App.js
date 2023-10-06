@@ -3,11 +3,11 @@ import "../App.css";
 import { API_TEST } from "../utils/constant";
 import axios from "axios";
 // Components
-import Allergies from "./Allergies";
-import Groups from "./Groups";
-import Favorites from "./Favorites";
-import Meals from "./Meals";
-import AllMeals from "./AllMeals";
+import Allergies from "./UserProfile-Buttons/Allergies";
+import Groups from "./UserProfile-Buttons/Groups";
+import Favorites from "./UserProfile-Buttons/Favorites";
+import Meals from "./UserProfile-Buttons/Meals";
+import AllMeals from "./UserProfile-Buttons/AllMeals";
 import Header from "./Header";
 import UserProfile from "./UserProfile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
