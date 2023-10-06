@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/SP_Strate_Group1_Fall2023.pem
