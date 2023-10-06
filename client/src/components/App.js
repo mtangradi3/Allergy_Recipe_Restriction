@@ -7,7 +7,7 @@ import Allergies from "./Allergies";
 import Groups from "./Groups";
 import Favorites from "./Favorites";
 import Meals from "./Meals";
-import AllMeals from "./All Meals";
+import AllMeals from "./AllMeals";
 import Header from "./Header";
 import UserProfile from "./UserProfile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
