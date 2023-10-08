@@ -4,6 +4,7 @@ import { API_TEST } from "../utils/constant";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {createUser} from "../api/userAPI";
 
 /* Form for the user to fill out including first name, last name, and email address */
 function UserForm() {
@@ -18,9 +19,22 @@ function UserForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    handleCreateUser()
     // Navigate to user screen and pass user data
     navigate("/user-profile", { state: { firstName, lastName, email } });
   };
+
+    const handleCreateUser = async () => {
+        console.log('hit')
+        try {
+            const data = await createUser(firstName, lastName, email);
+            console.log(data);
+            // Handle success
+        } catch (error) {
+            console.error("Error creating user:", error.response ? error.response.data : error.message);
+            // Handle error
+        }
+    };
 
   return (
     // Send data to server below this comment to be added later

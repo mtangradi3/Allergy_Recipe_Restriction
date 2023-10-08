@@ -12,10 +12,14 @@ import Header from "./Header";
 import UserProfile from "./UserProfile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-function App() {
-  const testapi = axios.get(API_TEST);
 
-  console.log(testapi);
+function App() {
+  // const testapi = axios.get(API_TEST);
+
+  // console.log(testapi);
+
+
+
 
   /* Routes the webpages from the main registration menu to the user profile */
   return (
