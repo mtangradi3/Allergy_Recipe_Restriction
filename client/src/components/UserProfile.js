@@ -21,6 +21,12 @@ function UserProfile() {
     cursor: "pointer",
   };
 
+    // Logout function
+    const handleLogout = () => {
+        // Add any additional logout logic here (e.g., clearing local storage, etc.)
+        navigate("/"); // Redirect to the login page after logout
+    };
+
   return (
     <div>
       <h2>
@@ -56,6 +62,10 @@ function UserProfile() {
       >
         All Meals
       </button>
+        {/* Logout button */}
+        <button style={buttonStyle} onClick={handleLogout}>
+            Logout
+        </button>
     </div> // Header title with first name and last name, and made buttons
   );
 }
