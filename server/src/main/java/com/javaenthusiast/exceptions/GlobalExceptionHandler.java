@@ -13,8 +13,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomDatabaseException.class)
     public ResponseEntity<String> handleCustomDatabaseException(CustomDatabaseException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
     // ... handle other exceptions as needed
 }

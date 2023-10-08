@@ -9,8 +9,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 /**
  * Author: Marcus Tangradi
  */
@@ -28,14 +26,14 @@ public class UserServices {
 
     public void insertUser(String firstName, String lastName, String email) {
         SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_user");
-        System.out.println(firstName +" " + lastName);
+//        System.out.println(firstName +" " + lastName);
         SqlParameterSource in = new MapSqlParameterSource()
                 .addValue("first_name", firstName)
                 .addValue("last_name", lastName)
                 .addValue("email", email);
 
         try {
-            Map<String, Object> out = call.execute(in);
+            call.execute(in);
         } catch (DataAccessException e) {
             // Handle exception related to the stored procedure here.
             // The duplicate email SIGNAL will throw an exception you can catch and handle.

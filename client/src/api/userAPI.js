@@ -7,6 +7,14 @@
 import axios from 'axios';
 import {INSERT_NEW_USER} from "../utils/constant";
 
+/**
+ * this function will insert a new user into the database if it does not exist
+ *
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @returns {Promise<any>} an error if there is a duplicate
+ */
 export const createUser = async (firstName, lastName, email) => {
     const params = new URLSearchParams();
     params.append('firstName', firstName);
