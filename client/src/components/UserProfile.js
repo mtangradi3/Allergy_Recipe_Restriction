@@ -9,25 +9,6 @@ function UserProfile() {
   const location = useLocation();
   const { firstName, lastName, email } = location.state || {};
 
-  // CSS formatting of the buttons
-  // const buttonStyle = {
-  //   display: "block",
-  //   width: "100%",
-  //   padding: "20px 0",
-  //   fontSize: "20px",
-  //   margin: "10px 0",
-  //   backgroundColor: "#007BFF", // example color, choose what you like
-  //   color: "white",
-  //   border: "none",
-  //   cursor: "pointer",
-  // };
-
-    // Logout function
-    const handleLogout = () => {
-        // Add any additional logout logic here (e.g., clearing local storage, etc.)
-        navigate("/"); // Redirect to the login page after logout
-    };
-
   return (
     <div>
       <h2>
@@ -67,7 +48,7 @@ function UserProfile() {
         {/* Logout button */}
         <button
             className="buttonStyle"
-            onClick={handleLogout}>
+            onClick={() => navigate("/")}>
             Logout
         </button>
         </div>
