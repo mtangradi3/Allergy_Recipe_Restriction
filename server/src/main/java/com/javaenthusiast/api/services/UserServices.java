@@ -9,6 +9,10 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Author: Marcus Tangradi
  */
@@ -40,5 +44,30 @@ public class UserServices {
             throw new CustomDatabaseException("Error inserting user", e);
         }
     }
+
+    public List<Map<String, Object>> getAllUsers() throws CustomDatabaseException {
+        List<Map<String, Object>> users;
+
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_users");
+
+        try {
+            // Execute the stored procedure and fetch the result
+            Map<String, Object> out = call.execute();
+
+            // Assuming that the result from the stored procedure is a list stored under a key named "result"
+            users = (List<Map<String, Object>>) out.get("#result-set-1");
+
+            if(users == null) {
+                users = new ArrayList<>();
+            }
+
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            throw new CustomDatabaseException("Error fetching users", e);
+        }
+
+        return users;
+    }
+
 
 }
