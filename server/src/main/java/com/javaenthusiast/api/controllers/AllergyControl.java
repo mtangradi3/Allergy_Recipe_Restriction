@@ -1,0 +1,42 @@
+package com.javaenthusiast.api.controllers;
+
+import com.javaenthusiast.api.services.AllergyServices;
+import com.javaenthusiast.api.services.GroupServices;
+import com.javaenthusiast.exceptions.CustomDatabaseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * Author: Marcus Tangradi
+ *
+ * this class will contain all main endpoints for allergies
+ *
+ */
+
+
+@RestController
+@RequestMapping("/api/allergy")
+public class AllergyControl {
+
+
+    @Autowired
+    private AllergyServices allergyServices;
+
+
+    @GetMapping("/create_new_allergy")
+    public ResponseEntity<?> giveUserAllergies(@RequestParam String allergy_name){
+        try {
+            allergyServices.addNewAllergy( allergy_name);
+            return ResponseEntity.ok("allergy was created successfully");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+}

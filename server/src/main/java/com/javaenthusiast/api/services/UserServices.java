@@ -70,4 +70,13 @@ public class UserServices {
     }
 
 
+    public void giveUserAllergy(String email, List<String> allergies) {
+
+        //TODO: database call to `creating_user_plagued_by_allergy` procedure
+    }
+
+    public void addUserToGroup(String email, String groupName) {
+
+        //TODO: database call to `put_user_into_group` procedure
+    }
 }

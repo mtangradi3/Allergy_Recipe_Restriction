@@ -53,4 +53,30 @@ public class UserControl {
         }
     }
 
+
+    @GetMapping("/give_user_allergy")
+    public ResponseEntity<?> giveUserAllergies(@RequestParam String email ,@RequestParam List<String> allergies){
+        try {
+            userService.giveUserAllergy(email, allergies);
+            return ResponseEntity.ok("User was given an allergy successfully");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
+
+    @GetMapping("/add_user_to_group")
+    public ResponseEntity<?> giveUserAllergies(@RequestParam String email ,@RequestParam String group_name){
+        try {
+            userService.addUserToGroup(email, group_name);
+            return ResponseEntity.ok("User was added to a group successfully");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 }
