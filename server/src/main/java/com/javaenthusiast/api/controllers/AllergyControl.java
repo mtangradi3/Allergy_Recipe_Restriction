@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Author: Marcus Tangradi
  *
@@ -39,4 +41,29 @@ public class AllergyControl {
 
         }
     }
+
+    @GetMapping("/get_all_allergies")
+    public ResponseEntity<?> getAllAllergies(){
+        try {
+            List<String> allergies = allergyServices.getAllAllergies( );
+            return ResponseEntity.ok(allergies);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
+    @GetMapping("/get_users_allergies")
+    public ResponseEntity<?> getAllAllergies(@RequestParam String email){
+        try {
+            List<String> allergies = allergyServices.getUserAllergies( email);
+            return ResponseEntity.ok(allergies);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 }

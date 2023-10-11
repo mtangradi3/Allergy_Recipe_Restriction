@@ -25,8 +25,8 @@ public class GroupControl {
     @Autowired
     private GroupServices groupServices;
 
-    @GetMapping("/add_user_to_group")
-    public ResponseEntity<?> giveUserAllergies( @RequestParam String group_name){
+    @GetMapping("/create_new_group")
+    public ResponseEntity<?> creatNewGroup( @RequestParam String group_name){
         try {
             groupServices.creatNewGroup( group_name);
             return ResponseEntity.ok("group was created successfully");
