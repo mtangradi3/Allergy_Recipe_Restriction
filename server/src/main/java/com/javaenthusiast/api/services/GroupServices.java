@@ -24,7 +24,7 @@ public class GroupServices {
 
     public void creatNewGroup(String groupName) {
 
-        //TODO: create a new group using `insert_new_user_group` procedure
+
 
 
         SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_new_user_group");
