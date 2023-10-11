@@ -27,7 +27,6 @@ public class AllergyServices {
 
     public void addNewAllergy(String allergyName) {
 
-        //TODO: insert new allergy using `insert_allergy` procedure
 
         SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_allergy");
 
@@ -46,7 +45,6 @@ public class AllergyServices {
         List<Map<String, Object>> allergies =null;
         List<String> alergyNames = new ArrayList<>();
 
-        //TODO: get all allergies from `get_all_allergies` procedure and insert into allergies variable
 
         SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_all_allergies");
 
@@ -78,11 +76,44 @@ public class AllergyServices {
 
     public List<String> getUserAllergies(String email) {
 
-        List<String> allergies =null;
+
 
 
         //TODO: get all allergies of a user from `get_a_users_allergies` procedure and insert into allergies variable
 
-        return allergies;
+
+        List<Map<String, Object>> allergies =null;
+        List<String> alergyNames = new ArrayList<>();
+
+
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_a_users_allergies");
+
+
+        try {
+            // Execute the stored procedure and fetch the result
+            Map<String, Object> out = call.execute(email);
+
+            // Assuming that the result from the stored procedure is a list stored under a key named "result"
+            allergies = (List<Map<String, Object>>) out.get("#result-set-1");
+
+            allergies.forEach(tempMap ->{
+                alergyNames.add((String)tempMap.get("food_allergy_category"));
+
+            });
+
+            if(allergies == null) {
+                allergies = new ArrayList<>();
+            }
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            // The duplicate email SIGNAL will throw an exception you can catch and handle.
+            throw new CustomDatabaseException("Error getting all allergies", e);
+        }
+
+
+
+
+
+        return alergyNames;
     }
 }

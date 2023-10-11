@@ -94,9 +94,6 @@ public class UserServices {
 
     public void addUserToGroup(String email, String groupName) {
 
-
-
-
         SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("put_user_into_group");
 
         SqlParameterSource in = new MapSqlParameterSource()
