@@ -1,75 +1,113 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 function Allergies() {
-  const [allergies, setAllergies] = useState([]);
-  const [inputValueAllergy, setInputValueAllergy] = useState('');
-  const [inputValueSeverity, setInputValueSeverity] = useState('');
 
-  // adds allergy
-  const handleAddAllergy = () => {
-    if (inputValueAllergy.trim() !== '') {
-      setAllergies([...allergies, [inputValueAllergy, inputValueSeverity]]);
-      setInputValueAllergy(''); // Clear the input field
-      setInputValueSeverity(''); // Clear the input field
+
+    const [userAllergies, setUserAllergies] = useState([]);
+    const [inputValueSearch, setInputValueSearch] = useState('');
+
+    const [allAllergies, setAllAllergies] = useState(['Peanuts', 'Tree Nuts', 'Milk', 'Eggs', 'Soy', 'Wheat', 'Fish', 'Shellfish', 'Sesame', 'Mustard']);
+    const [searchAllergies, setSearchAllergies] = useState(['Peanuts', 'Tree Nuts', 'Milk', 'Eggs', 'Soy', 'Wheat', 'Fish', 'Shellfish', 'Sesame', 'Mustard']);
+
+    let search = '';
+
+    // adds allergy to user
+    const handleAddUserAllergy = (item) => {
+        if (!userAllergies.includes(item)) {
+            setUserAllergies([...userAllergies, item]);
+        } else {
+            alert(`Allergy "${item}" already added.`);
+        }
+        setInputValueSearch('');
+        updateSearch([...userAllergies, item]);
+    };
+
+    // removes allergy from user
+    const handleRemoveAllergy = (index) => {
+        const updatedItems = [...userAllergies];
+        updatedItems.splice(index, 1);
+        setUserAllergies(updatedItems);
+        setInputValueSearch('');
+        updateSearch(updatedItems);
+    };
+
+    const handleSearchChange = (e) => {
+        setInputValueSearch(e.target.value);
+        search = e.target.value;
+        updateSearch();
     }
-  };
-
-  // removes allergy
-  const handleRemoveAllergy = (index) => {
-    const updatedItems = [...allergies];
-    updatedItems.splice(index, 1);
-    setAllergies(updatedItems);
-  };
 
 
+    const updateSearch = (allergies = userAllergies) => {
+        if (search.trim() !== '') {
+            const filteredAllergies1 = allAllergies.filter(allergy =>
+                allergy.toLowerCase().includes(search.toLowerCase())
+            );
+            const filteredAllergies2 = filteredAllergies1.filter(allergy =>
+                !allergies.some(existingAllergy => existingAllergy.toLowerCase() === allergy.toLowerCase())
+            );
+            setSearchAllergies(filteredAllergies2);
+        } else {
+            const filteredAllergies2 = allAllergies.filter(allergy =>
+                !allergies.includes(allergy));
+            setSearchAllergies(filteredAllergies2);
+        }
+    };
 
-  return (
-      <div className="m-4 p-4">
-        <h2>Your Allergies</h2>
-        {allergies.map((item, index) => (
-            //stack shows users allergies
-            <Stack
-                key={index}
-                direction="horizontal"
-                gap={3}
-                className="mb-2 p-2 border rounded"
-            >
-              <div className="p-2">{item[0]}</div>
-              <div className="p-2 ms-auto">{item[1]}</div>
-              <div className="p-2">
-                <Button
-                    variant="outline-danger"
-                    size="sm"
-                    onClick={() => handleRemoveAllergy(index)}
+
+    return (
+        <div className="m-4 p-4">
+            <h2>Your Allergies</h2>
+
+            {userAllergies.map((item, index) => (
+                //stack shows users allergies
+                <Stack
+                    key={index}
+                    direction="horizontal"
+                    gap={3}
+                    className="mb-2 p-2 border rounded border-danger"
+                    varient="outline-danger"
                 >
-                  Remove
-                </Button></div>
-            </Stack>
-        ))}
-        {/*adds new allergy to user*/}
-        <Stack direction="horizontal" gap={3} >
-          <Form.Control
-              className="p-2"
-              placeholder="Add your allergy here..."
-              value={inputValueAllergy}
-              onChange={(e) => setInputValueAllergy(e.target.value)}
-          />
-          <div className="p-2 ms-auto"><Form.Control
-              className="p-2"
-              placeholder="Severity 1-10"
-              value={inputValueSeverity}
-              onChange={(d) => setInputValueSeverity(d.target.value)}
-          /></div>
-          <Button variant="outline-primary" onClick={handleAddAllergy}>
-            Submit
-          </Button>
-        </Stack>
-      </div>
-  );
+                    <div className="p-2">{item}</div>
+                    <div className="p-2 ms-auto">severity</div>
+                    <div className="p-2">
+                        <Button
+                            variant="outline-danger"
+                            size="sm"
+                            onClick={() => handleRemoveAllergy(index)}
+                        >
+                            Remove
+                        </Button></div>
+                </Stack>
+            ))}
+            <h2>All Allergies</h2>
+            <Form.Control
+                className="p-2"
+                placeholder="search"
+                value={inputValueSearch}
+                onChange={(e) => handleSearchChange(e)}
+            />
+
+            {searchAllergies.map((item, index) => (
+                //stack shows all allergies
+                <Stack
+                    key={index}
+                    direction="horizontal"
+                    gap={3}
+                    className="mb-2 p-2 border rounded"
+                    variant="border-danger"
+                    onClick={() => handleAddUserAllergy(item)}
+                >
+                    <div className="p-2">{item}</div>
+                </Stack>
+            ))}
+
+        </div>
+    );
 }
 
 export default Allergies;
