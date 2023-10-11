@@ -1,3 +1,5 @@
 # Allergy_Recipe_Restriction
 
-This is a test from Sarah.
+
+To look at all endpoints:
+http://localhost:8080/api/mymappings

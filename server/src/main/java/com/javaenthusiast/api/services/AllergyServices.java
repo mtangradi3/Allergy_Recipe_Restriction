@@ -79,7 +79,6 @@ public class AllergyServices {
 
 
 
-        //TODO: get all allergies of a user from `get_a_users_allergies` procedure and insert into allergies variable
 
 
         List<Map<String, Object>> allergies =null;
