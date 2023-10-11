@@ -6,10 +6,7 @@ import com.javaenthusiast.exceptions.CustomDatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Author: Marcus Tangradi
@@ -25,7 +22,7 @@ public class GroupControl {
     @Autowired
     private GroupServices groupServices;
 
-    @GetMapping("/create_new_group")
+    @PostMapping("/create_new_group")
     public ResponseEntity<?> creatNewGroup( @RequestParam String group_name){
         try {
             groupServices.creatNewGroup( group_name);

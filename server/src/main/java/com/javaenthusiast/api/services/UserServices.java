@@ -73,6 +73,28 @@ public class UserServices {
     public void giveUserAllergy(String email, List<String> allergies) {
 
         //TODO: database call to `creating_user_plagued_by_allergy` procedure
+
+
+
+
+        allergies.forEach(tempAllergy ->{
+            SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("creating_user_plagued_by_allergy");
+
+
+            SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("email", email)
+                .addValue("food_allergy_category", tempAllergy);
+
+
+            try {
+                call.execute(in);
+
+            } catch (DataAccessException e) {
+                // Handle exception related to the stored procedure here.
+                // The duplicate email SIGNAL will throw an exception you can catch and handle.
+                throw new CustomDatabaseException("Error giving user an allergy", e);
+         }
+        });
     }
 
     public void addUserToGroup(String email, String groupName) {

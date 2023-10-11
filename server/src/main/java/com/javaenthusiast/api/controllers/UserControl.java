@@ -54,7 +54,7 @@ public class UserControl {
     }
 
 
-    @GetMapping("/give_user_allergy")
+    @PostMapping("/give_user_allergy")
     public ResponseEntity<?> giveUserAllergies(@RequestParam String email ,@RequestParam List<String> allergies){
         try {
             userService.giveUserAllergy(email, allergies);
@@ -67,7 +67,7 @@ public class UserControl {
     }
 
 
-    @GetMapping("/add_user_to_group")
+    @PostMapping("/add_user_to_group")
     public ResponseEntity<?> giveUserAllergies(@RequestParam String email ,@RequestParam String group_name){
         try {
             userService.addUserToGroup(email, group_name);
