@@ -21,7 +21,8 @@ function Allergies() {
     // adds allergy to user
     const handleAddUserAllergy = (item) => {
         if (!userAllergies.includes(item)) {
-            setUserAllergies([...userAllergies, item]);
+            let sev = prompt("allergy severity 1-10")
+            setUserAllergies([...userAllergies, [item, sev]]);
         } else {
             alert(`Allergy "${item}" already added.`);
         }
@@ -51,7 +52,7 @@ function Allergies() {
                 allergy.toLowerCase().includes(search.toLowerCase())
             );
             const filteredAllergies2 = filteredAllergies1.filter(allergy =>
-                !allergies.some(existingAllergy => existingAllergy.toLowerCase() === allergy.toLowerCase())
+                !allergies.some(existingAllergy => existingAllergy[0].toLowerCase() === allergy.toLowerCase())
             );
             setSearchAllergies(filteredAllergies2);
         } else {
@@ -75,8 +76,8 @@ function Allergies() {
                     className="mb-2 p-2 border rounded border-danger"
                     varient="outline-danger"
                 >
-                    <div className="p-2">{item}</div>
-                    <div className="p-2 ms-auto">severity</div>
+                    <div className="p-2">{item[0]}</div>
+                    <div className="p-2 ms-auto">{item[1]}</div>
                     <div className="p-2">
                         <Button
                             variant="outline-danger"
@@ -87,7 +88,20 @@ function Allergies() {
                         </Button></div>
                 </Stack>
             ))}
-            <h2>All Allergies</h2>
+            <Stack
+                direction="horizontal"
+                gap={3}
+                className="mb-2 p-2 "
+                varient="outline-danger"
+            >
+                <div className="p-2"><h2>All Allergies</h2></div>
+                <div className="p-2 "><Button
+                    variant="outline-secondary"
+                    onClick={() => alert('not added')}
+                >
+                    Create New Allergy
+                </Button></div>
+            </Stack>
             <Form.Control
                 className="mb-4 p-2"
                 placeholder="search"
