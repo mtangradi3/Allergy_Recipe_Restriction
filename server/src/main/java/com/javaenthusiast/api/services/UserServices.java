@@ -94,7 +94,7 @@ public class UserServices {
 
     public void addUserToGroup(String email, String groupName) {
 
-        //TODO: database call to `put_user_into_group` procedure
+
 
 
         SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("put_user_into_group");
