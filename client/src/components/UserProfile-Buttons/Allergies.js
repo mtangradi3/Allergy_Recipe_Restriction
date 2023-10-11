@@ -6,12 +6,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 function Allergies() {
 
+    const commonFoodAllergies = ["Peanuts", "Tree Nuts", "Milk", "Eggs", "Soy", "Wheat", "Fish", "Shellfish",
+                                        "Sesame", "Mustard", "Celery", "Corn", "Avocado", "Meat", "Garlic",
+                                        "Stone Fruits", "Kiwi", "Papaya", "Rice", "Lupin"];
 
     const [userAllergies, setUserAllergies] = useState([]);
     const [inputValueSearch, setInputValueSearch] = useState('');
 
-    const [allAllergies, setAllAllergies] = useState(['Peanuts', 'Tree Nuts', 'Milk', 'Eggs', 'Soy', 'Wheat', 'Fish', 'Shellfish', 'Sesame', 'Mustard']);
-    const [searchAllergies, setSearchAllergies] = useState(['Peanuts', 'Tree Nuts', 'Milk', 'Eggs', 'Soy', 'Wheat', 'Fish', 'Shellfish', 'Sesame', 'Mustard']);
+    const [allAllergies, setAllAllergies] = useState(commonFoodAllergies);
+    const [searchAllergies, setSearchAllergies] = useState(commonFoodAllergies);
 
     let search = '';
 
@@ -86,7 +89,7 @@ function Allergies() {
             ))}
             <h2>All Allergies</h2>
             <Form.Control
-                className="p-2"
+                className="mb-4 p-2"
                 placeholder="search"
                 value={inputValueSearch}
                 onChange={(e) => handleSearchChange(e)}
@@ -99,10 +102,15 @@ function Allergies() {
                     direction="horizontal"
                     gap={3}
                     className="mb-2 p-2 border rounded"
-                    variant="border-danger"
-                    onClick={() => handleAddUserAllergy(item)}
+
                 >
                     <div className="p-2">{item}</div>
+                    <div className="p-2 ms-auto"><Button
+                        variant="outline-primary"
+                        onClick={() => handleAddUserAllergy(item)}
+                    >
+                        Add
+                    </Button></div>
                 </Stack>
             ))}
 
