@@ -1,11 +1,22 @@
-// Example for Allergies.js
 import React, { useState, useRef, useEffect } from "react";
-import "../../styles/Buttons.css"
+import "../../styles/Buttons.css";
 
+// The button used to open a pop-up that will allow the user to create or add themselves to a group.
+function CreateOrJoinGroup() {
+    const handleClick = () => {
+        // Add your click handling logic here
+        console.log("Button clicked!");
+    };
+
+    return (
+        <div className="circle-button" onClick={handleClick}>+</div>
+    );
+}
+
+// The content of each dropdown button
 function DropdownContent() {
     return (
         <div className="dropdown-content">
-            {/* Add your content for the dropdown here */}
             <h3>Group name</h3>
             <h4>Members</h4>
             <ul>
@@ -24,7 +35,8 @@ function DropdownContent() {
     );
 }
 
-function Groups() {
+// The logic for each Dropdown button
+function DropdownButton({ buttonText }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -48,26 +60,38 @@ function Groups() {
         };
     }, []);
 
-  return (
-      <div>
-        <section>
-          <h2>My Groups</h2>
-            <div className={`dropdown ${isDropdownOpen ? 'active' : ''}`} ref={dropdownRef}>
-                <button className="buttonStyle" onClick={toggleDropdown}>
-                    {isDropdownOpen ? 'Hide Content -' : 'Show Content +'}
-                </button>
-                <div className="dropdown-content-container">
-                    {isDropdownOpen && <DropdownContent />}
-                </div>
+    return (
+        <div className={`dropdown ${isDropdownOpen ? 'active' : ''}`} ref={dropdownRef}>
+            <button className="buttonStyle" onClick={toggleDropdown}>
+                {/* Change this to change the labels on the buttons */}
+                {buttonText} {isDropdownOpen ? '-' : '+'}
+            </button>
+            <div className="dropdown-content-container">
+                {isDropdownOpen && <DropdownContent />}
             </div>
-        </section>
+        </div>
+    );
+}
 
-        <section>
-          <h2>All Groups</h2>
-          <p>Content for Section 2 goes here...</p>
-        </section>
-      </div>
-  );
+// The actual display of the buttons
+function Groups() {
+    return (
+        <div>
+            <CreateOrJoinGroup />
+            <br/>
+            <div>
+                <h2>My Groups</h2>
+                <DropdownButton buttonText="Dropdown 1" />
+                <DropdownButton buttonText="Dropdown 2" />
+            </div>
+            <div>
+                <h2>All Groups</h2>
+                <DropdownButton buttonText="Dropdown 1" />
+                <DropdownButton buttonText="Dropdown 2" />
+            </div>
+            {/* Add more DropdownButtons as needed */}
+        </div>
+    );
 }
 
 export default Groups;

@@ -20,7 +20,7 @@
 /* DropdownContent.css */
 .dropdown-content {
     display: flex;
-    flex-direction: column; /* Change from row to column */
+    flex-direction: column;
     position: relative;
     top: 100%;
     left: 0;
@@ -39,11 +39,30 @@
     margin: 5px 0;
     cursor: pointer;
     pointer-events: auto;
-    white-space: nowrap; /* Prevent line breaks within a paragraph */
+    white-space: nowrap;
 }
 
 /* Adjust margin for headings */
 .dropdown-content h3,
 .dropdown-content h4 {
-    margin: 5px 0; /* Adjust the margin to control spacing after headings */
+    margin: 5px 0;
+}
+
+.circle-button {
+    width: 50px;
+    height: 50px;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center; /* Center the text horizontally */
+    line-height: 50px; /* Center the text vertically */
 }
