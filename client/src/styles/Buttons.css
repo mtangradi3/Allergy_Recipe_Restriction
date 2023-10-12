@@ -20,14 +20,14 @@
 /* DropdownContent.css */
 .dropdown-content {
     display: flex;
-    flex-direction: row;
-    position: relative; /* Updated to relative */
+    flex-direction: column; /* Change from row to column */
+    position: relative;
     top: 100%;
     left: 0;
     background-color: #f9f9f9;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    pointer-events: none; /* Make the content non-clickable */
+    pointer-events: none;
 }
 
 .dropdown.active .dropdown-content {
@@ -36,6 +36,14 @@
 
 .dropdown-content p {
     padding: 12px;
-    margin: 0;
+    margin: 5px 0;
     cursor: pointer;
+    pointer-events: auto;
+    white-space: nowrap; /* Prevent line breaks within a paragraph */
+}
+
+/* Adjust margin for headings */
+.dropdown-content h3,
+.dropdown-content h4 {
+    margin: 5px 0; /* Adjust the margin to control spacing after headings */
 }

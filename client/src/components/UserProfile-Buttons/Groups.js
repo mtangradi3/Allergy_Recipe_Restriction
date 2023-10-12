@@ -6,9 +6,20 @@ function DropdownContent() {
     return (
         <div className="dropdown-content">
             {/* Add your content for the dropdown here */}
-            <p>Information 1</p>
-            <p>Information 2</p>
-            <p>Information 3</p>
+            <h3>Group name</h3>
+            <h4>Members</h4>
+            <ul>
+                <li>Member 1</li>
+                <li>Member 2</li>
+            </ul>
+            <h4>Allergies</h4>
+            <ul>
+                <li>Allergy 1</li>
+            </ul>
+            <h4>Meals</h4>
+            <ul>
+                <li>Meal 1</li>
+            </ul>
         </div>
     );
 }
@@ -43,7 +54,7 @@ function Groups() {
           <h2>My Groups</h2>
             <div className={`dropdown ${isDropdownOpen ? 'active' : ''}`} ref={dropdownRef}>
                 <button className="buttonStyle" onClick={toggleDropdown}>
-                    {isDropdownOpen ? 'Hide Content' : 'Show Content'}
+                    {isDropdownOpen ? 'Hide Content -' : 'Show Content +'}
                 </button>
                 <div className="dropdown-content-container">
                     {isDropdownOpen && <DropdownContent />}
