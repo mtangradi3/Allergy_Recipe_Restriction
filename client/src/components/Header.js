@@ -51,10 +51,24 @@ function UserForm() {
 
   // Function to handle create user
   const handleCreateAccount = async () => {
-    // Logic for registration
-    handleCreateUser();
-    // Add if statement to validate if the user is actually in the database or not
-    navigate("/user-profile", { state: { firstName, lastName, email } });
+    try {
+      const allUsers = await getAllUsers();
+      const emailExists = allUsers.some((user) => user.email === email);
+
+      if (emailExists) {
+        setError("An account with this email already exists.");
+      } else {
+        try {
+          await handleCreateUser(); // This will create the user
+          navigate("/user-profile", { state: { firstName, lastName, email } });
+        } catch (error) {
+          setError("Error creating user. Please try again.");
+        }
+      }
+    } catch (err) {
+      console.error("Error while checking users:", err.message);
+      setError("There was an issue checking users. Please try again."); // Generic error message for user
+    }
   };
 
   const handleCreateUser = async () => {
