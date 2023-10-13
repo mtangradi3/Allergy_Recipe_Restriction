@@ -17,6 +17,7 @@ function UserForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [error, setError] = useState(""); // Add this to manage error messages
 
   // Function to handle form submission
   const handleFormSubmit = (e) => {
@@ -29,18 +30,30 @@ function UserForm() {
     }
   };
 
-  // Function to login user
-  const handleLogin = () => {
-    console.log("Login clicked");
-    // Logic for login
-    handleAllUsers();
-    navigate("/user-profile", { state: { firstName, lastName, email } });
+  // Function to handle login user
+  // Modified handleLogin function to validate the user
+  const handleLogin = async () => {
+    try {
+      const allUsers = await getAllUsers();
+      const emailExists = allUsers.some((user) => user.email === email);
+
+      if (emailExists) {
+        setError(""); // Clear the error message if there's any from previous attempts
+        navigate("/user-profile", { state: { firstName, lastName, email } });
+      } else {
+        setError("No user registered with this email."); // Set the error message if email doesn't exist
+      }
+    } catch (err) {
+      console.error("Error while checking users:", err.message);
+      setError("There was an issue checking users. Please try again."); // Generic error message for user
+    }
   };
 
   // Function to handle create user
   const handleCreateAccount = async () => {
     // Logic for registration
     handleCreateUser();
+    // Add if statement to validate if the user is actually in the database or not
     navigate("/user-profile", { state: { firstName, lastName, email } });
   };
 
@@ -79,6 +92,7 @@ function UserForm() {
 
     // Determines what happens when you hit submit
     // Determines what the firstName, lastName, and email field do and their behaviors
+
     <form onSubmit={handleFormSubmit}>
       <div>
         <label htmlFor="firstName">First Name:</label>
@@ -108,6 +122,7 @@ function UserForm() {
         />
       </div>
       <input type="hidden" value={action} />
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <button type="submit" onClick={() => setAction("register")}>
         Create Account
       </button>
