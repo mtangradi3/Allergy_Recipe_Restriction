@@ -23,6 +23,13 @@ function UserForm() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
+    // Validate if the fields are not left empty
+    if (!firstName.trim() || !lastName.trim() || !email.trim()) {
+      setError("All fields are required.");
+      return; // Exit the function if validation fails
+    }
+
+    // Depending on what button is clicked, go to the specific function to handle it
     if (action === "login") {
       handleLogin();
     } else if (action === "register") {
@@ -102,11 +109,8 @@ function UserForm() {
   };
 
   return (
-    // Send data to server below this comment to be added later
-
     // Determines what happens when you hit submit
     // Determines what the firstName, lastName, and email field do and their behaviors
-
     <form onSubmit={handleFormSubmit}>
       <div>
         <label htmlFor="firstName">First Name:</label>
