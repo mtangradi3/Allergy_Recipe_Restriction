@@ -4,11 +4,14 @@ import { API_TEST } from "../utils/constant";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {createUser} from "../api/userAPI";
+import { createUser } from "../api/userAPI";
 
 /* Form for the user to fill out including first name, last name, and email address */
 function UserForm() {
   const navigate = useNavigate();
+
+  // New state to track the action ('login' or 'register')
+  const [action, setAction] = useState("");
 
   // State variables to store user input
   const [firstName, setFirstName] = useState("");
@@ -16,32 +19,51 @@ function UserForm() {
   const [email, setEmail] = useState("");
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    handleCreateUser()
-    // Navigate to user screen and pass user data
+    if (action === "login") {
+      handleLogin();
+    } else if (action === "register") {
+      handleCreateAccount();
+    }
+  };
+
+  // Function to login user
+  const handleLogin = () => {
+    console.log("Login clicked");
+    // Logic for login
     navigate("/user-profile", { state: { firstName, lastName, email } });
   };
 
-    const handleCreateUser = async () => {
-        console.log('hit')
-        try {
-            const data = await createUser(firstName, lastName, email);
-            console.log(data);
-            // Handle success
-        } catch (error) {
-            console.error("Error creating user:", error.response ? error.response.data : error.message);
-            // Handle error
-        }
-    };
+  // Function to handle create user
+  const handleCreateAccount = async () => {
+    // Logic for registration
+    handleCreateUser();
+    navigate("/user-profile", { state: { firstName, lastName, email } });
+  };
+
+  const handleCreateUser = async () => {
+    console.log("hit");
+    try {
+      const data = await createUser(firstName, lastName, email);
+      console.log(data);
+      // Handle success
+    } catch (error) {
+      console.error(
+        "Error creating user:",
+        error.response ? error.response.data : error.message,
+      );
+      // Handle error
+    }
+  };
 
   return (
     // Send data to server below this comment to be added later
 
     // Determines what happens when you hit submit
     // Determines what the firstName, lastName, and email field do and their behaviors
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleFormSubmit}>
       <div>
         <label htmlFor="firstName">First Name:</label>
         <input
@@ -69,7 +91,13 @@ function UserForm() {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <button type="submit">Submit</button>
+      <input type="hidden" value={action} />
+      <button type="submit" onClick={() => setAction("register")}>
+        Create Account
+      </button>
+      <button type="submit" onClick={() => setAction("login")}>
+        Login
+      </button>
     </form>
   );
 }
