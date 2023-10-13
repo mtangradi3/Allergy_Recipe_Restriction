@@ -3,13 +3,73 @@ import "../../styles/Buttons.css";
 
 // The button used to open a pop-up that will allow the user to create or add themselves to a group.
 function CreateOrJoinGroup() {
-    const handleClick = () => {
-        // Add your click handling logic here
-        console.log("Button clicked!");
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [userInput, setUserInput] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const openPopup = () => {
+        setIsPopupOpen(true);
+    };
+
+    const closePopup = () => {
+        setIsPopupOpen(false);
+        setUserInput("");
+        setErrorMessage("");
+    };
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+
+        const buttonName = event.nativeEvent.submitter.name;
+
+        // Input validation
+        if (!userInput.trim()) {
+            setErrorMessage("Please enter valid information.");
+            return; // Exit the function if validation fails
+        }
+
+        // Handle the form submission logic based on the buttonName
+        if (buttonName === "create-button") {
+            alert(`Creating based on: ${userInput}`); //handle
+            // call a function that checks all get-groups in the handle?
+            // Add logic for creating based on the input
+        } else if (buttonName === "join-button") {
+            alert(`Doing something else based on: ${userInput}`); //handle
+            // Add logic for doing something else based on the input
+        }
+
+        // Close the popup
+        closePopup();
+    };
+
+    const handleInputChange = (event) => {
+        setUserInput(event.target.value);
     };
 
     return (
-        <div className="circle-button" onClick={handleClick}>+</div>
+        <div>
+            <div className="circle-button" onClick={openPopup}>
+                +
+            </div>
+
+            {isPopupOpen && (
+                <div className="popup">
+                    <div className="popup-content">
+                        <p>Enter a group name to either create or join one.</p>
+                        <form onSubmit={handleFormSubmit}>
+                            <label>
+                                <input type="text" name="userInput" />
+                            </label>
+                            {errorMessage && <div className="error-message">{errorMessage}</div>}
+                            <br />
+                            <button type="submit" name="create-button">Create</button>
+                            <button type="submit" name="join-button">Join</button>
+                            <button type="button" onClick={closePopup}>Close</button>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 }
 
