@@ -1,10 +1,10 @@
 import logo from "../logo.svg";
 import "../App.css";
-import { API_TEST } from "../utils/constant";
+import { API_TEST, GET_ALL_USERS } from "../utils/constant";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createUser } from "../api/userAPI";
+import { createUser, getAllUsers } from "../api/userAPI";
 
 /* Form for the user to fill out including first name, last name, and email address */
 function UserForm() {
@@ -33,6 +33,7 @@ function UserForm() {
   const handleLogin = () => {
     console.log("Login clicked");
     // Logic for login
+    handleAllUsers();
     navigate("/user-profile", { state: { firstName, lastName, email } });
   };
 
@@ -52,6 +53,21 @@ function UserForm() {
     } catch (error) {
       console.error(
         "Error creating user:",
+        error.response ? error.response.data : error.message,
+      );
+      // Handle error
+    }
+  };
+
+  const handleAllUsers = async () => {
+    console.log("hit");
+    try {
+      const data = await getAllUsers();
+      console.log(data);
+      // Handle success
+    } catch (error) {
+      console.error(
+        "Error",
         error.response ? error.response.data : error.message,
       );
       // Handle error
