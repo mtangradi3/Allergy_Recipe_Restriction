@@ -32,16 +32,24 @@ function AllMeals() {
       <ul>
         {meals.map((meal, index) => (
           <li key={index}>
-            <h2>{meal.mealName}</h2>
-            {/* Assuming mealImage is a URL */}
-            <img src={meal.mealImage} alt={meal.mealName} />
-            <p>Email: {meal.email}</p>
+            <h2>{meal.meal_name}</h2>
+
+            {/* Render meal image if it's available */}
+            {meal.meal_image && (
+              <img src={meal.meal_image} alt={meal.meal_name} />
+            )}
+
+            {/* If you have ingredients in your data,
+                 you can render them using the following code.
+                 For now, I'm assuming you'll have it in the future, so I'm leaving it commented out. */}
+            {/*
             <p>Ingredients:</p>
             <ul>
-              {meal.ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
+              {meal.ingredients.map((ingredient, idx) => (
+                <li key={idx}>{ingredient}</li>
               ))}
             </ul>
+            */}
           </li>
         ))}
       </ul>
