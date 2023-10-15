@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,6 +33,20 @@ public class MealControl {
         try {
             List<String> ingredients = mealService.getAllIngredients();
             return ResponseEntity.ok(ingredients);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
+    @PostMapping("/insert_meal")
+    public ResponseEntity<?> insertNewMeal(@RequestParam String meal_name, @RequestParam MultipartFile meal_image , @RequestParam String email, @RequestParam List<String> ingredients) {
+
+
+        try {
+           mealService.insertNewMeal(meal_name, meal_image, email, ingredients);
+            return ResponseEntity.ok("create new meal successful");
         } catch (CustomDatabaseException e) {
             System.err.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
