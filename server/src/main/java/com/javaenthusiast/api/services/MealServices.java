@@ -93,4 +93,29 @@
             });
         }
 
+        public List<Map<String, Object>> getAllMeals() {
+
+            List<Map<String, Object>> allMeals =  new ArrayList<>();
+            List<Map<String, Object>> tempMeals = new ArrayList<>();
+
+            SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_all_meals");
+
+            try {
+                Map<String, Object> out = call.execute();
+                tempMeals = (List<Map<String, Object>>) out.get("#result-set-1");
+
+                tempMeals.forEach(tempMap ->{
+                    allMeals.add(tempMap);
+                });
+
+                // This check is no longer necessary as allIngredients is never null
+                // if(allIngredients == null) {
+                //     allIngredients = new ArrayList<>();
+                // }
+            } catch (DataAccessException e) {
+                throw new CustomDatabaseException("Error getting all ingredients", e);
+            }
+
+            return allMeals;
+        }
     }
