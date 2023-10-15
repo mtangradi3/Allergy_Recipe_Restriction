@@ -64,4 +64,16 @@ public class AllergyControl {
         }
     }
 
+
+    @PostMapping("/create_ingredient")
+    public ResponseEntity<?> createIngredient(@RequestParam String allergy_name, @RequestParam String ingredient_name){
+        try {
+            allergyServices.createNewIngredient( allergy_name,ingredient_name);
+            return ResponseEntity.ok("ingredient was created successfully");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
 }

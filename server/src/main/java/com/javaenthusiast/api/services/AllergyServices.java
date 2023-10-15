@@ -115,4 +115,19 @@ public class AllergyServices {
 
         return alergyNames;
     }
+
+    public void createNewIngredient(String allergyName, String ingredientName) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_ingredient");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("food_allergy", allergyName)
+                .addValue("ingredient",ingredientName);
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            // The duplicate email SIGNAL will throw an exception you can catch and handle.
+            throw new CustomDatabaseException("Error creating a new ingredient", e);
+        }
+    }
 }
