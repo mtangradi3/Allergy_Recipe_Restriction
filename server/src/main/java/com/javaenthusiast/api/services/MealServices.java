@@ -148,4 +148,35 @@
             return mealIngredients;
 
         }
+
+        public List<Map<String, Object>> getAllMealsWithAllergy(String email) {
+            List<Map<String, Object>>mealIngredients =  new ArrayList<>();
+            List<Map<String, Object>> tempmal = new ArrayList<>();
+
+            SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_possible_meals_with_allergy");
+
+
+            SqlParameterSource mealIn = new MapSqlParameterSource()
+                    .addValue("email", email);
+
+            try {
+                Map<String, Object> out = call.execute(mealIn);
+                tempmal = (List<Map<String, Object>>) out.get("#result-set-1");
+
+                tempmal.forEach(tempMap ->{
+                    mealIngredients.add(tempMap);
+                });
+
+                // This check is no longer necessary as allIngredients is never null
+                // if(allIngredients == null) {
+                //     allIngredients = new ArrayList<>();
+                // }
+            } catch (DataAccessException e) {
+                throw new CustomDatabaseException("Error getting possible meals with  allergies ", e);
+            }
+
+            return mealIngredients;
+
+
+        }
     }

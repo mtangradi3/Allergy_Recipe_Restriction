@@ -83,4 +83,18 @@ public class MealControl {
         }
     }
 
+    @GetMapping("/get_possible_meal_with_allergy")
+    public ResponseEntity<?> getAllMealsWithAllergy(@RequestParam String email) {
+
+
+        try {
+            List<Map<String,Object>> mealsWithAllergies = mealService.getAllMealsWithAllergy(email);
+            return ResponseEntity.ok(mealsWithAllergies);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 }
