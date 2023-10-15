@@ -1,3 +1,7 @@
+/** Author Andy Pham
+ *
+ *  Contains the login page, create account, and login button
+ *   */
 import logo from "../logo.svg";
 import "../App.css";
 import { API_TEST, GET_ALL_USERS } from "../utils/constant";
