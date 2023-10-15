@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Marcus Tangradi
@@ -53,4 +54,33 @@ public class MealControl {
 
         }
     }
+
+    @GetMapping("/get_all_meals")
+    public ResponseEntity<?> getAllMeals() {
+
+
+        try {
+            List<Map<String, Object>> meals = mealService.getAllMeals();
+            return ResponseEntity.ok(meals);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
+    @GetMapping("/get_meal_ingredients")
+    public ResponseEntity<?> getMealAndIngredients(@RequestParam String mealName) {
+
+
+        try {
+            List<String> getMealIngredients = mealService.getmealIngredients(mealName);
+            return ResponseEntity.ok(getMealIngredients);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 }
