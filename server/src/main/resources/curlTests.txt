@@ -1,0 +1,10 @@
+
+//Testing insert a meal with ingredients
+curl -X POST \
+  http://localhost:8080/api/meal/insert_meal \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'meal_name=cheese_burger' \
+  -F 'meal_image=@burger.jpg' \
+  -F 'email=joeM@test.com' \
+  -F 'ingredients=cheese' \
+  -F 'ingredients=bread'
