@@ -1,7 +1,11 @@
 // mealAPI.js
 
 import axios from "axios";
-import { GET_ALL_MEALS, INSERT_NEW_MEAL } from "../utils/constant"; // Add these constants to your constants file
+import {
+  GET_ALL_MEALS,
+  INSERT_NEW_MEAL,
+  GET_MEAL_INGREDIENTS,
+} from "../utils/constant"; // Add these constants to your constants file
 
 /**
  * Fetches all meals from the database.
@@ -56,4 +60,17 @@ export const insertNewMeal = async (
   }
 };
 
-// You can add more meal-related API functions as needed.
+// mealAPI.js
+export const getMealIngredients = async (mealName) => {
+  try {
+    const response = await axios.get(GET_MEAL_INGREDIENTS, {
+      params: { mealName: mealName },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
