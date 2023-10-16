@@ -4,10 +4,12 @@
  *   */
 import React, { useState, useEffect } from "react";
 import { getAllMeals } from "../../api/mealAPI";
+import "../../App.css";
 
 function AllMeals() {
   const [meals, setMeals] = useState([]);
   const [error, setError] = useState(null);
+  const [expandedMealIndex, setExpandedMealIndex] = useState(null);
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -22,37 +24,47 @@ function AllMeals() {
     fetchMeals();
   }, []);
 
+  const handleNewMealClick = () => {
+    alert("Create New Meal button clicked!");
+    // Replace the alert with your desired logic, e.g., navigation, modal display, etc.
+  };
+
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   return (
-    <div>
+    <div className="meal-container">
       <h1>All Meals</h1>
       <ul>
         {meals.map((meal, index) => (
           <li key={index}>
-            <h2>{meal.meal_name}</h2>
-
-            {/* Render meal image if it's available */}
+            <h2
+              onClick={() =>
+                setExpandedMealIndex(index === expandedMealIndex ? null : index)
+              }
+            >
+              {meal.meal_name}
+            </h2>
             {meal.meal_image && (
               <img src={meal.meal_image} alt={meal.meal_name} />
             )}
-
-            {/* If you have ingredients in your data,
-                 you can render them using the following code.
-                 For now, I'm assuming you'll have it in the future, so I'm leaving it commented out. */}
-            {/*
-            <p>Ingredients:</p>
-            <ul>
-              {meal.ingredients.map((ingredient, idx) => (
-                <li key={idx}>{ingredient}</li>
-              ))}
-            </ul>
-            */}
+            {index === expandedMealIndex && meal.ingredients && (
+              <>
+                <p>Ingredients:</p>
+                <ul>
+                  {meal.ingredients.map((ingredient, idx) => (
+                    <li key={idx}>{ingredient}</li>
+                  ))}
+                </ul>
+              </>
+            )}
           </li>
         ))}
       </ul>
+      <button onClick={handleNewMealClick} className="create-new-meal-btn">
+        Create New Meal
+      </button>
     </div>
   );
 }
