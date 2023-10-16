@@ -105,3 +105,21 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+
+/* Styling for the Create New Meal button */
+.create-new-meal-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Ensuring parent container is relative for the positioning of the button */
+.meal-container {
+  position: relative;
+}
