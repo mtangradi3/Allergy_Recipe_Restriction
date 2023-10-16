@@ -11,6 +11,7 @@
     import org.springframework.web.multipart.MultipartFile;
 
     import java.util.ArrayList;
+    import java.util.Base64;
     import java.util.List;
     import java.util.Map;
 
@@ -93,8 +94,9 @@
             });
         }
 
-        public List<Map<String, Object>> getAllMeals() {
 
+
+        public List<Map<String, Object>> getAllMeals() {
             List<Map<String, Object>> allMeals =  new ArrayList<>();
             List<Map<String, Object>> tempMeals = new ArrayList<>();
 
@@ -104,20 +106,23 @@
                 Map<String, Object> out = call.execute();
                 tempMeals = (List<Map<String, Object>>) out.get("#result-set-1");
 
-                tempMeals.forEach(tempMap ->{
+                tempMeals.forEach(tempMap -> {
+                    Object imageBlob = tempMap.get("meal_image");
+                    if (imageBlob != null && imageBlob instanceof byte[]) {
+                        byte[] imageBytes = (byte[]) imageBlob;
+                        String encodedImage = Base64.getEncoder().encodeToString(imageBytes);
+                        tempMap.put("meal_image", encodedImage);
+                    }
                     allMeals.add(tempMap);
                 });
 
-                // This check is no longer necessary as allIngredients is never null
-                // if(allIngredients == null) {
-                //     allIngredients = new ArrayList<>();
-                // }
             } catch (DataAccessException e) {
-                throw new CustomDatabaseException("Error getting all ingredients", e);
+                throw new CustomDatabaseException("Error getting all meals", e);
             }
 
             return allMeals;
         }
+
 
         public List<String> getmealIngredients(String mealName) {
             List<String> mealIngredients =  new ArrayList<>();
