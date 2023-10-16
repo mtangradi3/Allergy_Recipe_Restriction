@@ -100,3 +100,14 @@
 .error-message {
     color: red;
 }
+
+.popup-content button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.popup-content button.active-tab {
+    background-color: #3498db; /* Set the background color for the active tab */
+    color: #ffffff; /* Set the text color for the active tab */
+}

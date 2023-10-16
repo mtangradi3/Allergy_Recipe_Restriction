@@ -5,7 +5,9 @@ import "../../styles/Buttons.css";
 function CreateOrJoinGroup() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [userInput, setUserInput] = useState("");
+    const [selectedGroup, setSelectedGroup] = useState(""); // For the dropdown selection
     const [errorMessage, setErrorMessage] = useState("");
+    const [activeTab, setActiveTab] = useState("create"); // Default to the "create" tab
 
     const openPopup = () => {
         setIsPopupOpen(true);
@@ -14,36 +16,40 @@ function CreateOrJoinGroup() {
     const closePopup = () => {
         setIsPopupOpen(false);
         setUserInput("");
+        setSelectedGroup("");
         setErrorMessage("");
     };
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
-        const buttonName = event.nativeEvent.submitter.name;
-
-        // Input validation
-        if (!userInput.trim()) {
-            setErrorMessage("Please enter valid information.");
-            return; // Exit the function if validation fails
+        if (activeTab === "create") {
+            if (!userInput.trim()) {
+                setErrorMessage("Please enter valid information.");
+                return;
+            }
+            alert(`Creating based on: ${userInput}`);
+        } else if (activeTab === "join") {
+            if (!selectedGroup) {
+                setErrorMessage("Please select a group.");
+                return;
+            }
+            alert(`Joining based on: ${selectedGroup}`);
         }
 
-        // Handle the form submission logic based on the buttonName
-        if (buttonName === "create-button") {
-            alert(`Creating based on: ${userInput}`); //handle
-            // call a function that checks all get-groups in the handle?
-            // Add logic for creating based on the input
-        } else if (buttonName === "join-button") {
-            alert(`Doing something else based on: ${userInput}`); //handle
-            // Add logic for doing something else based on the input
-        }
-
-        // Close the popup
         closePopup();
     };
 
     const handleInputChange = (event) => {
         setUserInput(event.target.value);
+    };
+
+    const handleSelectChange = (event) => {
+        setSelectedGroup(event.target.value);
+    };
+
+    const switchTab = (tab) => {
+        setActiveTab(tab);
     };
 
     return (
@@ -55,17 +61,53 @@ function CreateOrJoinGroup() {
             {isPopupOpen && (
                 <div className="popup">
                     <div className="popup-content">
-                        <p>Enter a group name to either create or join one.</p>
+                        <div>
+                            <button
+                                className={activeTab === "create" ? "active-tab" : ""}
+                                onClick={() => switchTab("create")}
+                            >
+                                Create a Group
+                            </button>
+                            <button
+                                className={activeTab === "join" ? "active-tab" : ""}
+                                onClick={() => switchTab("join")}
+                            >
+                                Join a Group
+                            </button>
+                        </div>
+                        <p>
+                            {activeTab === "create"
+                                ? "Please enter a group name to create one."
+                                : "Please select a group to join."}
+                        </p>
                         <form onSubmit={handleFormSubmit}>
-                            <label>
-                                <input type="text" name="userInput" />
-                            </label>
+                            {activeTab === "create" ? (
+                                <label>
+                                    <input
+                                        type="text"
+                                        name="userInput"
+                                        value={userInput}
+                                        onChange={handleInputChange}
+                                    />
+                                </label>
+                            ) : (
+                                <label>
+                                    <select value={selectedGroup} onChange={handleSelectChange}>
+                                        <option value="">Select a group</option>
+                                        <option value="group1">Group 1</option>
+                                        <option value="group2">Group 2</option>
+                                        {/* Add more options as needed */}
+                                    </select>
+                                </label>
+                            )}
                             {errorMessage && <div className="error-message">{errorMessage}</div>}
-                            <br />
-                            <button type="submit" name="create-button">Create</button>
-                            <button type="submit" name="join-button">Join</button>
-                            <button type="button" onClick={closePopup}>Close</button>
                         </form>
+                        <div className="button-container">
+                            <button type="submit">Submit</button>
+                            <button type="button" onClick={closePopup}>
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
