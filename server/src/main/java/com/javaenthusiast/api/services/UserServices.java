@@ -107,4 +107,29 @@ public class UserServices {
             throw new CustomDatabaseException("Error inserting user into group", e);
         }
     }
+
+    public List<Map<String, Object>> getAllGroups() throws CustomDatabaseException {
+        List<Map<String, Object>> userGroups;
+
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_all_user_group");
+
+        try {
+            // Execute the stored procedure and fetch the result
+            Map<String, Object> out = call.execute();
+
+            // Assuming that the result from the stored procedure is a list stored under a key named "result"
+            userGroups = (List<Map<String, Object>>) out.get("#result-set-1");
+
+            if(userGroups == null) {
+                userGroups = new ArrayList<>();
+            }
+
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            throw new CustomDatabaseException("Error fetching users", e);
+        }
+
+        return userGroups;
+    }
+
 }
