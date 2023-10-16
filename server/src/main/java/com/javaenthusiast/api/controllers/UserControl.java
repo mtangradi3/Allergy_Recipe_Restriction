@@ -81,7 +81,7 @@ public class UserControl {
     @GetMapping("/get_all_groups")
     public ResponseEntity<?> getAllGroups(){
         try {
-            List<Map<String, Object>> users = userService.getAllUsers();
+            List<Map<String, Object>> users = userService.getAllGroups();
             return ResponseEntity.ok(users);
         } catch (CustomDatabaseException e) {
             System.err.println(e);
