@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/Buttons.css";
+import {createUser, getAllUsers} from "../../api/userAPI";
 
 // The button used to open a pop-up that will allow the user to create or add themselves to a group.
 function CreateOrJoinGroup() {
@@ -7,7 +8,7 @@ function CreateOrJoinGroup() {
     const [userInput, setUserInput] = useState("");
     const [selectedGroup, setSelectedGroup] = useState(""); // For the dropdown selection
     const [errorMessage, setErrorMessage] = useState("");
-    const [activeTab, setActiveTab] = useState("create"); // Default to the "create" tab
+    const [activeTab, setActiveTab] = useState("create");
 
     const openPopup = () => {
         setIsPopupOpen(true);
@@ -101,13 +102,10 @@ function CreateOrJoinGroup() {
                                 </label>
                             )}
                             {errorMessage && <div className="error-message">{errorMessage}</div>}
-                        </form>
-                        <div className="button-container">
+                            <br />
                             <button type="submit">Submit</button>
-                            <button type="button" onClick={closePopup}>
-                                Close
-                            </button>
-                        </div>
+                            <button type="button" onClick={closePopup}>Close</button>
+                        </form>
                     </div>
                 </div>
             )}
