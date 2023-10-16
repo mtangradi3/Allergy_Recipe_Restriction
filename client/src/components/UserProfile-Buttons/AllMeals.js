@@ -58,18 +58,10 @@ function AllMeals() {
       <h1>All Meals</h1>
       <ul>
         {meals.map((meal, index) => (
-          <li key={index}>
-            <h2
-              onClick={() =>
-                setExpandedMealIndex(index === expandedMealIndex ? null : index)
-              }
-            >
-              {meal.meal_name}
-            </h2>
+          <li key={meal.meal_name}>
             <h2 onClick={() => handleMealClick(meal.meal_name, index)}>
               {meal.meal_name}
             </h2>
-            ;
             {meal.meal_image && (
               <img src={meal.meal_image} alt={meal.meal_name} />
             )}
