@@ -78,16 +78,6 @@ public class UserControl {
 
         }
     }
-    @GetMapping("/get_all_groups")
-    public ResponseEntity<?> getAllGroups(){
-        try {
-            List<Map<String, Object>> users = userService.getAllGroups();
-            return ResponseEntity.ok(users);
-        } catch (CustomDatabaseException e) {
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
 
 
 }
