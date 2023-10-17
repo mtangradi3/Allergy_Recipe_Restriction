@@ -17,6 +17,23 @@ function CreateOrJoinGroup() {
     const location = useLocation();
     const { email } = location.state || {};
 
+    const [allGroups, setAllGroups] = useState([]);
+
+    useEffect(() => {
+        const fetchGroups = async () => {
+            try {
+                const groups = await getAllGroups();
+                setAllGroups(groups);
+            } catch (error) {
+                console.error("Error with getting all groups");
+                // Handle error fetching groups
+            }
+        };
+
+        // Call the fetchGroups function
+        fetchGroups();
+    }, []); // Empty dependency array to run the effect only once on mount
+
     const openPopup = () => {
         setIsPopupOpen(true);
     };
@@ -39,7 +56,6 @@ function CreateOrJoinGroup() {
 
             try {
                 // Check if the group already exists
-                const allGroups = await getAllGroups();
                 const existingGroup = allGroups.includes(userInput);
 
                 if (existingGroup) {
@@ -137,9 +153,12 @@ function CreateOrJoinGroup() {
                                 <label>
                                     <select value={selectedGroup} onChange={handleSelectChange}>
                                         <option value="">Select a group</option>
-                                        <option value="group1">Group 1</option>
-                                        <option value="group2">Group 2</option>
-                                        {/* Add more options as needed */}
+                                        {/* Map over the groups fetched from the API to create options */}
+                                        {allGroups.map((group) => (
+                                            <option key={group} value={group}>
+                                                {group}
+                                            </option>
+                                        ))}
                                     </select>
                                 </label>
                             )}
@@ -223,11 +242,6 @@ function Groups() {
             <br/>
             <div>
                 <h2>My Groups</h2>
-                <DropdownButton buttonText="Dropdown 1" />
-                <DropdownButton buttonText="Dropdown 2" />
-            </div>
-            <div>
-                <h2>All Groups</h2>
                 <DropdownButton buttonText="Dropdown 1" />
                 <DropdownButton buttonText="Dropdown 2" />
             </div>
