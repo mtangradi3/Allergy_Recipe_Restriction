@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Author: Marcus Tangradi
  *
@@ -31,6 +34,17 @@ public class GroupControl {
             System.err.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 
+        }
+    }
+
+    @GetMapping("/get_all_groups_name")
+    public ResponseEntity<?> getAllGroupsNames(){
+        try {
+            List<String> users = groupServices.getAllGroupsNames();
+            return ResponseEntity.ok(users);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

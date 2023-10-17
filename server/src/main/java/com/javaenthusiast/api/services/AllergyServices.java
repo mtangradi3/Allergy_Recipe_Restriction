@@ -116,6 +116,7 @@ public class AllergyServices {
         return alergyNames;
     }
 
+
     public void createNewIngredient(String allergyName, String ingredientName) {
         SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_ingredient");
 
@@ -130,4 +131,5 @@ public class AllergyServices {
             throw new CustomDatabaseException("Error creating a new ingredient", e);
         }
     }
+
 }

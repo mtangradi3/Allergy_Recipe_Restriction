@@ -9,6 +9,10 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Author: Marcus Tangradi
  */
@@ -39,5 +43,36 @@ public class GroupServices {
             throw new CustomDatabaseException("Error inserting user into group", e);
         }
 
+    }
+
+    public List<String> getAllGroupsNames() throws CustomDatabaseException {
+        List<Map<String, Object>> groupNames =null;
+        List<String> listOfGroupNames = new ArrayList<>();
+
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_all_user_group");
+
+        try {
+            // Execute the stored procedure and fetch the result
+            Map<String, Object> out = call.execute();
+
+            // Assuming that the result from the stored procedure is a list stored under a key named "result"
+            groupNames = (List<Map<String, Object>>) out.get("#result-set-1");
+
+            groupNames.forEach(tempGroup -> {
+                listOfGroupNames.add((String)tempGroup.get("name"));
+
+            });
+
+
+            if(groupNames == null) {
+                groupNames = new ArrayList<>();
+            }
+
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            throw new CustomDatabaseException("Error fetching users", e);
+        }
+
+        return listOfGroupNames;
     }
 }
