@@ -75,4 +75,29 @@ public class GroupServices {
 
         return listOfGroupNames;
     }
+
+    public List<Map<String, Object>> getUsersInGroup(String groupName) {
+        List<Map<String, Object>> userNames =null;
+        List<String> userList = new ArrayList<>();
+
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_users_in_group");
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("group_name", groupName);
+        try {
+            // Execute the stored procedure and fetch the result
+            Map<String, Object> out = call.execute(in);
+
+            // Assuming that the result from the stored procedure is a list stored under a key named "result"
+            userNames = (List<Map<String, Object>>) out.get("#result-set-1");
+
+
+
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            throw new CustomDatabaseException("Error fetching users", e);
+        }
+
+        return userNames;
+
+    }
 }
