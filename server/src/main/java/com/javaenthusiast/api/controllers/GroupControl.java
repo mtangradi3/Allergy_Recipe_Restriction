@@ -37,10 +37,10 @@ public class GroupControl {
         }
     }
 
-    @GetMapping("/get_all_groups")
-    public ResponseEntity<?> getAllGroups(){
+    @GetMapping("/get_all_groups_name")
+    public ResponseEntity<?> getAllGroupsNames(){
         try {
-            List<String> users = groupServices.getAllGroups();
+            List<String> users = groupServices.getAllGroupsNames();
             return ResponseEntity.ok(users);
         } catch (CustomDatabaseException e) {
             System.err.println(e);

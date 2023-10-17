@@ -45,8 +45,9 @@ public class GroupServices {
 
     }
 
-    public List<String> getAllGroups() throws CustomDatabaseException {
-        List<String> userGroups;
+    public List<String> getAllGroupsNames() throws CustomDatabaseException {
+        List<Map<String, Object>> groupNames =null;
+        List<String> listOfGroupNames = new ArrayList<>();
 
         SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_all_user_group");
 
@@ -55,10 +56,16 @@ public class GroupServices {
             Map<String, Object> out = call.execute();
 
             // Assuming that the result from the stored procedure is a list stored under a key named "result"
-            userGroups = (List<String>) out.get("#result-set-1");
+            groupNames = (List<Map<String, Object>>) out.get("#result-set-1");
 
-            if(userGroups == null) {
-                userGroups = new ArrayList<>();
+            groupNames.forEach(tempGroup -> {
+                listOfGroupNames.add((String)tempGroup.get("name"));
+
+            });
+
+
+            if(groupNames == null) {
+                groupNames = new ArrayList<>();
             }
 
         } catch (DataAccessException e) {
@@ -66,6 +73,6 @@ public class GroupServices {
             throw new CustomDatabaseException("Error fetching users", e);
         }
 
-        return userGroups;
+        return listOfGroupNames;
     }
 }
