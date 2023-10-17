@@ -42,6 +42,20 @@ public class UserControl {
         }
     }
 
+    @DeleteMapping("delete_user")
+    public ResponseEntity<?> deleteUser(@RequestParam String email) {
+
+
+        try {
+            userService.deleteUser( email);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
     @GetMapping("/get_all_users")
     public ResponseEntity<?> getAllUsers(){
         try {
