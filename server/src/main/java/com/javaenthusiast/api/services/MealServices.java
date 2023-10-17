@@ -10,6 +10,7 @@
     import org.springframework.stereotype.Service;
     import org.springframework.web.multipart.MultipartFile;
 
+    import java.io.IOException;
     import java.util.ArrayList;
     import java.util.Base64;
     import java.util.List;
@@ -57,9 +58,22 @@
             // Prepare to call the stored procedure for creating a meal
             SimpleJdbcCall mealCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("create_meal");
 
+
+
+
             try {
                 // Convert the MultipartFile to a byte array, which can be handled by the database as a BLOB
-                byte[] imageBytes = mealImage.getBytes();
+                byte[] imageBytes = null; // Initialize as null for the case when there's no image
+
+                // Check if there's an image and convert it to bytes
+                if (mealImage != null) {
+                    try {
+                        imageBytes = mealImage.getBytes();
+                    } catch (IOException e) {
+                        System.err.println("Error converting image to bytes: " + e);
+                        throw new CustomDatabaseException("Error converting image", e);
+                    }
+                }
 
                 // Using MapSqlParameterSource to pass parameters to the stored procedure
                 SqlParameterSource mealIn = new MapSqlParameterSource()
