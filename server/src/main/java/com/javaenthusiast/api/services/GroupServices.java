@@ -40,7 +40,7 @@ public class GroupServices {
         } catch (DataAccessException e) {
             // Handle exception related to the stored procedure here.
             // The duplicate email SIGNAL will throw an exception you can catch and handle.
-            throw new CustomDatabaseException("Error inserting user into group", e);
+            throw new CustomDatabaseException("Error creating a new group", e);
         }
 
     }
