@@ -48,4 +48,16 @@ public class GroupControl {
         }
     }
 
+    @GetMapping("/get_users_in_group")
+    public ResponseEntity<?> getUsersInGroup(@RequestParam String group_name){
+        try {
+            List<Map<String, Object>> users = groupServices.getUsersInGroup(group_name);
+            return ResponseEntity.ok(users);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 }

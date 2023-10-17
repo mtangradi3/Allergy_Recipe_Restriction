@@ -82,7 +82,7 @@ public class UserControl {
 
 
     @PostMapping("/add_user_to_group")
-    public ResponseEntity<?> giveUserAllergies(@RequestParam String email ,@RequestParam String group_name){
+    public ResponseEntity<?> addUserToGroup(@RequestParam String email ,@RequestParam String group_name){
         try {
             userService.addUserToGroup(email, group_name);
             return ResponseEntity.ok("User was added to a group successfully");
