@@ -31,7 +31,7 @@ export const getAllGroups = async () => {
  */
 export const createGroup = async (groupName) => {
     const params = new URLSearchParams();
-    params.append("groupName", groupName);
+    params.append("group_name", groupName);
 
     try {
         const response = await axios.post(INSERT_NEW_GROUP, params, {

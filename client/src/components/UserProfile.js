@@ -23,7 +23,7 @@ function UserProfile() {
       </button>
       <button
           className="buttonStyle"
-        onClick={() => navigate("/user-profile/groups")}
+        onClick={() => navigate("/user-profile/groups", { state: { email } })}
       >
         Groups
       </button>

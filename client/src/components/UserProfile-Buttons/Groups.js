@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/Buttons.css";
-import {createUser, getAllUsers} from "../../api/userAPI";
+import { getAllGroups, createGroup, addUserToGroup, getUsersInGroup } from "../../api/groupAPI";
+import { useLocation } from "react-router-dom";
+
+import {create} from "axios";
 
 // The button used to open a pop-up that will allow the user to create or add themselves to a group.
 function CreateOrJoinGroup() {
@@ -9,6 +12,10 @@ function CreateOrJoinGroup() {
     const [selectedGroup, setSelectedGroup] = useState(""); // For the dropdown selection
     const [errorMessage, setErrorMessage] = useState("");
     const [activeTab, setActiveTab] = useState("create");
+
+    // Getting email from state
+    const location = useLocation();
+    const { email } = location.state || {};
 
     const openPopup = () => {
         setIsPopupOpen(true);
@@ -21,7 +28,7 @@ function CreateOrJoinGroup() {
         setErrorMessage("");
     };
 
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = async (event) => {
         event.preventDefault();
 
         if (activeTab === "create") {
@@ -29,7 +36,42 @@ function CreateOrJoinGroup() {
                 setErrorMessage("Please enter valid information.");
                 return;
             }
-            alert(`Creating based on: ${userInput}`);
+
+            try {
+                // Check if the group already exists
+                const allGroups = await getAllGroups();
+                const existingGroup = allGroups.includes(userInput);
+
+                if (existingGroup) {
+                    // Group already exists, show an error message
+                    setErrorMessage("Group name already exists. Please choose a different name.");
+                    return; // Prevent pop-up from being closed
+                } else {
+                    // Group doesn't exist, proceed with creating the group
+                    console.log("reached else");
+                    try {
+                        const response = await createGroup(userInput);
+                        console.log("API Response (createGroup):", response);
+                        // Group created successfully
+
+                        // const response2 = await addUserToGroup(email, userInput);
+                        // console.log("response2", response2);
+                        // alert(`Group created and user added: ${userInput}`);
+                        // closePopup();
+                    }
+                    catch (error) {
+                        console.error("API Error:", error);
+                        setErrorMessage("Error creating group or adding user to created group. Please try again.");
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error("API Error:", error);
+                setErrorMessage("Error checking group existence. Please try again.");
+                return;
+            }
+
+            // alert(`Creating based on: ${userInput}`);
         } else if (activeTab === "join") {
             if (!selectedGroup) {
                 setErrorMessage("Please select a group.");
