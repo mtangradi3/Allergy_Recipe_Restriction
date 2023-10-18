@@ -60,4 +60,16 @@ public class GroupControl {
         }
     }
 
+    @DeleteMapping("/delete_group")
+    public ResponseEntity<?> deleteGroup( @RequestParam String group_name){
+        try {
+            groupServices.deleteGroup( group_name);
+            return ResponseEntity.ok("group was deleted successfully");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 }
