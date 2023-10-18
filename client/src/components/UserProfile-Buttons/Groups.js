@@ -48,6 +48,7 @@ function CreateOrJoinGroup() {
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
+        // BEGIN "create" tab
         if (activeTab === "create") {
             if (!userInput.trim()) {
                 setErrorMessage("Please enter valid information.");
@@ -64,20 +65,26 @@ function CreateOrJoinGroup() {
                     return; // Prevent pop-up from being closed
                 } else {
                     // Group doesn't exist, proceed with creating the group
-                    console.log("reached else");
                     try {
                         const response = await createGroup(userInput);
-                        console.log("API Response (createGroup):", response);
+                        // console.log("API Response (createGroup):", response);
                         // Group created successfully
 
-                        // const response2 = await addUserToGroup(email, userInput);
-                        // console.log("response2", response2);
-                        // alert(`Group created and user added: ${userInput}`);
-                        // closePopup();
+                        try {
+                            await addUserToGroup(email, userInput);
+                            // console.log("response2", response2);
+                            // alert(`Group created and user added: ${userInput}`);
+                            // closePopup();
+                        }
+                        catch (error) {
+                            // DELETE GROUP OPTION HERE
+                            setErrorMessage("Error adding user to newly created group. Group not created.");
+                            return;
+                        }
                     }
                     catch (error) {
                         console.error("API Error:", error);
-                        setErrorMessage("Error creating group or adding user to created group. Please try again.");
+                        setErrorMessage("Error creating group. Please try again.");
                         return;
                     }
                 }
@@ -87,13 +94,22 @@ function CreateOrJoinGroup() {
                 return;
             }
 
-            // alert(`Creating based on: ${userInput}`);
+        // BEGIN "join" tab
         } else if (activeTab === "join") {
             if (!selectedGroup) {
                 setErrorMessage("Please select a group.");
                 return;
             }
-            alert(`Joining based on: ${selectedGroup}`);
+
+            try {
+                // console.log(email);
+                const response = await addUserToGroup(email, selectedGroup);
+                // console.log("addUserToGroup: ", response);
+            }
+            catch (error) {
+                setErrorMessage("Error adding user to group.");
+                return;
+            }
         }
 
         closePopup();
