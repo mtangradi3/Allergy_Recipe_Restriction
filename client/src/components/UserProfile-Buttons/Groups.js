@@ -75,6 +75,7 @@ function CreateOrJoinGroup() {
                             // console.log("response2", response2);
                             // alert(`Group created and user added: ${userInput}`);
                             // closePopup();
+                            alert("Successfully added you to your newly created group!"); // Let user know
                         }
                         catch (error) {
                             // DELETE GROUP OPTION HERE
@@ -105,6 +106,7 @@ function CreateOrJoinGroup() {
                 // console.log(email);
                 const response = await addUserToGroup(email, selectedGroup);
                 // console.log("addUserToGroup: ", response);
+                alert("Successfully added you to the group!");
             }
             catch (error) {
                 setErrorMessage("Error adding user to group.");
