@@ -72,4 +72,16 @@ public class GroupControl {
         }
     }
 
+    @GetMapping("/get_foods_group_can_eat")
+    public ResponseEntity<?> getPossibleFoodsOfGroup( @RequestParam String group_name){
+        try {
+            List<String> possibleFoods = groupServices.getPossibleFoodsOfGroup( group_name);
+            return ResponseEntity.ok(possibleFoods);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 }

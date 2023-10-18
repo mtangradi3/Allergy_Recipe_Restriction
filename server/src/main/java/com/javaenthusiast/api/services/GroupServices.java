@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -115,5 +116,48 @@ public class GroupServices {
             // The duplicate email SIGNAL will throw an exception you can catch and handle.
             throw new CustomDatabaseException("Error deleting group", e);
         }
+    }
+
+    public List<String> getPossibleFoodsOfGroup(String groupName) {
+        List<Map<String, Object>> usersInGroup = getUsersInGroup(groupName);
+        List<String> possibleFoods = new ArrayList<>();
+
+        //used to call getAllFoods a user can eat with allergy
+        MealServices mealServices = new MealServices();
+
+
+        List<String> usersNamesInGroup = new ArrayList<>();
+        //TODO: add emails from usersInGroup into this
+
+
+        usersInGroup.forEach(map ->{
+            List<String> possibleFoodList  = new ArrayList<>();
+            List<Map<String,Object>> tempList = mealServices.getAllMealsWithAllergy((String) map.get("email"), jdbcTemplate);
+//            System.out.println(tempList);
+            tempList.forEach(meal_map ->{
+                possibleFoodList.add((String) meal_map.get("meal_name"));
+            });
+
+            map.put("possible_foods", possibleFoodList);
+        });
+
+//        System.out.println(usersInGroup);
+
+        if(usersInGroup.size() >0)
+            possibleFoods.addAll((Collection<? extends String>) usersInGroup.get(0).get("possible_foods"));
+
+        // Intersect with other users' foods
+        for (Map<String, Object> user : usersInGroup) {
+            if (user.get("possible_foods") instanceof List) {
+                possibleFoods.retainAll((List<String>) user.get("possible_foods"));
+            }
+        }
+
+
+
+
+
+        return possibleFoods;
+
     }
 }
