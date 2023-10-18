@@ -100,4 +100,20 @@ public class GroupServices {
         return userNames;
 
     }
+
+    public void deleteGroup(String groupName) {
+
+
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("delete_group");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("group_name", groupName);
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            // The duplicate email SIGNAL will throw an exception you can catch and handle.
+            throw new CustomDatabaseException("Error deleting group", e);
+        }
+    }
 }
