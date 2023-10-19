@@ -61,7 +61,7 @@ export const getUsersInGroup = async (groupName) => {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         });
-        console.log("response", response.data);
+        // console.log("response", response.data);
         return response.data;
     } catch (error) {
         throw error;

@@ -256,6 +256,8 @@ function DropdownButton({ buttonText }) {
 function Groups() {
     const [allGroups, setAllGroups] = useState([]);
     const [userGroups, setUserGroups] = useState([]);
+    const [loading, setLoading] = useState(true); // Add loading state
+
     const location = useLocation();
     const { email } = location.state || {};
 
@@ -265,26 +267,34 @@ function Groups() {
                 const groups = await getAllGroups();
                 setAllGroups(groups);
             } catch (error) {
-                console.error("Error fetching all groups", error);
+                // console.error("Error fetching all groups", error);
+                alert("Error fetching all groups.");
+                setLoading(false); // Set loading to false in case of an error
             }
         };
 
         const filterGroups = async () => {
             try {
-                console.log("filterGroups claled");
+                const newGroups = [];
+
+                // for each group, get users
                 for(let i = 0; i < allGroups.length; i++) {
                     const group = allGroups[i];
                     const usersInGroup = await getUsersInGroup(group);
 
                     // match emails with groups
                     if(usersInGroup.some((user) => user.email === email)) {
-                        userGroups.push(group);
+                        newGroups.push(group);
                     }
                 }
-                console.log("userGroups:", userGroups);
+
+                setUserGroups(newGroups);
+                setLoading(false); // Set loading to false in case of an error
             }
             catch(error) {
-                console.log("Error filtering groups", error);
+                // console.log("Error filtering groups", error);
+                alert("Error filtering groups");
+                setLoading(false); // Set loading to false in case of an error
             }
         }
 
@@ -303,9 +313,13 @@ function Groups() {
             <br/>
             <div>
                 <h2>My Groups</h2>
-                {userGroups.map((group, index) => (
-                    <DropdownButton key={index} buttonText={group} />
-                ))}
+                {loading ? ( // Render a loading indicator if loading is true
+                    <p>Loading...</p>
+                ) : (
+                    userGroups.map((group, index) => (
+                        <DropdownButton key={index} buttonText={group} />
+                    ))
+                )}
             </div>
             {/* Add more DropdownButtons as needed */}
         </div>
