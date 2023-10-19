@@ -9,9 +9,10 @@ import { getAllIngredients } from "../../api/mealAPI";
 
 function CreateMeal() {
   const navigate = useNavigate();
-  const [ingredients, setIngredients] = useState([]); // All available ingredients
-  const [searchTerm, setSearchTerm] = useState(""); // Current search term
-  const [selectedIngredients, setSelectedIngredients] = useState([]); // Ingredients selected for the new meal
+  const [ingredients, setIngredients] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredIngredients, setFilteredIngredients] = useState([]); // Filtered ingredients based on search term
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -32,6 +33,20 @@ function CreateMeal() {
     fetchIngredients();
   }, []);
 
+  useEffect(() => {
+    setFilteredIngredients(
+      ingredients.filter((ingredient) =>
+        ingredient.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    );
+  }, [searchTerm, ingredients]);
+
+  const addIngredient = (ingredient) => {
+    if (!selectedIngredients.includes(ingredient)) {
+      setSelectedIngredients([...selectedIngredients, ingredient]);
+    }
+  };
+
   return (
     <div>
       <h1>Create a New Meal</h1>
@@ -48,11 +63,27 @@ function CreateMeal() {
         </label>
 
         <label>
-          Add Ingredient:
-          <input type="text" name="ingredient" />
+          Search Ingredient:
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </label>
 
-        {/* Ideally, you'll have logic to add multiple ingredients and list them below this input */}
+        {filteredIngredients.map((ingredient) => (
+          <div key={ingredient}>
+            {ingredient}
+            <button onClick={() => addIngredient(ingredient)}>Add</button>
+          </div>
+        ))}
+
+        <label>
+          Selected Ingredients:
+          {selectedIngredients.map((ingredient, index) => (
+            <div key={index}>{ingredient}</div>
+          ))}
+        </label>
 
         <button type="submit">Add Meal</button>
       </form>
