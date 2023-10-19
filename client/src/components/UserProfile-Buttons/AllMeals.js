@@ -6,11 +6,13 @@ import React, { useState, useEffect } from "react";
 import { getAllMeals, getMealIngredients } from "../../api/mealAPI";
 import "../../App.css";
 import CreateMeal from "./CreateMeal";
+import { useNavigate } from "react-router-dom";
 
 function AllMeals() {
   const [meals, setMeals] = useState([]);
   const [error, setError] = useState(null);
   const [expandedMealIndex, setExpandedMealIndex] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -82,7 +84,7 @@ function AllMeals() {
           </li>
         ))}
       </ul>
-      <CreateMeal />
+      <button onClick={() => navigate("/create-meal")}>Create New Meal</button>
     </div>
   );
 }

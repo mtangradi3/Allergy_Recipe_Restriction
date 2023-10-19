@@ -29,7 +29,7 @@ function App() {
         <Route path="/user-profile/favorites" element={<Favorites />} />
         <Route path="/user-profile/meals" element={<Meals />} />
         <Route path="/user-profile/allmeals" element={<AllMeals />} />
-        <Route path="/user-profile/createmeal" element={<CreateMeal />} />
+        <Route path="/create-meal" element={<CreateMeal />} />
       </Routes>
     </Router>
   );
