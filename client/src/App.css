@@ -126,18 +126,26 @@ button {
 
 /* Styling for adding ingredients button */
 .ingredient-button {
-  background-color: #f7f7f7;
-  border: 1px solid #ccc;
+  background-color: #007BFF;
+  color: white;
+  border: none;
   border-radius: 5px;
-  padding: 5px 10px;
-  margin: 5px;
-  cursor: pointer;
+  width: 25px;
+  height: 25px;
   font-size: 18px;
+  margin-left: 10px;
+  display: inline-block; /* To keep it next to the ingredient name */
+  vertical-align: middle;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.added-ingredient {
-  background-color: #e0e0e0;  /* light gray */
-  padding: 5px;
-  margin: 5px 0;
-  border-radius: 3px;
+.ingredient-button:hover {
+  background-color: #0056b3; /* Darker shade for hover */
 }
+
+.ingredient-button:active {
+  background-color: #003c80; /* Even darker shade for active state */
+}
+
+

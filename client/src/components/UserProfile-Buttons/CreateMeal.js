@@ -79,14 +79,18 @@ function CreateMeal() {
         </label>
 
         {filteredIngredients.map((ingredient) => (
-          <div key={ingredient}>
+          <div
+            key={ingredient}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
             {ingredient}
             <button
               className="ingredient-button"
-              onClick={(e) => {
-                e.preventDefault(); // prevent default behavior
-                addIngredient(ingredient);
-              }}
+              onClick={() => addIngredient(ingredient)}
             >
               +
             </button>
@@ -96,14 +100,18 @@ function CreateMeal() {
         <label>
           Selected Ingredients:
           {selectedIngredients.map((ingredient, index) => (
-            <div key={index}>
+            <div
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
               {ingredient}
               <button
                 className="ingredient-button"
-                onClick={(e) => {
-                  e.preventDefault(); // prevent default behavior
-                  removeIngredient(ingredient);
-                }}
+                onClick={() => removeIngredient(ingredient)}
               >
                 −
               </button>
