@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from "react";
 import { getAllMeals, getMealIngredients } from "../../api/mealAPI";
 import "../../App.css";
+import CreateMeal from "./CreateMeal";
 
 function AllMeals() {
   const [meals, setMeals] = useState([]);
@@ -63,7 +64,10 @@ function AllMeals() {
               {meal.meal_name}
             </h2>
             {meal.meal_image && (
-                <img src={`data:image/jpeg;base64,${meal.meal_image}`} alt={meal.meal_name} />
+              <img
+                src={`data:image/jpeg;base64,${meal.meal_image}`}
+                alt={meal.meal_name}
+              />
             )}
             {index === expandedMealIndex && meal.ingredients && (
               <>
@@ -78,9 +82,7 @@ function AllMeals() {
           </li>
         ))}
       </ul>
-      <button onClick={handleNewMealClick} className="create-new-meal-btn">
-        Create New Meal
-      </button>
+      <CreateMeal />
     </div>
   );
 }
