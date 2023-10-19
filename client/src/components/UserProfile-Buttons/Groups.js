@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/Buttons.css";
-import { getAllGroups, createGroup, addUserToGroup, getUsersInGroup } from "../../api/groupAPI";
+import { getAllGroups, createGroup, addUserToGroup, getUsersInGroup, getGroupNames } from "../../api/groupAPI";
 import { useLocation } from "react-router-dom";
 
 import {create} from "axios";
@@ -264,8 +264,9 @@ function Groups() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const groups = await getAllGroups();
+                const groups = await getGroupNames();
                 setAllGroups(groups);
+                console.log("epic:", groups);
             } catch (error) {
                 // console.error("Error fetching all groups", error);
                 alert("Error fetching all groups.");
@@ -325,6 +326,5 @@ function Groups() {
         </div>
     );
 }
-
 
 export default Groups;

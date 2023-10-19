@@ -15,3 +15,4 @@ export const GET_ALL_GROUPS = "http://localhost:8080/api/group/get_all_groups_na
 export const INSERT_NEW_GROUP = "http://localhost:8080/api/group/create_new_group";
 export const GET_USERS_IN_GROUP = "http://localhost:8080/api/group/get_users_in_group";
 export const ADD_USER_TO_GROUP = "http://localhost:8080/api/user/add_user_to_group";
+export const GET_GROUP_NAMES = "http://localhost:8080/api/group/get_all_groups_name";

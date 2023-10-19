@@ -5,10 +5,10 @@
  */
 
 import axios from "axios";
-import { GET_ALL_GROUPS, INSERT_NEW_GROUP, GET_USERS_IN_GROUP, ADD_USER_TO_GROUP } from "../utils/constant";
+import { GET_ALL_GROUPS, INSERT_NEW_GROUP, GET_USERS_IN_GROUP, ADD_USER_TO_GROUP, GET_GROUP_NAMES } from "../utils/constant";
 
 /**
- * this function will get all the groups to display
+ * this function will get all the groups
  */
 export const getAllGroups = async () => {
     try {
@@ -85,6 +85,25 @@ export const addUserToGroup = async (email, groupName) => {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+/**
+ * this function will get all the group names
+ *
+ * @returns {Promise<any>} an error if there is a duplicate
+ */
+export const getGroupNames = async () => {
+    try {
+        const response = await axios.get(GET_GROUP_NAMES, {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        });
+        // console.log("response", response.data);
         return response.data;
     } catch (error) {
         throw error;
