@@ -151,4 +151,7 @@ button {
   background-color: #003c80; /* Even darker shade for active state */
 }
 
-
+/* Styling for the "Add Meal" button */
+.add-meal-button {
+  margin-top: 20px; /* Adjust the margin-top value as needed to move the button lower */
+}

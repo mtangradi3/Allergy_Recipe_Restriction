@@ -119,7 +119,9 @@ function CreateMeal() {
           ))}
         </label>
 
-        <button type="submit">Add Meal</button>
+        <button type="submit" className="add-meal-button">
+          Add Meal
+        </button>
       </form>
 
       <button onClick={() => navigate(-1)} className="go-back-btn">
