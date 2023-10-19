@@ -23,13 +23,13 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Header />} />
-        <Route path="/create-meal" element={<CreateMeal />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/user-profile/allergies" element={<Allergies />} />
         <Route path="/user-profile/groups" element={<Groups />} />
         <Route path="/user-profile/favorites" element={<Favorites />} />
         <Route path="/user-profile/meals" element={<Meals />} />
         <Route path="/user-profile/allmeals" element={<AllMeals />} />
+        <Route path="/user-profile/createmeal" element={<CreateMeal />} />
       </Routes>
     </Router>
   );
