@@ -52,14 +52,16 @@ export const createGroup = async (groupName) => {
  * @returns {Promise<any>} an error if there is a duplicate
  */
 export const getUsersInGroup = async (groupName) => {
-    const params = new URLSearchParams();
-    params.append("group_name", groupName);
     try {
-        const response = await axios.post(GET_USERS_IN_GROUP, params, {
+        const response = await axios.get(GET_USERS_IN_GROUP, {
+            params: {
+                group_name: groupName,
+            },
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         });
+        console.log("response", response.data);
         return response.data;
     } catch (error) {
         throw error;

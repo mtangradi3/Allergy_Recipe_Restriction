@@ -254,18 +254,63 @@ function DropdownButton({ buttonText }) {
 
 // The actual display of the buttons
 function Groups() {
+    const [allGroups, setAllGroups] = useState([]);
+    const [userGroups, setUserGroups] = useState([]);
+    const location = useLocation();
+    const { email } = location.state || {};
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const groups = await getAllGroups();
+                setAllGroups(groups);
+            } catch (error) {
+                console.error("Error fetching all groups", error);
+            }
+        };
+
+        const filterGroups = async () => {
+            try {
+                console.log("filterGroups claled");
+                for(let i = 0; i < allGroups.length; i++) {
+                    const group = allGroups[i];
+                    const usersInGroup = await getUsersInGroup(group);
+
+                    // match emails with groups
+                    if(usersInGroup.some((user) => user.email === email)) {
+                        userGroups.push(group);
+                    }
+                }
+                console.log("userGroups:", userGroups);
+            }
+            catch(error) {
+                console.log("Error filtering groups", error);
+            }
+        }
+
+        if (!allGroups.length) {
+            // If allGroups is empty, fetch the data
+            fetchData();
+        } else {
+            // If allGroups has data, filter the groups
+            filterGroups();
+        }
+    }, [allGroups, email]);
+
     return (
         <div>
             <CreateOrJoinGroup />
             <br/>
             <div>
                 <h2>My Groups</h2>
-                <DropdownButton buttonText="Dropdown 1" />
-                <DropdownButton buttonText="Dropdown 2" />
+                {userGroups.map((group, index) => (
+                    <DropdownButton key={index} buttonText={group} />
+                ))}
             </div>
             {/* Add more DropdownButtons as needed */}
         </div>
     );
 }
+
 
 export default Groups;
