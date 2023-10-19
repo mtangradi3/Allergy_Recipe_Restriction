@@ -15,3 +15,6 @@ export const INSERT_NEW_MEAL = "http://localhost:8080/api/meal/insert_new_meal";
 
 export const GET_MEAL_INGREDIENTS =
   "http://localhost:8080/api/meal/get_meal_ingredients";
+
+export const GET_ALL_INGREDIENTS =
+  "http://localhost:8080/api/meal/get_all_ingredients";
