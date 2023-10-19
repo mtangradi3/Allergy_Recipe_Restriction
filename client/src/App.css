@@ -134,10 +134,13 @@ button {
   height: 25px;
   font-size: 18px;
   margin-left: 10px;
-  display: inline-block; /* To keep it next to the ingredient name */
+  display: inline-block;
   vertical-align: middle;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  line-height: 25px;
+  text-align: center;
+  padding: 0;
 }
 
 .ingredient-button:hover {
