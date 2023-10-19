@@ -6,18 +6,19 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllIngredients } from "../../api/mealAPI";
+import "../../App.css";
 
 function CreateMeal() {
   const navigate = useNavigate();
   const [ingredients, setIngredients] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredIngredients, setFilteredIngredients] = useState([]); // Filtered ingredients based on search term
+  const [filteredIngredients, setFilteredIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Call your API or any other logic to save the meal here
-    alert("Meal Added"); // Just a placeholder for now
+    // alert removed to not show a popup
   };
 
   useEffect(() => {
@@ -47,6 +48,12 @@ function CreateMeal() {
     }
   };
 
+  const removeIngredient = (ingredient) => {
+    setSelectedIngredients(
+      selectedIngredients.filter((item) => item !== ingredient),
+    );
+  };
+
   return (
     <div>
       <h1>Create a New Meal</h1>
@@ -74,14 +81,33 @@ function CreateMeal() {
         {filteredIngredients.map((ingredient) => (
           <div key={ingredient}>
             {ingredient}
-            <button onClick={() => addIngredient(ingredient)}>Add</button>
+            <button
+              className="ingredient-button"
+              onClick={(e) => {
+                e.preventDefault(); // prevent default behavior
+                addIngredient(ingredient);
+              }}
+            >
+              +
+            </button>
           </div>
         ))}
 
         <label>
           Selected Ingredients:
           {selectedIngredients.map((ingredient, index) => (
-            <div key={index}>{ingredient}</div>
+            <div key={index}>
+              {ingredient}
+              <button
+                className="ingredient-button"
+                onClick={(e) => {
+                  e.preventDefault(); // prevent default behavior
+                  removeIngredient(ingredient);
+                }}
+              >
+                −
+              </button>
+            </div>
           ))}
         </label>
 

@@ -123,3 +123,21 @@ button {
 .meal-container {
   position: relative;
 }
+
+/* Styling for adding ingredients button */
+.ingredient-button {
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.added-ingredient {
+  background-color: #e0e0e0;  /* light gray */
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 3px;
+}
