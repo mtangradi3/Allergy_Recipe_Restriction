@@ -94,4 +94,16 @@ public class UserControl {
     }
 
 
+    @DeleteMapping("/delete_allergy_from_user")
+    public ResponseEntity<?> deleteAllergyFromUser(@RequestParam String allergy_name ,@RequestParam String email){
+        try {
+            userService.deleteAllergyFromUser(allergy_name, email);
+            return ResponseEntity.ok("allergy was successfully delete from user");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 }
