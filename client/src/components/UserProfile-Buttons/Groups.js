@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/Buttons.css";
-import { getAllGroups, createGroup, addUserToGroup, getUsersInGroup, getGroupNames } from "../../api/groupAPI";
+import { getAllGroups, createGroup, addUserToGroup, getUsersInGroup, getGroupNames, getFoodsForGroup } from "../../api/groupAPI";
 import { useLocation } from "react-router-dom";
 
 import {create} from "axios";
@@ -193,14 +193,18 @@ function CreateOrJoinGroup() {
 }
 
 // The content of each dropdown button
-function DropdownContent() {
+function DropdownContent({groupMembers, groupFoods}) {
+    useEffect(() => {
+        console.log("content groupmembers", groupMembers);
+    }, []);
     return (
         <div className="dropdown-content">
             <h3>Group name</h3>
             <h4>Members</h4>
             <ul>
-                <li>Member 1</li>
-                <li>Member 2</li>
+                {/*{groupMembers.map((member, index) => (*/}
+                {/*    <li key={index}>{member}</li>*/}
+                {/*))}*/}
             </ul>
             <h4>Allergies</h4>
             <ul>
@@ -218,9 +222,32 @@ function DropdownContent() {
 function DropdownButton({ buttonText }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const [groupMembers, setGroupMembers] = useState([]);
+    const [groupFoods, setGroupFoods] = useState([]);
 
     const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+        const newState = !isDropdownOpen;
+        setIsDropdownOpen(newState);
+
+        if (newState === true && (!groupMembers.length || !groupFoods.length)) {
+            console.log("Attempting to fetch data");
+            fetchGroupData(buttonText);
+        }
+    };
+
+    const fetchGroupData = async (groupName) => {
+        try {
+            // set group members to null first
+            setGroupMembers(null);
+            const groupMembersResponse = await getUsersInGroup(groupName);
+            console.log("Group members from API:", groupMembersResponse);
+            setGroupMembers(groupMembersResponse);
+
+            const groupFoods = await getFoodsForGroup(groupName);
+            setGroupFoods(groupFoods);
+        } catch (error) {
+            console.error("Error fetching group data", error);
+        }
     };
 
     const handleClickOutside = (event) => {
@@ -233,11 +260,20 @@ function DropdownButton({ buttonText }) {
         // Add click event listener to close dropdown when clicking outside
         document.addEventListener("click", handleClickOutside);
 
+        // Log the groupMembers and groupFoods
+        console.log("groupMembers", groupMembers);
+        console.log("groupFoods", groupFoods);
+        // console.log("buttontext", buttonText);
+
         return () => {
             // Remove the click event listener on component unmount
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        console.log('groupMembers state updated:', groupMembers);
+    }, [groupMembers]);
 
     return (
         <div className={`dropdown ${isDropdownOpen ? 'active' : ''}`} ref={dropdownRef}>
@@ -246,7 +282,9 @@ function DropdownButton({ buttonText }) {
                 {buttonText} {isDropdownOpen ? '-' : '+'}
             </button>
             <div className="dropdown-content-container">
-                {isDropdownOpen && <DropdownContent />}
+                {isDropdownOpen && groupMembers && groupFoods && (
+                    <DropdownContent groupMembers={groupMembers} groupFoods={groupFoods}/>
+                )}
             </div>
         </div>
     );
@@ -266,7 +304,7 @@ function Groups() {
             try {
                 const groups = await getGroupNames();
                 setAllGroups(groups);
-                console.log("epic:", groups);
+                // console.log("epic:", groups);
             } catch (error) {
                 // console.error("Error fetching all groups", error);
                 alert("Error fetching all groups.");
