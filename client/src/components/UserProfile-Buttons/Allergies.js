@@ -1,10 +1,29 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import 'bootstrap/dist/css/bootstrap.css';
+import { getAllAllergies } from "../../api/allergyAPI";
+
+
 
 function Allergies() {
+
+    useEffect(() => {
+        const fetchAllergies = async () => {
+            try {
+                const data = await getAllAllergies();
+                setAllAllergies(data);
+                setSearchAllergies(data);
+                console.log(data);
+
+            } catch (err) {
+                console.log(err.message || "An error occurred while fetching meals.");
+            }
+        };
+
+        fetchAllergies();
+    }, []);
 
     const commonFoodAllergies = ["Peanuts", "Tree Nuts", "Milk", "Eggs", "Soy", "Wheat", "Fish", "Shellfish",
                                         "Sesame", "Mustard", "Celery", "Corn", "Avocado", "Meat", "Garlic",
@@ -13,8 +32,8 @@ function Allergies() {
     const [userAllergies, setUserAllergies] = useState([]);
     const [inputValueSearch, setInputValueSearch] = useState('');
 
-    const [allAllergies, setAllAllergies] = useState(commonFoodAllergies);
-    const [searchAllergies, setSearchAllergies] = useState(commonFoodAllergies);
+    const [allAllergies, setAllAllergies] = useState([]);
+    const [searchAllergies, setSearchAllergies] = useState([]);
 
     let search = '';
 
