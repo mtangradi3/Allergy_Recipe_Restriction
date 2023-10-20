@@ -123,4 +123,20 @@ public class UserServices {
         }
 
     }
+
+    public void deleteAllergyFromUser(String allergy_name,String email) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("delete_allergy_from_user");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("allergy_name",allergy_name)
+                .addValue("email",email);
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            // The duplicate email SIGNAL will throw an exception you can catch and handle.
+            throw new CustomDatabaseException("Error deleting allergy from user", e);
+        }
+
+    }
 }
