@@ -199,12 +199,13 @@ function DropdownContent({groupMembers, groupFoods}) {
     }, []);
     return (
         <div className="dropdown-content">
-            <h3>Group name</h3>
             <h4>Members</h4>
             <ul>
-                {/*{groupMembers.map((member, index) => (*/}
-                {/*    <li key={index}>{member}</li>*/}
-                {/*))}*/}
+                {groupMembers.map((member, index) => (
+                    <li key={index}>
+                        {member.first_name} {member.last_name} - {member.email}
+                    </li>
+                ))}
             </ul>
             <h4>Allergies</h4>
             <ul>
@@ -212,7 +213,9 @@ function DropdownContent({groupMembers, groupFoods}) {
             </ul>
             <h4>Meals</h4>
             <ul>
-                <li>Meal 1</li>
+                {groupFoods.map((food, index) => (
+                    <li key={index}>{food}</li>
+                ))}
             </ul>
         </div>
     );
