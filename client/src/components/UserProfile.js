@@ -1,7 +1,7 @@
 // UserProfile.js
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../styles/Buttons.css"
+import "../styles/Buttons.css";
 
 function UserProfile() {
   // Declared constants
@@ -14,49 +14,42 @@ function UserProfile() {
       <h2>
         Welcome, {firstName} {lastName}!
       </h2>
-        <div className="buttonContainer">
-      <button
-        className="buttonStyle"
-        onClick={() => navigate("/user-profile/allergies")}
-      >
-        Allergies
-      </button>
-      <button
+      <div className="buttonContainer">
+        <button
           className="buttonStyle"
-          onClick={() => navigate("/user-profile/groups")}
+          onClick={() => navigate("/user-profile/allergies")}
+        >
+          Allergies
+        </button>
+        <button
+          className="buttonStyle"
+          onClick={() => navigate("/user-profile/groups", { state: { email } })}
         >
           Groups
         </button>
         <button
-        onClick={() => navigate("/user-profile/groups", { state: { email } })}
-      >
-        Groups
-      </button>
-      <button
           className="buttonStyle"
-        onClick={() => navigate("/user-profile/favorites")}
-      >
-        Favorites
-      </button>
-      <button
-          className="buttonStyle"
-        onClick={() => navigate("/user-profile/meals")}
-      >
-        Meals
-      </button>
-      <button
-          className="buttonStyle"
-        onClick={() => navigate("/user-profile/allmeals")}
-      >
-        All Meals
-      </button>
-        {/* Logout button */}
-        <button
-            className="buttonStyle"
-            onClick={() => navigate("/")}>
-            Logout
+          onClick={() => navigate("/user-profile/favorites")}
+        >
+          Favorites
         </button>
-        </div>
+        <button
+          className="buttonStyle"
+          onClick={() => navigate("/user-profile/meals")}
+        >
+          Meals
+        </button>
+        <button
+          className="buttonStyle"
+          onClick={() => navigate("/user-profile/allmeals")}
+        >
+          All Meals
+        </button>
+        {/* Logout button */}
+        <button className="buttonStyle" onClick={() => navigate("/")}>
+          Logout
+        </button>
+      </div>
     </div> // Header title with first name and last name, and made buttons
   );
 }
