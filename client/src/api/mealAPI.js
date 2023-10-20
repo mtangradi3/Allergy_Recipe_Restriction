@@ -1,5 +1,6 @@
 // mealAPI.js
 
+// Andy Prototype
 import axios from "axios";
 import {
   GET_ALL_MEALS,
