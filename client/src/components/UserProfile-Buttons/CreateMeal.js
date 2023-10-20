@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllIngredients } from "../../api/mealAPI";
-import "../../App.css";
+import "../../CreateMeal.css";
 
 function CreateMeal() {
   const navigate = useNavigate();
@@ -48,7 +48,8 @@ function CreateMeal() {
     }
   };
 
-  const removeIngredient = (ingredient) => {
+  const removeIngredient = (event, ingredient) => {
+    event.stopPropagation(); // This will prevent the event from propagating further
     setSelectedIngredients(
       selectedIngredients.filter((item) => item !== ingredient),
     );
@@ -111,7 +112,7 @@ function CreateMeal() {
               {ingredient}
               <button
                 className="ingredient-button"
-                onClick={() => removeIngredient(ingredient)}
+                onClick={(e) => removeIngredient(e, ingredient)}
               >
                 −
               </button>
