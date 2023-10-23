@@ -226,7 +226,11 @@ function DropdownContent({
   // }, []);
 
   const handleDeleteClick = () => {
-    if (window.confirm("Are you sure you want to delete this group?")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this group? This deletes the group entirely.",
+      )
+    ) {
       // Call the onDeleteGroup function when the user confirms the deletion
       onDeleteGroup(groupName);
     }
