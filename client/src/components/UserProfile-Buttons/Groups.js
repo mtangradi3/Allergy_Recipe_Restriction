@@ -112,6 +112,14 @@ function CreateOrJoinGroup() {
         return;
       }
 
+      // Check if the user is already in the selected group
+      const isUserInGroup = allGroups.includes(selectedGroup);
+
+      if (isUserInGroup) {
+        setErrorMessage("You are already a member of this group.");
+        return;
+      }
+
       try {
         // console.log(email);
         const response = await addUserToGroup(email, selectedGroup);
@@ -177,6 +185,7 @@ function CreateOrJoinGroup() {
                   />
                 </label>
               ) : (
+                //   join
                 <label>
                   <select value={selectedGroup} onChange={handleSelectChange}>
                     <option value="">Select a group</option>
@@ -343,6 +352,7 @@ function Groups() {
     const fetchData = async () => {
       try {
         const groups = await getGroupNames();
+        // console.log(groups);
         setAllGroups(groups);
         // console.log("epic:", groups);
       } catch (error) {
@@ -387,10 +397,6 @@ function Groups() {
 
   const handleDeleteGroup = async (group) => {
     try {
-      // Call an API function to delete the group, e.g., deleteGroup(groupName)
-      // After successful deletion, you can update the UI accordingly
-      // For example, you can remove the group from userGroups state
-      // and re-fetch the updated list of user groups
       deleteGroup(group);
       console.log(group, " successfully deleted");
     } catch (error) {
