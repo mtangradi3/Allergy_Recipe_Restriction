@@ -15,7 +15,7 @@ function CreateMeal() {
   const [filteredIngredients, setFilteredIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     // Call your API or any other logic to save the meal here
     // Get the values
@@ -26,7 +26,12 @@ function CreateMeal() {
     const email = "user@example.com"; // TODO: replace with the real user's email
 
     try {
-      const response = await insertNewMeal(mealName, mealImage, email, selectedIngredients);
+      const response = await insertNewMeal(
+        mealName,
+        mealImage,
+        email,
+        selectedIngredients,
+      );
       console.log(response); // Should print "create new meal successful" if successful
       // You can navigate to another page or show a success message here.
     } catch (error) {
