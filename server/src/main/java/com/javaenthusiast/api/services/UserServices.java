@@ -178,5 +178,21 @@ public class UserServices {
 
         return favoriteMeals;
     }
+
+    public void deleteUserFavoritesMeal(String email,String meal_name) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("delete_user_favorites_meal");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("email",email)
+                .addValue("meal",meal_name);
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            // The duplicate email SIGNAL will throw an exception you can catch and handle.
+            throw new CustomDatabaseException("Error deleting favorite meal from user", e);
+        }
+
+    }
 }
 

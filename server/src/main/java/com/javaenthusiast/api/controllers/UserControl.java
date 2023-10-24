@@ -127,5 +127,16 @@ public class UserControl {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+    @DeleteMapping("/delete_user_favorites_meal")
+    public ResponseEntity<?> deleteUserFavoritesMeal(@RequestParam String email ,@RequestParam String meal_name){
+        try {
+            userService.deleteUserFavoritesMeal(email, meal_name);
+            return ResponseEntity.ok("  favorite meal from user  was successfully deleted ");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
 }
 
