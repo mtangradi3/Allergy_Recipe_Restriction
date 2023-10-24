@@ -178,5 +178,22 @@ public class UserServices {
 
         return favoriteMeals;
     }
+
+    public void removeUserToGroup(String email, String groupName) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("leave_group");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("group_name",groupName)
+                .addValue("email", email);
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            // The duplicate email SIGNAL will throw an exception you can catch and handle.
+            throw new CustomDatabaseException("Error removing user from group", e);
+        }
+
+
+    }
 }
 
