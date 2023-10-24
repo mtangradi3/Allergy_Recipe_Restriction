@@ -4,7 +4,7 @@
  *   */
 
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getAllIngredients, insertNewMeal } from "../../api/mealAPI";
 import "../../CreateMeal.css";
 
@@ -14,6 +14,8 @@ function CreateMeal() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredIngredients, setFilteredIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const location = useLocation();
+  const { email } = location.state || {};
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -21,9 +23,6 @@ function CreateMeal() {
     // Get the values
     const mealName = e.target.mealName.value;
     const mealImage = e.target.mealImage.files[0]; // Assuming only one file is uploaded
-
-    // Hardcoding the email for now, you need to replace this with actual user email.
-    const email = "user@example.com"; // TODO: replace with the real user's email
 
     try {
       const response = await insertNewMeal(

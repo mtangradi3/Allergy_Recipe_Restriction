@@ -6,13 +6,15 @@ import React, { useState, useEffect } from "react";
 import { getAllMeals, getMealIngredients } from "../../api/mealAPI";
 import "../../App.css";
 import CreateMeal from "./CreateMeal";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function AllMeals() {
   const [meals, setMeals] = useState([]);
   const [error, setError] = useState(null);
   const [expandedMealIndex, setExpandedMealIndex] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { email } = location.state || {};
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -84,7 +86,9 @@ function AllMeals() {
           </li>
         ))}
       </ul>
-      <button onClick={() => navigate("/create-meal")}>Create New Meal</button>
+      <button onClick={() => navigate("/create-meal", { state: { email } })}>
+        Create New Meal
+      </button>
     </div>
   );
 }
