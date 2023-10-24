@@ -118,9 +118,9 @@ function CreateMeal() {
 
         <label>
           Selected Ingredients:
-          {selectedIngredients.map((ingredient, index) => (
+          {selectedIngredients.map((ingredient) => (
             <div
-              key={index}
+              key={ingredient}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -130,7 +130,10 @@ function CreateMeal() {
               {ingredient}
               <button
                 className="ingredient-button"
-                onClick={(e) => removeIngredient(e, ingredient)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeIngredient(e, ingredient);
+                }}
               >
                 −
               </button>

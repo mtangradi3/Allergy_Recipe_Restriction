@@ -1,6 +1,6 @@
 /* Styling for adding ingredients button */
 .ingredient-button {
-    background-color: #007BFF;
+    background: linear-gradient(145deg, #0090ff, #0056b3);
     color: white;
     border: none;
     border-radius: 5px;
@@ -11,21 +11,46 @@
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
     line-height: 25px;
     text-align: center;
     padding: 0;
+    box-shadow: 3px 3px 6px #004a8d, -3px -3px 6px #0090ff;
+    overflow: hidden;
 }
 
 .ingredient-button:hover {
-    background-color: #0056b3; /* Darker shade for hover */
+    background: linear-gradient(145deg, #007aff, #004a8d);
+    box-shadow: 2px 2px 4px #004a8d, -2px -2px 4px #0090ff;
 }
 
 .ingredient-button:active {
-    background-color: #003c80; /* Even darker shade for active state */
+    background: linear-gradient(145deg, #0056b3, #003c80);
+    transform: scale(0.95);
+    box-shadow: inset 2px 2px 4px #004a8d, inset -2px -2px 4px #0090ff;
 }
 
 /* Styling for the "Add Meal" button */
 .add-meal-button {
     margin-top: 20px; /* Adjust the margin-top value as needed to move the button lower */
+    background: linear-gradient(145deg, #0090ff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 4px 4px 8px #004a8d, -4px -4px 8px #0090ff;
+}
+
+.add-meal-button:hover {
+    background: linear-gradient(145deg, #007aff, #004a8d);
+    box-shadow: 3px 3px 6px #004a8d, -3px -3px 6px #0090ff;
+}
+
+.add-meal-button:active {
+    background: linear-gradient(145deg, #0056b3, #003c80);
+    transform: scale(0.95);
+    box-shadow: inset 3px 3px 6px #004a8d, inset -3px -3px 6px #0090ff;
 }
