@@ -106,4 +106,26 @@ public class UserControl {
         }
     }
 
+    @PostMapping("/create_user_favorites_meal")
+    public ResponseEntity<?> createUserFavoritesMeal(@RequestParam String email ,@RequestParam String meal_name){
+        try {
+            userService.createUserFavoritesMeal(email, meal_name);
+            return ResponseEntity.ok("User was favorited this meal successfully ");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+    @GetMapping("/get_user_favorites_meal")
+    public ResponseEntity<?> getUserFavoritesMeal(@RequestParam String email){
+        try {
+            List<String> usersFavoritesMeal = userService.getUserFavoritesMeal(email);
+            return ResponseEntity.ok(usersFavoritesMeal);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }
+

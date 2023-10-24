@@ -139,4 +139,44 @@ public class UserServices {
         }
 
     }
+
+    public void createUserFavoritesMeal(String email, String mealName) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("create_user_favorites_meal");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("email", email)
+                .addValue("meal", mealName);
+
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+
+            throw new CustomDatabaseException("Error favoriting this meal", e);
+        }
+    }
+
+    public List<String> getUserFavoritesMeal(String email) {
+        List<String> favoriteMeals =  new ArrayList<>();
+        List<Map<String, Object>> tempFavoriteMeals = new ArrayList<>();
+
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_user_favorites_meal");
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("email", email);
+
+        try {
+
+            Map<String, Object> out = call.execute(in);
+            tempFavoriteMeals = (List<Map<String, Object>>) out.get("#result-set-1");
+
+            tempFavoriteMeals.forEach(tempMap ->{
+                favoriteMeals.add((String)tempMap.get("meal_name"));
+            });
+
+        } catch (DataAccessException e) {
+            throw new CustomDatabaseException("Error getting all ingredients", e);
+        }
+
+        return favoriteMeals;
+    }
 }
+
