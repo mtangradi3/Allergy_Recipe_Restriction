@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllIngredients } from "../../api/mealAPI";
+import { getAllIngredients, insertNewMeal } from "../../api/mealAPI";
 import "../../CreateMeal.css";
 
 function CreateMeal() {
@@ -18,7 +18,21 @@ function CreateMeal() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Call your API or any other logic to save the meal here
-    // alert removed to not show a popup
+    // Get the values
+    const mealName = e.target.mealName.value;
+    const mealImage = e.target.mealImage.files[0]; // Assuming only one file is uploaded
+
+    // Hardcoding the email for now, you need to replace this with actual user email.
+    const email = "user@example.com"; // TODO: replace with the real user's email
+
+    try {
+      const response = await insertNewMeal(mealName, mealImage, email, selectedIngredients);
+      console.log(response); // Should print "create new meal successful" if successful
+      // You can navigate to another page or show a success message here.
+    } catch (error) {
+      console.error("Failed to insert meal:", error);
+      // Show an error message to the user if required.
+    }
   };
 
   useEffect(() => {

@@ -26,41 +26,6 @@ export const getAllMeals = async () => {
   }
 };
 
-/**
- * Inserts a new meal into the database.
- *
- * @param {string} mealName
- * @param {File} mealImage
- * @param {string} email
- * @param {Array<string>} ingredients
- * @returns {Promise<any>} Response data or error.
- */
-export const insertNewMeal = async (
-  mealName,
-  mealImage,
-  email,
-  ingredients,
-) => {
-  const formData = new FormData();
-  formData.append("mealName", mealName);
-  formData.append("mealImage", mealImage); // Assumes mealImage is a File object
-  formData.append("email", email);
-  ingredients.forEach((ingredient, index) => {
-    formData.append(`ingredients[${index}]`, ingredient);
-  });
-
-  try {
-    const response = await axios.post(INSERT_NEW_MEAL, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
 export const getMealIngredients = async (mealName) => {
   try {
     const response = await axios.get(GET_MEAL_INGREDIENTS, {
@@ -85,6 +50,41 @@ export const getAllIngredients = async () => {
     const response = await axios.get(GET_ALL_INGREDIENTS, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Inserts a new meal into the database.
+ *
+ * @param {string} mealName
+ * @param {File} mealImage
+ * @param {string} email
+ * @param {Array<string>} ingredients
+ * @returns {Promise<any>} Response data or error.
+ */
+export const insertNewMeal = async (
+  meal_name,
+  meal_image,
+  email,
+  ingredients,
+) => {
+  try {
+    const formData = new FormData();
+    formData.append("meal_name", meal_name);
+    formData.append("meal_image", meal_image);
+    formData.append("email", email);
+    for (const ingredient of ingredients) {
+      formData.append("ingredients", ingredient);
+    }
+
+    const response = await axios.post("/api/meal/insert_meal", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
