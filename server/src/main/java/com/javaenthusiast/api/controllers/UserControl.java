@@ -93,6 +93,18 @@ public class UserControl {
         }
     }
 
+    @DeleteMapping("/remove_user_from_froup")
+    public ResponseEntity<?> removeUserFromGroup(@RequestParam String email ,@RequestParam String group_name){
+        try {
+            userService.removeUserToGroup(email, group_name);
+            return ResponseEntity.ok("User was removed from the group successfully");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 
     @DeleteMapping("/delete_allergy_from_user")
     public ResponseEntity<?> deleteAllergyFromUser(@RequestParam String allergy_name ,@RequestParam String email){
