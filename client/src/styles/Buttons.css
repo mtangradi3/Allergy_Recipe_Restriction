@@ -27,7 +27,6 @@
     background-color: #f9f9f9;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    pointer-events: none;
 }
 
 .dropdown.active .dropdown-content {
@@ -110,4 +109,26 @@
 .popup-content button.active-tab {
     background-color: #3498db; /* Set the background color for the active tab */
     color: #ffffff; /* Set the text color for the active tab */
+}
+
+.red {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.red:hover {
+    background-color: darkred;
+}
+
+.orange {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
 }
