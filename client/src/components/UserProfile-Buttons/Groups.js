@@ -8,13 +8,14 @@ import {
   getGroupNames,
   getFoodsForGroup,
   deleteGroup,
+  removeUserFromGroup,
 } from "../../api/groupAPI";
 import { useLocation } from "react-router-dom";
 
-import { create } from "axios";
+import { all, create } from "axios";
 
 // The button used to open a pop-up that will allow the user to create or add themselves to a group.
-function CreateOrJoinGroup() {
+function CreateOrJoinGroup({ userGroups }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [selectedGroup, setSelectedGroup] = useState(""); // For the dropdown selection
@@ -113,7 +114,8 @@ function CreateOrJoinGroup() {
       }
 
       // Check if the user is already in the selected group
-      const isUserInGroup = allGroups.includes(selectedGroup);
+      const isUserInGroup = userGroups.includes(selectedGroup);
+      // console.log("allGroups", allGroups);
 
       if (isUserInGroup) {
         setErrorMessage("You are already a member of this group.");
@@ -125,6 +127,7 @@ function CreateOrJoinGroup() {
         const response = await addUserToGroup(email, selectedGroup);
         // console.log("addUserToGroup: ", response);
         alert("Successfully added you to the group!");
+        window.location.reload();
       } catch (error) {
         setErrorMessage("Error adding user to group.");
         return;
@@ -220,6 +223,7 @@ function DropdownContent({
   groupFoods,
   groupName,
   onDeleteGroup,
+  onLeaveGroup,
 }) {
   // useEffect(() => {
   //   console.log("content groupmembers", groupMembers);
@@ -233,6 +237,15 @@ function DropdownContent({
     ) {
       // Call the onDeleteGroup function when the user confirms the deletion
       onDeleteGroup(groupName);
+    }
+  };
+
+  const handleLeaveClick = () => {
+    if (window.confirm("Are you sure you want to leave this group?")) {
+      // Call the onLeaveGroup function when the user confirms leaving the group
+      onLeaveGroup(groupName);
+      alert("Removed you from " + groupName);
+      window.location.reload();
     }
   };
 
@@ -256,6 +269,9 @@ function DropdownContent({
           <li key={index}>{food}</li>
         ))}
       </ul>
+      <button onClick={handleLeaveClick} className="leave-button orange">
+        Leave Group
+      </button>
       <button onClick={handleDeleteClick} className="delete-button red">
         Delete Group
       </button>
@@ -264,11 +280,14 @@ function DropdownContent({
 }
 
 // The logic for each Dropdown button
-function DropdownButton({ buttonText, onDeleteGroup }) {
+function DropdownButton({ buttonText, onDeleteGroup, onLeaveGroup }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [groupMembers, setGroupMembers] = useState([]);
   const [groupFoods, setGroupFoods] = useState([]);
+
+  const location = useLocation();
+  const { email } = location.state || {};
 
   const toggleDropdown = () => {
     const newState = !isDropdownOpen;
@@ -298,6 +317,16 @@ function DropdownButton({ buttonText, onDeleteGroup }) {
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsDropdownOpen(false);
+    }
+  };
+
+  const handleLeaveGroup = async (groupName) => {
+    try {
+      await removeUserFromGroup(email, groupName);
+      console.log(`Left group: ${groupName}`);
+    } catch (error) {
+      // Handle errors if leaving the group fails
+      console.error("Error leaving the group");
     }
   };
 
@@ -336,6 +365,7 @@ function DropdownButton({ buttonText, onDeleteGroup }) {
             groupFoods={groupFoods}
             groupName={buttonText}
             onDeleteGroup={onDeleteGroup}
+            onLeaveGroup={handleLeaveGroup}
           />
         )}
       </div>
@@ -411,7 +441,7 @@ function Groups() {
 
   return (
     <div>
-      <CreateOrJoinGroup />
+      <CreateOrJoinGroup userGroups={userGroups} />
       <br />
       <div>
         <h2>My Groups</h2>

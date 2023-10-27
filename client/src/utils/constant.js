@@ -30,3 +30,5 @@ export const GET_GROUP_NAMES =
 export const GET_GROUP_FOODS =
   "http://localhost:8080/api/group/get_foods_group_can_eat";
 export const DELETE_GROUP = "http://localhost:8080/api/group/delete_group";
+export const REMOVE_USER_FROM_GROUP =
+  "http://localhost:8080/api/user/remove_user_from_froup";

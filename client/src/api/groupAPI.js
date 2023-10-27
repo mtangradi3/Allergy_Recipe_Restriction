@@ -13,6 +13,7 @@ import {
   GET_GROUP_NAMES,
   GET_GROUP_FOODS,
   DELETE_GROUP,
+  REMOVE_USER_FROM_GROUP,
 } from "../utils/constant";
 
 /**
@@ -151,6 +152,31 @@ export const deleteGroup = async (groupName) => {
   try {
     const response = await axios.delete(DELETE_GROUP, {
       params: {
+        group_name: groupName,
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    // console.log("response", response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * this function will make the user leave the group
+ *
+ * @param email
+ * @param groupName
+ * @returns {Promise<any>} an error if there is a duplicate
+ */
+export const removeUserFromGroup = async (email, groupName) => {
+  try {
+    const response = await axios.delete(REMOVE_USER_FROM_GROUP, {
+      params: {
+        email: email,
         group_name: groupName,
       },
       headers: {

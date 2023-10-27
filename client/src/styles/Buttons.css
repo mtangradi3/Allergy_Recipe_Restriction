@@ -123,3 +123,12 @@
 .red:hover {
     background-color: darkred;
 }
+
+.orange {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
