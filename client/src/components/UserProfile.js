@@ -8,6 +8,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/Buttons.css";
 
+// Andy Prototype
 function UserProfile() {
   // Declared constants
   const navigate = useNavigate();
