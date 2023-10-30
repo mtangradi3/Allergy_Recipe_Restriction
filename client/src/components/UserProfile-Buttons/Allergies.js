@@ -3,11 +3,19 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import 'bootstrap/dist/css/bootstrap.css';
-import { getAllAllergies } from "../../api/allergyAPI";
+import { getAllAllergies, getUserAllergies, addNewAllergy } from "../../api/allergyAPI";
+import {addUserAllergy, removeUserAllergy} from "../../api/userAPI";
+import {useLocation} from "react-router-dom";
+
 
 
 
 function Allergies() {
+    const location = useLocation();
+    const { firstName, lastName, email } = location.state || {};
+
+
+
 
     useEffect(() => {
         const fetchAllergies = async () => {
@@ -18,16 +26,26 @@ function Allergies() {
                 console.log(data);
 
             } catch (err) {
-                console.log(err.message || "An error occurred while fetching meals.");
+                console.log(err.message || "An error occurred while fetching Allergies.");
+            }
+        };
+
+        const fetchUserAllergies = async (email) => {
+            try {
+                const data = await getUserAllergies(email);
+                setUserAllergies(data);
+                console.log(data);
+
+            } catch (err) {
+                console.log(err.message || "An error occurred while fetching User Allergies.");
             }
         };
 
         fetchAllergies();
+        fetchUserAllergies(email);
     }, []);
 
-    const commonFoodAllergies = ["Peanuts", "Tree Nuts", "Milk", "Eggs", "Soy", "Wheat", "Fish", "Shellfish",
-                                        "Sesame", "Mustard", "Celery", "Corn", "Avocado", "Meat", "Garlic",
-                                        "Stone Fruits", "Kiwi", "Papaya", "Rice", "Lupin"];
+
 
     const [userAllergies, setUserAllergies] = useState([]);
     const [inputValueSearch, setInputValueSearch] = useState('');
@@ -39,9 +57,19 @@ function Allergies() {
 
     // adds allergy to user
     const handleAddUserAllergy = (item) => {
+
         if (!userAllergies.includes(item)) {
             let sev = prompt("allergy severity 1-10")
-            setUserAllergies([...userAllergies, [item, sev]]);
+            setUserAllergies([...userAllergies, item]);
+            try {
+                addUserAllergy(email,[item]).then(r => console.log(r))
+
+            } catch (err) {
+                console.log(err.message || "An error occurred while adding Allergies.");
+            }
+
+
+
         } else {
             alert(`Allergy "${item}" already added.`);
         }
@@ -52,10 +80,20 @@ function Allergies() {
     // removes allergy from user
     const handleRemoveAllergy = (index) => {
         const updatedItems = [...userAllergies];
+        const removedItem = updatedItems[index];
         updatedItems.splice(index, 1);
         setUserAllergies(updatedItems);
         setInputValueSearch('');
         updateSearch(updatedItems);
+        console.log(typeof removedItem);
+
+        try {
+            removeUserAllergy(removedItem, email).then(r => console.log(r));
+
+        } catch (err) {
+            console.log(err.message || "An error occurred while adding Allergies.");
+        }
+
     };
 
     const handleSearchChange = (e) => {
@@ -81,10 +119,23 @@ function Allergies() {
         }
     };
 
+    const handleNewAllergy = () => {
+        const item = prompt("Enter Allergy name");
+
+        try {
+            addNewAllergy(item).then(r => console.log(r))
+
+        } catch (err) {
+            console.log(err.message || "An error occurred while adding Allergies.");
+        }
+
+
+    }
+
 
     return (
         <div className="m-4 p-4">
-            <h2>Your Allergies</h2>
+            <h2>Your Allergies {email}</h2>
 
             {userAllergies.map((item, index) => (
                 //stack shows users allergies
@@ -95,8 +146,8 @@ function Allergies() {
                     className="mb-2 p-2 border rounded border-danger"
                     varient="outline-danger"
                 >
-                    <div className="p-2">{item[0]}</div>
-                    <div className="p-2 ms-auto">{item[1]}</div>
+                    <div className="p-2">{item}</div>
+                    <div className="p-2 ms-auto">{}</div>
                     <div className="p-2">
                         <Button
                             variant="outline-danger"
@@ -116,7 +167,7 @@ function Allergies() {
                 <div className="p-2"><h2>All Allergies</h2></div>
                 <div className="p-2 "><Button
                     variant="outline-secondary"
-                    onClick={() => alert('not added')}
+                    onClick={() => handleNewAllergy()}
                 >
                     Create New Allergy
                 </Button></div>

@@ -17,3 +17,8 @@ export const GET_MEAL_INGREDIENTS =
   "http://localhost:8080/api/meal/get_meal_ingredients";
 
 export const GET_ALL_ALLERGIES = "http://localhost:8080/api/allergy/get_all_allergies";
+export const GET_USER_ALLERGIES = "http://localhost:8080/api/allergy/get_users_allergies";
+export const ADD_USER_ALLERGIES = "http://localhost:8080/api/user/give_user_allergy";
+export const REMOVE_USER_ALLERGIES = "http://localhost:8080/api/user/delete_allergy_from_user";
+export const ADD_NEW_ALLERGY = "http://localhost:8080/api/allergy/create_new_allergy";
+
