@@ -3,13 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.10.12 WSL (Ubuntu): (/home/pollo809/.virtualenvs/SPMC/bin/python)" />
   </component>
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="MavenProjectsManager">
-    <option name="originalFiles">
-      <list>
-        <option value="$PROJECT_DIR$/server/pom.xml" />
-      </list>
-    </option>
-  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10.12 WSL (Ubuntu): (/home/pollo809/.virtualenvs/SPMC/bin/python)" project-jdk-type="Python SDK" />
 </project>
