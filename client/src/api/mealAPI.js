@@ -87,7 +87,7 @@ export const insertNewMeal = async (
       formData.append("ingredients", ingredient);
     }
 
-    const response = await axios.post("/api/meal/insert_meal", formData, {
+    const response = await axios.post(INSERT_NEW_MEAL, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
