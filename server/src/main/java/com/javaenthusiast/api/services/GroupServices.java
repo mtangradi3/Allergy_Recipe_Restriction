@@ -9,10 +9,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Author: Marcus Tangradi
@@ -159,5 +156,43 @@ public class GroupServices {
 
         return possibleFoods;
 
+    }
+
+    public List<String> getAllergiesUnionOfGroup(String groupName) {
+
+        List<Map<String, Object>> usersInGroup = getUsersInGroup(groupName);
+        List<String> allergies = new ArrayList<>();
+
+        //used to call getAllFoods a user can eat with allergy
+        AllergyServices allergyServices = new AllergyServices();
+
+
+        List<String> usersNamesInGroup = new ArrayList<>();
+        //TODO: add emails from usersInGroup into this
+
+
+        usersInGroup.forEach(map ->{
+            List<String> possibleFoodList  = new ArrayList<>();
+            List<String> tempList = allergyServices.getUserAllergies((String) map.get("email"), jdbcTemplate);
+//            System.out.println(tempList);
+//            tempList.forEach(meal_map ->{
+//                possibleFoodList.add((String) meal_map.get("meal_name"));
+//            });
+
+            allergies.addAll(tempList);
+
+
+            Set<String> exist = new HashSet<>();
+            allergies.removeIf(e -> !exist.add(e));
+        });
+
+//        System.out.println(usersInGroup);
+
+
+
+
+
+
+        return allergies;
     }
 }
