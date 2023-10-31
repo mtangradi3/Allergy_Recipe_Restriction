@@ -5,7 +5,7 @@
  */
 
 import axios from "axios";
-import { GET_ALL_USERS, INSERT_NEW_USER } from "../utils/constant";
+import {GET_ALL_USERS, INSERT_NEW_USER, ADD_USER_ALLERGIES, REMOVE_USER_ALLERGIES} from "../utils/constant";
 
 /**
  * this function will insert a new user into the database if it does not exist
@@ -45,3 +45,47 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
+
+export const addUserAllergy = async (
+    email,
+    allergy,
+) => {
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("allergies", allergy);
+
+  try {
+    const response = await axios.post(ADD_USER_ALLERGIES, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeUserAllergy = async (
+    allergy,
+    email,
+
+) => {
+  const formData = new FormData();
+  formData.append("allergy_name", allergy);
+  formData.append("email", email);
+
+
+  try {
+    const response = await axios.delete(REMOVE_USER_ALLERGIES, {
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+

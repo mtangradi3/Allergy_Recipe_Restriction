@@ -17,7 +17,8 @@ function UserProfile() {
       <div className="buttonContainer">
         <button
           className="buttonStyle"
-          onClick={() => navigate("/user-profile/allergies")}
+
+          onClick={() => navigate("/user-profile/allergies", { state: { firstName, lastName, email } })}
         >
           Allergies
         </button>
