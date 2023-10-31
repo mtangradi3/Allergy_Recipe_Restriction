@@ -89,6 +89,8 @@ export const insertNewMeal = async (
     });
     return response.data;
   } catch (error) {
+    // This will print the error to the console; you can also show it to the user or handle it in another way
+    console.error("Failed to insert meal:", error.message);
     throw error;
   }
 };

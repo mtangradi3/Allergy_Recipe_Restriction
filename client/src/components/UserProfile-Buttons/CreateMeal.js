@@ -16,13 +16,31 @@ function CreateMeal() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const location = useLocation();
   const { email } = location.state || {};
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // Call your API or any other logic to save the meal here
-    // Get the values
     const mealName = e.target.mealName.value;
-    const mealImage = e.target.mealImage.files[0]; // Assuming only one file is uploaded
+    const mealImage = e.target.mealImage.files[0];
+
+    try {
+      const response = await insertNewMeal(
+        mealName,
+        mealImage,
+        email,
+        selectedIngredients,
+      );
+      // Display success message to the user
+      setSuccessMessage("Meal created successfully!");
+      setErrorMessage(""); // Clear any previous error
+      console.log(response);
+    } catch (error) {
+      console.error("Failed to insert meal:", error);
+      // Display error message to the user
+      setErrorMessage("Failed to create the meal. Please try again.");
+      setSuccessMessage(""); // Clear any previous success
+    }
 
     try {
       const response = await insertNewMeal(
@@ -75,6 +93,11 @@ function CreateMeal() {
 
   return (
     <div>
+      {successMessage && (
+        <div className="success-message">{successMessage}</div>
+      )}
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+
       <h1>Create a New Meal</h1>
 
       <form onSubmit={handleFormSubmit}>
@@ -108,6 +131,7 @@ function CreateMeal() {
           >
             {ingredient}
             <button
+              type="button"
               className="ingredient-button"
               onClick={() => addIngredient(ingredient)}
             >
@@ -129,6 +153,7 @@ function CreateMeal() {
             >
               {ingredient}
               <button
+                type="button"
                 className="ingredient-button"
                 onClick={(e) => {
                   e.stopPropagation();

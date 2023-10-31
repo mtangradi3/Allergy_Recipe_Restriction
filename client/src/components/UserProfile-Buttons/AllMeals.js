@@ -29,7 +29,6 @@ function AllMeals() {
     fetchMeals();
   }, []);
 
-  // AllMeals.js
   const handleMealClick = async (mealName, index) => {
     // Toggle the expanded meal index
     const newIndex = index === expandedMealIndex ? null : index;

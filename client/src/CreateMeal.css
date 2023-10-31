@@ -54,3 +54,15 @@
     transform: scale(0.95);
     box-shadow: inset 3px 3px 6px #004a8d, inset -3px -3px 6px #0090ff;
 }
+
+.success-message {
+    color: green;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.error-message {
+    color: red;
+    margin: 10px 0;
+    font-weight: bold;
+}
