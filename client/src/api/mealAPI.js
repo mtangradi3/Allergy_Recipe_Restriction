@@ -76,7 +76,12 @@ export const insertNewMeal = async (
   try {
     const formData = new FormData();
     formData.append("meal_name", meal_name);
-    formData.append("meal_image", meal_image);
+
+    // Only append the image if it's provided
+    if (meal_image) {
+      formData.append("meal_image", meal_image);
+    }
+
     formData.append("email", email);
     for (const ingredient of ingredients) {
       formData.append("ingredients", ingredient);
