@@ -79,7 +79,9 @@ export const insertNewMeal = async (
 
     // Only append the image if it's provided
     if (meal_image) {
-      formData.append("meal_image", meal_image);
+      // Convert image to Base64 and append
+      const base64Image = await toBase64(meal_image);
+      formData.append("meal_image", base64Image);
     }
 
     formData.append("email", email);
@@ -94,8 +96,22 @@ export const insertNewMeal = async (
     });
     return response.data;
   } catch (error) {
-    // This will print the error to the console; you can also show it to the user or handle it in another way
     console.error("Failed to insert meal:", error.message);
     throw error;
   }
 };
+
+/**
+ * Converts a file to its Base64 representation.
+ *
+ * @param {File} file - The file to be converted to Base64.
+ * @returns {Promise<string>} - The Base64 representation of the file.
+ */
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(",")[1]); // Remove data:image part
+    reader.onerror = (error) => reject(error);
+  });
+}
