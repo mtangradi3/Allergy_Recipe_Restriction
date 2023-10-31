@@ -93,6 +93,18 @@ public class UserControl {
         }
     }
 
+    @DeleteMapping("/remove_user_from_froup")
+    public ResponseEntity<?> removeUserFromGroup(@RequestParam String email ,@RequestParam String group_name){
+        try {
+            userService.removeUserToGroup(email, group_name);
+            return ResponseEntity.ok("User was removed from the group successfully");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 
     @DeleteMapping("/delete_allergy_from_user")
     public ResponseEntity<?> deleteAllergyFromUser(@RequestParam String allergy_name ,@RequestParam String email){
@@ -106,4 +118,37 @@ public class UserControl {
         }
     }
 
+    @PostMapping("/create_user_favorites_meal")
+    public ResponseEntity<?> createUserFavoritesMeal(@RequestParam String email ,@RequestParam String meal_name){
+        try {
+            userService.createUserFavoritesMeal(email, meal_name);
+            return ResponseEntity.ok("User was favorited this meal successfully ");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+    @GetMapping("/get_user_favorites_meal")
+    public ResponseEntity<?> getUserFavoritesMeal(@RequestParam String email){
+        try {
+            List<String> usersFavoritesMeal = userService.getUserFavoritesMeal(email);
+            return ResponseEntity.ok(usersFavoritesMeal);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+    @DeleteMapping("/delete_user_favorites_meal")
+    public ResponseEntity<?> deleteUserFavoritesMeal(@RequestParam String email ,@RequestParam String meal_name){
+        try {
+            userService.deleteUserFavoritesMeal(email, meal_name);
+            return ResponseEntity.ok("  favorite meal from user  was successfully deleted ");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
 }
+

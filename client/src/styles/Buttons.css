@@ -27,7 +27,6 @@
     background-color: #f9f9f9;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    pointer-events: none;
 }
 
 .dropdown.active .dropdown-content {
@@ -65,4 +64,71 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     text-align: center; /* Center the text horizontally */
     line-height: 50px; /* Center the text vertically */
+}
+
+/* Popup for creating and joining groups */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.6);
+}
+
+.popup-content {
+    text-align: center;
+}
+
+.popup button {
+    margin: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.popup button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+}
+
+.popup-content button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.popup-content button.active-tab {
+    background-color: #3498db; /* Set the background color for the active tab */
+    color: #ffffff; /* Set the text color for the active tab */
+}
+
+.red {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.red:hover {
+    background-color: darkred;
+}
+
+.orange {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
 }

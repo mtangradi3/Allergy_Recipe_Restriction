@@ -139,4 +139,77 @@ public class UserServices {
         }
 
     }
+
+    public void createUserFavoritesMeal(String email, String mealName) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("create_user_favorites_meal");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("email", email)
+                .addValue("meal", mealName);
+
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+
+            throw new CustomDatabaseException("Error favoriting this meal", e);
+        }
+    }
+
+    public List<String> getUserFavoritesMeal(String email) {
+        List<String> favoriteMeals =  new ArrayList<>();
+        List<Map<String, Object>> tempFavoriteMeals = new ArrayList<>();
+
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_user_favorites_meal");
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("email", email);
+
+        try {
+
+            Map<String, Object> out = call.execute(in);
+            tempFavoriteMeals = (List<Map<String, Object>>) out.get("#result-set-1");
+
+            tempFavoriteMeals.forEach(tempMap ->{
+                favoriteMeals.add((String)tempMap.get("meal_name"));
+            });
+
+        } catch (DataAccessException e) {
+            throw new CustomDatabaseException("Error getting all ingredients", e);
+        }
+
+        return favoriteMeals;
+    }
+
+    public void removeUserToGroup(String email, String groupName) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("leave_group");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("group_name",groupName)
+                .addValue("email", email);
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            // The duplicate email SIGNAL will throw an exception you can catch and handle.
+            throw new CustomDatabaseException("Error removing user from group", e);
+        }
+
+
+    }
+
+    public void deleteUserFavoritesMeal(String email,String meal_name) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("delete_user_favorites_meal");
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("email",email)
+                .addValue("meal",meal_name);
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            // The duplicate email SIGNAL will throw an exception you can catch and handle.
+            throw new CustomDatabaseException("Error deleting favorite meal from user", e);
+        }
+
+    }
 }
+

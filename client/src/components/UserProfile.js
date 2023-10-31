@@ -1,9 +1,4 @@
-/** Author Andy Pham
- *
- * Contains the user profile information with allergies,
- *   groups, favorites, meals, all meals, and logout.
- *   Routes to different pages upon clicking the buttons.
- *   */
+// UserProfile.js
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/Buttons.css";
@@ -22,13 +17,14 @@ function UserProfile() {
       <div className="buttonContainer">
         <button
           className="buttonStyle"
-          onClick={() => navigate("/user-profile/allergies")}
+
+          onClick={() => navigate("/user-profile/allergies", { state: { firstName, lastName, email } })}
         >
           Allergies
         </button>
         <button
           className="buttonStyle"
-          onClick={() => navigate("/user-profile/groups")}
+          onClick={() => navigate("/user-profile/groups", { state: { email } })}
         >
           Groups
         </button>

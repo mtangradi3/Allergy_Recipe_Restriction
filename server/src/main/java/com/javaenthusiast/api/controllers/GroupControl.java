@@ -84,4 +84,16 @@ public class GroupControl {
         }
     }
 
+    @GetMapping("/allergies_of_group")
+    public ResponseEntity<?> getAllergiesUnionOfGroup( @RequestParam String group_name){
+        try {
+            List<String> allergies = groupServices.getAllergiesUnionOfGroup( group_name);
+            return ResponseEntity.ok(allergies);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
 }
