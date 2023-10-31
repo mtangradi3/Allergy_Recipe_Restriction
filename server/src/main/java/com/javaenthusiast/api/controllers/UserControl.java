@@ -150,5 +150,18 @@ public class UserControl {
 
         }
     }
+    @PostMapping("/user_rates_meal")
+    public ResponseEntity<?> user_rates_meal(@RequestParam int rating,@RequestParam String review,@RequestParam String email,@RequestParam String meal) {
+
+
+        try {
+            userService.user_rates_meal(rating, review, email,meal);
+            return ResponseEntity.ok("rating was created successfully");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
 }
 
