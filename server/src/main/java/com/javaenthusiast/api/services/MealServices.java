@@ -53,45 +53,36 @@
             return allIngredients;
         }
 
-        public void insertNewMeal(String mealName, MultipartFile mealImage, String email, List<String> ingredients) {
+        public void insertNewMeal(String mealName, String base64MealImage, String email, List<String> ingredients) {
 
             // Prepare to call the stored procedure for creating a meal
             SimpleJdbcCall mealCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("create_meal");
 
-
-
-
             try {
-                // Convert the MultipartFile to a byte array, which can be handled by the database as a BLOB
                 byte[] imageBytes = null; // Initialize as null for the case when there's no image
 
-                // Check if there's an image and convert it to bytes
-                if (mealImage != null) {
-                    try {
-                        imageBytes = mealImage.getBytes();
-                    } catch (IOException e) {
-                        System.err.println("Error converting image to bytes: " + e);
-                        throw new CustomDatabaseException("Error converting image", e);
-                    }
+                // Check if there's a base64 image string and decode it to bytes
+                if (base64MealImage != null && !base64MealImage.isEmpty()) {
+                    imageBytes = Base64.getDecoder().decode(base64MealImage);
                 }
 
                 // Using MapSqlParameterSource to pass parameters to the stored procedure
                 SqlParameterSource mealIn = new MapSqlParameterSource()
                         .addValue("mealName", mealName)
-                        .addValue("mealImage", imageBytes)  // Passing byte array instead of MultipartFile
+                        .addValue("mealImage", imageBytes)  // Passing the decoded byte array
                         .addValue("email", email);
 
                 // Execute the stored procedure to create a meal
                 mealCall.execute(mealIn);
 
             } catch (Exception e) {
-                // Handle exceptions related to file handling and stored procedure execution.
+                // Handle exceptions related to Base64 decoding and stored procedure execution.
                 System.err.println(e);
                 throw new CustomDatabaseException("Error creating new meal", e);
             }
 
             // Insert ingredients into the meal
-            ingredients.forEach(tempIngredient ->{
+            ingredients.forEach(tempIngredient -> {
                 SimpleJdbcCall ingredientCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("meal_made_of_ingredient");
 
                 SqlParameterSource in = new MapSqlParameterSource()
@@ -100,7 +91,6 @@
 
                 try {
                     ingredientCall.execute(in);
-
                 } catch (DataAccessException e) {
                     // Handle exception related to the stored procedure here.
                     throw new CustomDatabaseException("Error inserting ingredients into new meal", e);

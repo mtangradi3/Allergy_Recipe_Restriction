@@ -42,7 +42,7 @@ public class MealControl {
     }
 
     @PostMapping("/insert_meal")
-    public ResponseEntity<?> insertNewMeal(@RequestParam String meal_name, @RequestParam(required = false) MultipartFile meal_image , @RequestParam String email, @RequestParam List<String> ingredients) {
+    public ResponseEntity<?> insertNewMeal(@RequestParam String meal_name, @RequestParam(required = false) String meal_image , @RequestParam String email, @RequestParam List<String> ingredients) {
 
 
         try {

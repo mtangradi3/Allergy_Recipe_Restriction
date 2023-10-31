@@ -10,16 +10,13 @@ import Meals from "./UserProfile-Buttons/Meals";
 import AllMeals from "./UserProfile-Buttons/AllMeals";
 import Header from "./Header";
 import UserProfile from "./UserProfile";
+import CreateMeal from "./UserProfile-Buttons/CreateMeal";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 
 function App() {
   // const testapi = axios.get(API_TEST);
 
   // console.log(testapi);
-
-
-
 
   /* Routes the webpages from the main registration menu to the user profile */
   return (
@@ -32,6 +29,7 @@ function App() {
         <Route path="/user-profile/favorites" element={<Favorites />} />
         <Route path="/user-profile/meals" element={<Meals />} />
         <Route path="/user-profile/allmeals" element={<AllMeals />} />
+        <Route path="/create-meal" element={<CreateMeal />} />
       </Routes>
     </Router>
   );

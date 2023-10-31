@@ -5,11 +5,16 @@
 import React, { useState, useEffect } from "react";
 import { getAllMeals, getMealIngredients } from "../../api/mealAPI";
 import "../../App.css";
+import CreateMeal from "./CreateMeal";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function AllMeals() {
   const [meals, setMeals] = useState([]);
   const [error, setError] = useState(null);
   const [expandedMealIndex, setExpandedMealIndex] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { email } = location.state || {};
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -24,7 +29,6 @@ function AllMeals() {
     fetchMeals();
   }, []);
 
-  // AllMeals.js
   const handleMealClick = async (mealName, index) => {
     // Toggle the expanded meal index
     const newIndex = index === expandedMealIndex ? null : index;
@@ -63,7 +67,10 @@ function AllMeals() {
               {meal.meal_name}
             </h2>
             {meal.meal_image && (
-                <img src={`data:image/jpeg;base64,${meal.meal_image}`} alt={meal.meal_name} />
+              <img
+                src={`data:image/jpeg;base64,${meal.meal_image}`}
+                alt={meal.meal_name}
+              />
             )}
             {index === expandedMealIndex && meal.ingredients && (
               <>
@@ -78,7 +85,7 @@ function AllMeals() {
           </li>
         ))}
       </ul>
-      <button onClick={handleNewMealClick} className="create-new-meal-btn">
+      <button onClick={() => navigate("/create-meal", { state: { email } })}>
         Create New Meal
       </button>
     </div>
