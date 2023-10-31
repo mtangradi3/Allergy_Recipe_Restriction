@@ -22,15 +22,30 @@ function CreateMeal() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const mealName = e.target.mealName.value;
-    const mealImage = e.target.mealImage.files[0];
+    const mealImage =
+      e.target.mealImage.files.length > 0 ? e.target.mealImage.files[0] : null;
 
-    // Check image size
-    if (mealImage.size > 200000) {
+    // Check if an image is provided and its size
+    if (mealImage && mealImage.size > 200000) {
       setErrorMessage(
         "Image size should be under 200KB. Please upload a smaller image.",
       );
-      setSuccessMessage(""); // Clear any previous success
-      return; // Exit the function early
+      setSuccessMessage("");
+      return;
+    }
+
+    // Check if meal name is provided
+    if (!mealName.trim()) {
+      setErrorMessage("Please provide a meal name.");
+      setSuccessMessage("");
+      return;
+    }
+
+    // Check if ingredients are selected
+    if (selectedIngredients.length === 0) {
+      setErrorMessage("Please add at least one ingredient.");
+      setSuccessMessage("");
+      return;
     }
 
     try {
