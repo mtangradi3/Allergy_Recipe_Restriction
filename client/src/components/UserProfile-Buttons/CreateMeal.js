@@ -31,29 +31,15 @@ function CreateMeal() {
         email,
         selectedIngredients,
       );
+      console.log(response); // Should print "create new meal successful" if successful
       // Display success message to the user
       setSuccessMessage("Meal created successfully!");
       setErrorMessage(""); // Clear any previous error
-      console.log(response);
     } catch (error) {
       console.error("Failed to insert meal:", error);
       // Display error message to the user
       setErrorMessage("Failed to create the meal. Please try again.");
       setSuccessMessage(""); // Clear any previous success
-    }
-
-    try {
-      const response = await insertNewMeal(
-        mealName,
-        mealImage,
-        email,
-        selectedIngredients,
-      );
-      console.log(response); // Should print "create new meal successful" if successful
-      // You can navigate to another page or show a success message here.
-    } catch (error) {
-      console.error("Failed to insert meal:", error);
-      // Show an error message to the user if required.
     }
   };
 
