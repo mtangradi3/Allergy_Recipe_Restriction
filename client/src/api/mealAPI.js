@@ -6,6 +6,7 @@ import {
   INSERT_NEW_MEAL,
   GET_MEAL_INGREDIENTS,
   GET_ALL_INGREDIENTS,
+  GET_MEALS_WITH_ALLERGY,
 } from "../utils/constant"; // Add these constants to your constants file
 
 /**
@@ -115,3 +116,23 @@ function toBase64(file) {
     reader.onerror = (error) => reject(error);
   });
 }
+
+/**
+ * Fetches all possible meals based on user's allergies from the database.
+ *
+ * @param {string} allergy - The user's allergy.
+ * @returns {Promise<Array>} List of meals.
+ */
+export const getAllMealsWithAllergy = async (allergy) => {
+  try {
+    const response = await axios.get(GET_MEALS_WITH_ALLERGY, {
+      params: { allergy: allergy },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
