@@ -24,6 +24,15 @@ function CreateMeal() {
     const mealName = e.target.mealName.value;
     const mealImage = e.target.mealImage.files[0];
 
+    // Check image size
+    if (mealImage.size > 200000) {
+      setErrorMessage(
+        "Image size should be under 200KB. Please upload a smaller image.",
+      );
+      setSuccessMessage(""); // Clear any previous success
+      return; // Exit the function early
+    }
+
     try {
       const response = await insertNewMeal(
         mealName,
@@ -31,15 +40,13 @@ function CreateMeal() {
         email,
         selectedIngredients,
       );
-      console.log(response); // Should print "create new meal successful" if successful
-      // Display success message to the user
+      console.log(response);
       setSuccessMessage("Meal created successfully!");
-      setErrorMessage(""); // Clear any previous error
+      setErrorMessage("");
     } catch (error) {
       console.error("Failed to insert meal:", error);
-      // Display error message to the user
       setErrorMessage("Failed to create the meal. Please try again.");
-      setSuccessMessage(""); // Clear any previous success
+      setSuccessMessage("");
     }
   };
 
