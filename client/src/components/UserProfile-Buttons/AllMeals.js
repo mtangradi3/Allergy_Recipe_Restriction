@@ -66,12 +66,6 @@ function AllMeals() {
             <h2 onClick={() => handleMealClick(meal.meal_name, index)}>
               {meal.meal_name}
             </h2>
-            {meal.meal_image && (
-              <img
-                src={`data:image/jpeg;base64,${meal.meal_image}`}
-                alt={meal.meal_name}
-              />
-            )}
             {index === expandedMealIndex && meal.ingredients && (
               <>
                 <p>Ingredients:</p>
@@ -81,6 +75,12 @@ function AllMeals() {
                   ))}
                 </ul>
               </>
+            )}
+            {meal.meal_image && (
+              <img
+                src={`data:image/jpeg;base64,${meal.meal_image}`}
+                alt={meal.meal_name}
+              />
             )}
           </li>
         ))}
