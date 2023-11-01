@@ -123,10 +123,10 @@ function toBase64(file) {
  * @param {string} allergy - The user's allergy.
  * @returns {Promise<Array>} List of meals.
  */
-export const getAllMealsWithAllergy = async (allergy) => {
+export const getAllMealsWithAllergy = async (email) => {
   try {
     const response = await axios.get(GET_MEALS_WITH_ALLERGY, {
-      params: { allergy: allergy },
+      params: { email: email },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
