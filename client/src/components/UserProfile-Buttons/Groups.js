@@ -9,6 +9,7 @@ import {
   getFoodsForGroup,
   deleteGroup,
   removeUserFromGroup,
+  getGroupAllergies,
 } from "../../api/groupAPI";
 import { useLocation } from "react-router-dom";
 
@@ -221,6 +222,7 @@ function CreateOrJoinGroup({ userGroups }) {
 function DropdownContent({
   groupMembers,
   groupFoods,
+  groupAllergies,
   groupName,
   onDeleteGroup,
   onLeaveGroup,
@@ -261,7 +263,9 @@ function DropdownContent({
       </ul>
       <h4>Allergies</h4>
       <ul>
-        <li>Allergy 1</li>
+        {groupAllergies.map((allergy, index) => (
+          <li key={index}>{allergy}</li>
+        ))}
       </ul>
       <h4>Meals</h4>
       <ul>
@@ -285,6 +289,7 @@ function DropdownButton({ buttonText, onDeleteGroup, onLeaveGroup }) {
   const dropdownRef = useRef(null);
   const [groupMembers, setGroupMembers] = useState([]);
   const [groupFoods, setGroupFoods] = useState([]);
+  const [groupAllergies, setGroupAllergies] = useState([]);
 
   const location = useLocation();
   const { email } = location.state || {};
@@ -309,6 +314,9 @@ function DropdownButton({ buttonText, onDeleteGroup, onLeaveGroup }) {
 
       const groupFoods = await getFoodsForGroup(groupName);
       setGroupFoods(groupFoods);
+
+      const allergies = await getGroupAllergies(groupName);
+      setGroupAllergies(allergies);
     } catch (error) {
       console.error("Error fetching group data", error);
     }
@@ -335,8 +343,8 @@ function DropdownButton({ buttonText, onDeleteGroup, onLeaveGroup }) {
     document.addEventListener("click", handleClickOutside);
 
     // Log the groupMembers and groupFoods
-    console.log("groupMembers", groupMembers);
-    console.log("groupFoods", groupFoods);
+    // console.log("groupMembers", groupMembers);
+    // console.log("groupFoods", groupFoods);
     // console.log("buttontext", buttonText);
 
     return () => {
@@ -363,6 +371,7 @@ function DropdownButton({ buttonText, onDeleteGroup, onLeaveGroup }) {
           <DropdownContent
             groupMembers={groupMembers}
             groupFoods={groupFoods}
+            groupAllergies={groupAllergies}
             groupName={buttonText}
             onDeleteGroup={onDeleteGroup}
             onLeaveGroup={handleLeaveGroup}
