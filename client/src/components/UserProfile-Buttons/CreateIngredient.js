@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { createNewIngredient } from "../../api/mealAPI";
 import { getAllAllergies } from "../../api/allergyAPI";
 
@@ -7,17 +6,17 @@ const CreateIngredient = () => {
   const [ingredientName, setIngredientName] = useState("");
   const [allergies, setAllergies] = useState([]);
   const [selectedAllergy, setSelectedAllergy] = useState("");
-  const location = useLocation();
-  const { email } = location.state || {};
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   useEffect(() => {
-    // Fetch allergies when the component mounts
     const fetchAllergies = async () => {
       try {
         const fetchedAllergies = await getAllAllergies();
         setAllergies(fetchedAllergies);
       } catch (error) {
         console.error("Failed to fetch allergies:", error.message);
+        setError("Failed to fetch allergies. Please try again later.");
       }
     };
 
@@ -26,22 +25,29 @@ const CreateIngredient = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError("");
+    setSuccess("");
 
     try {
       const response = await createNewIngredient(
         ingredientName,
-        email,
         selectedAllergy,
-      ); // Pass the selected allergy to the API
+      );
       console.log("Ingredient created successfully:", response);
+      setSuccess("Ingredient created successfully.");
+      setIngredientName("");
+      setSelectedAllergy("");
     } catch (error) {
       console.error("Failed to create ingredient:", error.message);
+      setError("Failed to create ingredient. Please try again.");
     }
   };
 
   return (
     <div className="create-ingredient-container">
       <h2>Create New Ingredient</h2>
+      {error && <div className="error-message">{error}</div>}
+      {success && <div className="success-message">{success}</div>}
       <form onSubmit={handleSubmit}>
         <div className="input-group">
           <label htmlFor="ingredient-name">Ingredient Name:</label>
@@ -54,7 +60,6 @@ const CreateIngredient = () => {
           />
         </div>
 
-        {/* Dropdown for allergies */}
         <div className="input-group">
           <label htmlFor="allergy">Allergy:</label>
           <select
@@ -64,8 +69,8 @@ const CreateIngredient = () => {
             required
           >
             <option value="">Select an Allergy</option>
-            {allergies.map((allergy) => (
-              <option key={allergy} value={allergy}>
+            {allergies.map((allergy, index) => (
+              <option key={index} value={allergy}>
                 {allergy}
               </option>
             ))}
