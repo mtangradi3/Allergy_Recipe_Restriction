@@ -14,6 +14,7 @@ import {
   GET_GROUP_FOODS,
   DELETE_GROUP,
   REMOVE_USER_FROM_GROUP,
+  GET_GROUP_ALLERGIES,
 } from "../utils/constant";
 
 /**
@@ -177,6 +178,29 @@ export const removeUserFromGroup = async (email, groupName) => {
     const response = await axios.delete(REMOVE_USER_FROM_GROUP, {
       params: {
         email: email,
+        group_name: groupName,
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    // console.log("response", response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * this function will get all the allergies of the people in the group
+ *
+ * @param groupName
+ * @returns {Promise<any>} an error if there is a duplicate
+ */
+export const getGroupAllergies = async (groupName) => {
+  try {
+    const response = await axios.get(GET_GROUP_ALLERGIES, {
+      params: {
         group_name: groupName,
       },
       headers: {
