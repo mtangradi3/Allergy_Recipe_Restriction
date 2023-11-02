@@ -1,24 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { createNewIngredient } from "../api/mealAPI";
+import { getAllAllergies } from "../api/allergyAPI";
 
 const CreateIngredient = () => {
-  // State for the input field
   const [ingredientName, setIngredientName] = useState("");
+  const [allergies, setAllergies] = useState([]);
+  const [selectedAllergy, setSelectedAllergy] = useState("");
   const location = useLocation();
   const { email } = location.state || {};
 
-  // Function to handle the form submission
+  useEffect(() => {
+    // Fetch allergies when the component mounts
+    const fetchAllergies = async () => {
+      try {
+        const fetchedAllergies = await getAllAllergies();
+        setAllergies(fetchedAllergies);
+      } catch (error) {
+        console.error("Failed to fetch allergies:", error.message);
+      }
+    };
+
+    fetchAllergies();
+  }, []);
+
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent page reload
+    event.preventDefault();
 
     try {
-      const response = await createNewIngredient(ingredientName, email);
+      const response = await createNewIngredient(
+        ingredientName,
+        email,
+        selectedAllergy,
+      ); // Pass the selected allergy to the API
       console.log("Ingredient created successfully:", response);
-      // Optionally: Display a success message to the user or redirect them to another page
     } catch (error) {
       console.error("Failed to create ingredient:", error.message);
-      // Optionally: Display an error message to the user
     }
   };
 
@@ -36,6 +53,25 @@ const CreateIngredient = () => {
             required
           />
         </div>
+
+        {/* Dropdown for allergies */}
+        <div className="input-group">
+          <label htmlFor="allergy">Allergy:</label>
+          <select
+            id="allergy"
+            value={selectedAllergy}
+            onChange={(e) => setSelectedAllergy(e.target.value)}
+            required
+          >
+            <option value="">Select an Allergy</option>
+            {allergies.map((allergy) => (
+              <option key={allergy} value={allergy}>
+                {allergy}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <button type="submit">Add Ingredient</button>
       </form>
     </div>
