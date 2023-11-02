@@ -11,7 +11,7 @@ import AllMeals from "./UserProfile-Buttons/AllMeals";
 import Header from "./Header";
 import UserProfile from "./UserProfile";
 import CreateMeal from "./UserProfile-Buttons/CreateMeal";
-import CreateIngredient from "./CreateIngredient";
+import CreateIngredient from "./UserProfile-Buttons/CreateIngredient";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {

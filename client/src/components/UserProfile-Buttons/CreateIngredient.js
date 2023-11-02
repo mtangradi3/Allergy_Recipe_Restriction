@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { createNewIngredient } from "../api/mealAPI";
-import { getAllAllergies } from "../api/allergyAPI";
+import { createNewIngredient } from "../../api/mealAPI";
+import { getAllAllergies } from "../../api/allergyAPI";
 
 const CreateIngredient = () => {
   const [ingredientName, setIngredientName] = useState("");

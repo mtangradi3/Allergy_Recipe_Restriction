@@ -142,23 +142,20 @@ export const getAllMealsWithAllergy = async (email) => {
  * Creates a new ingredient in the database.
  *
  * @param {string} ingredientName - The name of the ingredient.
- * @param {string} email - Email of the user adding the ingredient.
+ * @param {string} allergy - Allergy classification for the ingredient.
  * @returns {Promise<any>} Response data or error.
  */
-export const createNewIngredient = async (ingredientName, email) => {
+export const createNewIngredient = async (ingredientName, allergy) => {
+  const formData = new FormData();
+  formData.append("ingredient_name", ingredientName);
+  formData.append("allergy_name", allergy);
+
   try {
-    const response = await axios.post(
-      CREATE_NEW_INGREDIENT,
-      {
-        ingredientName: ingredientName,
-        email: email,
+    const response = await axios.post(CREATE_NEW_INGREDIENT, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    });
     return response.data;
   } catch (error) {
     console.error("Failed to create ingredient:", error.message);
