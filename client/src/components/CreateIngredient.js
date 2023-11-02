@@ -1,44 +1,45 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { createNewIngredient } from "../api/mealAPI";
 
-function CreateIngredient() {
-  // State hooks for handling form inputs, etc.
+const CreateIngredient = () => {
+  // State for the input field
   const [ingredientName, setIngredientName] = useState("");
-  // Add more states as necessary for handling other form fields
+  const location = useLocation();
+  const { email } = location.state || {};
 
-  // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Here you would handle the submission of the new ingredient
-    // This might involve sending a request to your backend API
-    console.log(`Submitting ingredient: ${ingredientName}`);
-    // Reset form or give feedback to user etc.
+  // Function to handle the form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent page reload
+
+    try {
+      const response = await createNewIngredient(ingredientName, email);
+      console.log("Ingredient created successfully:", response);
+      // Optionally: Display a success message to the user or redirect them to another page
+    } catch (error) {
+      console.error("Failed to create ingredient:", error.message);
+      // Optionally: Display an error message to the user
+    }
   };
-
-  // Function to handle changes to the ingredient name input
-  const handleIngredientNameChange = (e) => {
-    setIngredientName(e.target.value);
-  };
-
-  // Add more handlers as necessary for handling other form fields
 
   return (
     <div className="create-ingredient-container">
-      <h1>Create New Ingredient</h1>
+      <h2>Create New Ingredient</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          Ingredient Name:
+        <div className="input-group">
+          <label htmlFor="ingredient-name">Ingredient Name:</label>
           <input
             type="text"
+            id="ingredient-name"
             value={ingredientName}
-            onChange={handleIngredientNameChange}
+            onChange={(e) => setIngredientName(e.target.value)}
+            required
           />
-        </label>
-        {/* Add more form inputs as necessary */}
-        <button type="submit">Submit Ingredient</button>
+        </div>
+        <button type="submit">Add Ingredient</button>
       </form>
     </div>
   );
-}
+};
 
 export default CreateIngredient;

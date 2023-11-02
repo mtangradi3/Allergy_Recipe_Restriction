@@ -130,7 +130,9 @@ function CreateMeal() {
         <button
           type="button"
           className="create-ingredient-button"
-          onClick={() => navigate("/create-meal/create-ingredient")}
+          onClick={() =>
+            navigate("/create-meal/create-ingredient", { state: { email } })
+          }
         >
           Create Ingredient
         </button>
