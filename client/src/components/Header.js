@@ -46,10 +46,7 @@ function UserForm() {
   const handleLogin = async () => {
     try {
       const allUsers = await getAllUsers();
-      const emailLower = email.toLowerCase(); // Convert input email to lowercase
-      const emailExists = allUsers.some(
-        (user) => user.email.toLowerCase() === emailLower,
-      );
+      const emailExists = allUsers.some((user) => user.email === email);
 
       if (emailExists) {
         setError(""); // Clear the error message if there's any from previous attempts
@@ -67,10 +64,7 @@ function UserForm() {
   const handleCreateAccount = async () => {
     try {
       const allUsers = await getAllUsers();
-      const emailLower = email.toLowerCase(); // Convert input email to lowercase
-      const emailExists = allUsers.some(
-        (user) => user.email.toLowerCase() === emailLower,
-      );
+      const emailExists = allUsers.some((user) => user.email === email);
 
       if (emailExists) {
         setError("An account with this email already exists.");
@@ -146,7 +140,7 @@ function UserForm() {
           type="email"
           id="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value.toLowerCase())} // Convert input to lowercase
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <input type="hidden" value={action} />
