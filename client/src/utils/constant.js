@@ -63,3 +63,6 @@ export const GET_MEALS_WITH_ALLERGY =
 
 export const GET_GROUP_ALLERGIES =
   "http://localhost:8080/api/group/allergies_of_group";
+
+export const CREATE_NEW_INGREDIENT =
+  "http://localhost:8080/api/allergy/create_ingredient";

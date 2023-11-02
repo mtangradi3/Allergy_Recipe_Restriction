@@ -7,6 +7,7 @@ import {
   GET_MEAL_INGREDIENTS,
   GET_ALL_INGREDIENTS,
   GET_MEALS_WITH_ALLERGY,
+  CREATE_NEW_INGREDIENT,
 } from "../utils/constant"; // Add these constants to your constants file
 
 /**
@@ -133,6 +134,34 @@ export const getAllMealsWithAllergy = async (email) => {
     });
     return response.data;
   } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Creates a new ingredient in the database.
+ *
+ * @param {string} ingredientName - The name of the ingredient.
+ * @param {string} email - Email of the user adding the ingredient.
+ * @returns {Promise<any>} Response data or error.
+ */
+export const createNewIngredient = async (ingredientName, email) => {
+  try {
+    const response = await axios.post(
+      CREATE_NEW_INGREDIENT,
+      {
+        ingredientName: ingredientName,
+        email: email,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed to create ingredient:", error.message);
     throw error;
   }
 };

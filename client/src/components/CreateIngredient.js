@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createNewIngredient } from "../api/mealAPI";
 
 function CreateIngredient() {
   // State hooks for handling form inputs, etc.
