@@ -123,7 +123,7 @@ function Allergies() {
         const item = prompt("Enter Allergy name");
         if (item != null) {
             try {
-                //addNewAllergy(item).then(r => console.log(r))
+                addNewAllergy(item).then(r => console.log(r))
                 setAllAllergies([...allAllergies, item])
                 updateSearch(userAllergies, [...allAllergies, item])
 
