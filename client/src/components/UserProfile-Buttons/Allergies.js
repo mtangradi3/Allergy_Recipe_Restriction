@@ -103,7 +103,7 @@ function Allergies() {
     }
 
 
-    const updateSearch = (allergies = userAllergies) => {
+    const updateSearch = (allergies = userAllergies, allAllergies = allAllergies) => {
         if (search.trim() !== '') {
             const filteredAllergies1 = allAllergies.filter(allergy =>
                 allergy.toLowerCase().includes(search.toLowerCase())
@@ -121,14 +121,16 @@ function Allergies() {
 
     const handleNewAllergy = () => {
         const item = prompt("Enter Allergy name");
+        if (item != null) {
+            try {
+                addNewAllergy(item).then(r => console.log(r))
+                setAllAllergies([...allAllergies, item])
+                updateSearch(userAllergies, [...allAllergies, item])
 
-        try {
-            addNewAllergy(item).then(r => console.log(r))
-
-        } catch (err) {
-            console.log(err.message || "An error occurred while adding Allergies.");
+            } catch (err) {
+                console.log(err.message || "An error occurred while adding Allergies.");
+            }
         }
-
 
     }
 
