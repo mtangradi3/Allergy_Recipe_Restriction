@@ -66,3 +66,26 @@
     margin: 10px 0;
     font-weight: bold;
 }
+
+/* Styling for "Create Ingredient" button */
+.create-ingredient-button {
+    width: auto; /* adjusts to the width based on content */
+    height: auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.create-ingredient-button:hover {
+    /* If you want to retain the hover effects from the ingredient-button */
+    background: linear-gradient(145deg, #007aff, #004a8d);
+    box-shadow: 3px 3px 6px #004a8d, -3px -3px 6px #0090ff;
+}
+
+.create-ingredient-button:active {
+    /* If you want to retain the active effects from the ingredient-button */
+    background: linear-gradient(145deg, #0056b3, #003c80);
+    transform: scale(0.95);
+    box-shadow: inset 3px 3px 6px #004a8d, inset -3px -3px 6px #0090ff;
+}
