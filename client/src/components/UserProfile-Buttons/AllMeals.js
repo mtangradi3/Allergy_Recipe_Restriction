@@ -80,8 +80,6 @@ function AllMeals() {
               <img
                 src={`data:image/jpeg;base64,${meal.meal_image}`}
                 alt={meal.meal_name}
-                width = "200"
-                height = "150"
               />
             )}
           </li>
