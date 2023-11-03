@@ -12,6 +12,7 @@ import Header from "./Header";
 import UserProfile from "./UserProfile";
 import CreateMeal from "./UserProfile-Buttons/CreateMeal";
 import CreateIngredient from "./UserProfile-Buttons/CreateIngredient";
+import CreateReview from "./UserProfile-Buttons/CreateReview";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/user-profile/favorites" element={<Favorites />} />
         <Route path="/user-profile/meals" element={<Meals />} />
         <Route path="/user-profile/allmeals" element={<AllMeals />} />
+        <Route path="/user-profile/create-review" element={<CreateReview />} />
         <Route path="/create-meal" element={<CreateMeal />} />
         <Route
           path="/create-meal/create-ingredient"
