@@ -211,5 +211,22 @@ public class UserServices {
         }
 
     }
+
+    public void user_rates_meal(int rating, String review, String email, String meal) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("user_rates_meal");
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("rating",rating)
+                .addValue("review",review)
+                .addValue("email",email)
+                .addValue("meal",meal);
+        try {
+            call.execute(in);
+        } catch (DataAccessException e) {
+            // Handle exception related to the stored procedure here.
+            // The duplicate email SIGNAL will throw an exception you can catch and handle.
+            throw new CustomDatabaseException("Error rating meal", e);
+        }
+
+    }
 }
 
