@@ -103,9 +103,9 @@ function Allergies() {
     }
 
 
-    const updateSearch = (allergies = userAllergies, allAllergies = allAllergies) => {
+    const updateSearch = (allergies = userAllergies, all_Allergies = allAllergies) => {
         if (search.trim() !== '') {
-            const filteredAllergies1 = allAllergies.filter(allergy =>
+            const filteredAllergies1 = all_Allergies.filter(allergy =>
                 allergy.toLowerCase().includes(search.toLowerCase())
             );
             const filteredAllergies2 = filteredAllergies1.filter(allergy =>
@@ -113,7 +113,7 @@ function Allergies() {
             );
             setSearchAllergies(filteredAllergies2);
         } else {
-            const filteredAllergies2 = allAllergies.filter(allergy =>
+            const filteredAllergies2 = all_Allergies.filter(allergy =>
                 !allergies.includes(allergy));
             setSearchAllergies(filteredAllergies2);
         }

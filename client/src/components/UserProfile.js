@@ -39,6 +39,14 @@ function UserProfile() {
         </button>
         <button
           className="buttonStyle"
+          onClick={() =>
+            navigate("/user-profile/create-review", { state: { email } })
+          }
+        >
+          Create a Review
+        </button>
+        <button
+          className="buttonStyle"
           onClick={() => navigate("/user-profile/meals", { state: { email } })}
         >
           Meals

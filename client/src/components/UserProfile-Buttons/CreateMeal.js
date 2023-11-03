@@ -127,7 +127,15 @@ function CreateMeal() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </label>
-
+        <button
+          type="button"
+          className="create-ingredient-button"
+          onClick={() =>
+            navigate("/create-meal/create-ingredient", { state: { email } })
+          }
+        >
+          Create Ingredient
+        </button>
         {filteredIngredients.map((ingredient) => (
           <div
             key={ingredient}
