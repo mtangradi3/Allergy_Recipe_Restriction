@@ -29,9 +29,9 @@ function AllMeals() {
     fetchMeals();
   }, []);
 
-  const handleMealClick = (mealName) => {
-    // Navigate to the meal details page with the meal name
-    navigate(`/meal-details/${mealName}`);
+  const handleMealClick = (meal) => {
+    // Navigate to the meal details page with the meal object
+    navigate(`/meal-details/${meal.meal_name}`, { state: { meal } });
   };
 
   const handleNewMealClick = () => {
@@ -49,9 +49,7 @@ function AllMeals() {
       <ul>
         {meals.map((meal, index) => (
           <li key={meal.meal_name}>
-            <h2 onClick={() => handleMealClick(meal.meal_name)}>
-              {meal.meal_name}
-            </h2>
+            <h2 onClick={() => handleMealClick(meal)}>{meal.meal_name}</h2>
             {index === expandedMealIndex && meal.ingredients && (
               <>
                 <p>Ingredients:</p>
