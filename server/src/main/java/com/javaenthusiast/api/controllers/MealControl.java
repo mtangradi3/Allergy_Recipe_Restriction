@@ -97,5 +97,15 @@ public class MealControl {
 
         }
     }
+    @GetMapping("/get_rates_for_meal")
+    public ResponseEntity<?> getRatesForMeal(@RequestParam String meal){
+        try {
+            List<Map<String, Object>> ratesForMeal = mealService.getRatesForMeal(meal);
+            return ResponseEntity.ok(ratesForMeal);
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
 }
