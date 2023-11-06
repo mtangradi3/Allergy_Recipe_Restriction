@@ -33,7 +33,9 @@ function UserProfile() {
         </button>
         <button
           className="buttonStyle"
-          onClick={() => navigate("/user-profile/favorites")}
+          onClick={() =>
+            navigate("/user-profile/favorites", { state: { email } })
+          }
         >
           Favorites
         </button>
