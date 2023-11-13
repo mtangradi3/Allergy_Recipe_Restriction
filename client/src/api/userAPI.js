@@ -5,7 +5,14 @@
  */
 
 import axios from "axios";
-import {GET_ALL_USERS, INSERT_NEW_USER, ADD_USER_ALLERGIES, REMOVE_USER_ALLERGIES} from "../utils/constant";
+import {
+  GET_ALL_USERS,
+  INSERT_NEW_USER,
+  ADD_USER_ALLERGIES,
+  REMOVE_USER_ALLERGIES,
+  CREATE_USER_FAVORITE_MEAL,
+  DELETE_USER_FAVORITE_MEAL,
+} from "../utils/constant";
 
 /**
  * this function will insert a new user into the database if it does not exist
@@ -46,10 +53,7 @@ export const getAllUsers = async () => {
   }
 };
 
-export const addUserAllergy = async (
-    email,
-    allergy,
-) => {
+export const addUserAllergy = async (email, allergy) => {
   const formData = new FormData();
   formData.append("email", email);
   formData.append("allergies", allergy);
@@ -66,15 +70,10 @@ export const addUserAllergy = async (
   }
 };
 
-export const removeUserAllergy = async (
-    allergy,
-    email,
-
-) => {
+export const removeUserAllergy = async (allergy, email) => {
   const formData = new FormData();
   formData.append("allergy_name", allergy);
   formData.append("email", email);
-
 
   try {
     const response = await axios.delete(REMOVE_USER_ALLERGIES, {
@@ -89,3 +88,25 @@ export const removeUserAllergy = async (
   }
 };
 
+export const createUserFavoriteMeal = async (email, mealName) => {
+  try {
+    const response = await axios.post(CREATE_USER_FAVORITE_MEAL, {
+      email,
+      mealName,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteUserFavoriteMeal = async (email, mealName) => {
+  try {
+    const response = await axios.delete(DELETE_USER_FAVORITE_MEAL, {
+      data: { email, mealName },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
