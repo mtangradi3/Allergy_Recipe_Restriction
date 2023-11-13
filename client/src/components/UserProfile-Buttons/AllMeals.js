@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { getAllMeals, getMealIngredients } from "../../api/mealAPI";
 import "../../App.css";
 import CreateMeal from "./CreateMeal";
+import { getUserFavoritesMeal } from "../../api/userAPI";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function AllMeals() {
@@ -14,29 +15,33 @@ function AllMeals() {
   const [expandedMealIndex, setExpandedMealIndex] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [favorites, setFavorites] = useState([]); // State to hold favorite meals
   const { email } = location.state || {};
 
   useEffect(() => {
-    const fetchMeals = async () => {
+    const fetchMealsAndFavorites = async () => {
       try {
-        const data = await getAllMeals();
-        setMeals(data);
+        // Fetch all meals
+        const mealsData = await getAllMeals();
+        setMeals(mealsData);
+
+        // Fetch user favorites
+        if (email) {
+          const favoritesData = await getUserFavoritesMeal(email);
+          setFavorites(favoritesData);
+        }
       } catch (err) {
-        setError(err.message || "An error occurred while fetching meals.");
+        setError(err.message || "An error occurred.");
       }
     };
 
-    fetchMeals();
-  }, []);
+    fetchMealsAndFavorites();
+  }, [email]);
 
   const handleMealClick = (meal) => {
-    // Navigate to the meal details page with the meal object
-    navigate(`/meal-details/${meal.meal_name}`, { state: { meal } });
-  };
-
-  const handleNewMealClick = () => {
-    alert("Create New Meal button clicked!");
-    // Replace the alert with your desired logic, e.g., navigation, modal display, etc.
+    navigate(`/meal-details/${meal.meal_name}`, {
+      state: { email, meal, favorites },
+    });
   };
 
   if (error) {

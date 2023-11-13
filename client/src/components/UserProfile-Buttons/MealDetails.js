@@ -3,30 +3,64 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { getMealIngredients } from "../../api/mealAPI";
+import {
+  createUserFavoriteMeal,
+  deleteUserFavoriteMeal,
+  getUserFavoritesMeal,
+} from "../../api/userAPI";
 
 function MealDetails() {
   const { mealName } = useParams();
   const { state } = useLocation();
   const [mealDetails, setMealDetails] = useState(state?.meal);
   const [error, setError] = useState(null);
+  const { email } = state || {};
+  const [isFavorite, setIsFavorite] = useState(false);
+  const { meal, favorites } = state || {};
 
   useEffect(() => {
-    if (!mealDetails?.ingredients) {
-      const fetchMealDetails = async () => {
-        try {
-          const ingredients = await getMealIngredients(mealName);
-          setMealDetails((prevDetails) => ({
-            ...prevDetails,
-            ingredients: ingredients,
-          }));
-        } catch (error) {
-          setError("Failed to fetch meal details.");
+    const fetchMealDetailsAndFavorites = async () => {
+      try {
+        let ingredients;
+        // Fetch meal details if not already provided
+        if (!mealDetails?.ingredients) {
+          ingredients = await getMealIngredients(mealName);
         }
-      };
 
-      fetchMealDetails();
+        // Fetch user's favorite meals
+        const userFavorites = email ? await getUserFavoritesMeal(email) : [];
+
+        // Set meal details and favorite status
+        setMealDetails((prevDetails) => ({
+          ...prevDetails,
+          ingredients: ingredients || prevDetails.ingredients,
+        }));
+        setIsFavorite(userFavorites.includes(mealName));
+      } catch (error) {
+        setError("Failed to fetch data.");
+      }
+    };
+
+    fetchMealDetailsAndFavorites();
+  }, [mealName, mealDetails?.ingredients, email]); // Add email to the dependency array
+
+  const handleFavorite = async () => {
+    try {
+      await createUserFavoriteMeal(email, mealDetails.meal_name);
+      setIsFavorite(true);
+    } catch (error) {
+      console.error("Failed to favorite meal:", error);
     }
-  }, [mealName, mealDetails?.ingredients]);
+  };
+
+  const handleUnfavorite = async () => {
+    try {
+      await deleteUserFavoriteMeal(email, mealDetails.meal_name);
+      setIsFavorite(false);
+    } catch (error) {
+      console.error("Failed to un-favorite meal:", error);
+    }
+  };
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -45,6 +79,14 @@ function MealDetails() {
           alt={mealDetails.meal_name}
         />
       )}
+      <span
+        className={`heart-icon ${isFavorite ? "favorited" : ""}`}
+        onClick={isFavorite ? handleUnfavorite : handleFavorite}
+        style={{ fontSize: "5rem", cursor: "pointer" }} // Increase font-size and add pointer cursor on hover
+      >
+        {isFavorite ? "❤️" : "♡"}
+      </span>
+
       <h2>Ingredients:</h2>
       <ul>
         {mealDetails.ingredients &&
