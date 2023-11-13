@@ -29,23 +29,9 @@ function AllMeals() {
     fetchMeals();
   }, []);
 
-  const handleMealClick = async (mealName, index) => {
-    // Toggle the expanded meal index
-    const newIndex = index === expandedMealIndex ? null : index;
-    setExpandedMealIndex(newIndex);
-
-    // If we're expanding a new meal, fetch its ingredients
-    if (newIndex !== null) {
-      try {
-        const ingredients = await getMealIngredients(mealName);
-        const updatedMeals = [...meals];
-        updatedMeals[index].ingredients = ingredients;
-        setMeals(updatedMeals);
-      } catch (error) {
-        console.error("Failed to fetch ingredients:", error);
-        setError("Failed to fetch ingredients.");
-      }
-    }
+  const handleMealClick = (meal) => {
+    // Navigate to the meal details page with the meal object
+    navigate(`/meal-details/${meal.meal_name}`, { state: { meal } });
   };
 
   const handleNewMealClick = () => {
@@ -63,9 +49,7 @@ function AllMeals() {
       <ul>
         {meals.map((meal, index) => (
           <li key={meal.meal_name}>
-            <h2 onClick={() => handleMealClick(meal.meal_name, index)}>
-              {meal.meal_name}
-            </h2>
+            <h2 onClick={() => handleMealClick(meal)}>{meal.meal_name}</h2>
             {index === expandedMealIndex && meal.ingredients && (
               <>
                 <p>Ingredients:</p>
