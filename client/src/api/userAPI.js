@@ -91,10 +91,10 @@ export const removeUserAllergy = async (allergy, email) => {
 
 export const createUserFavoriteMeal = async (email, mealName) => {
   try {
-    const response = await axios.post(CREATE_USER_FAVORITE_MEAL, {
-      email,
-      mealName,
-    });
+    const params = new URLSearchParams();
+    params.append("email", email);
+    params.append("meal_name", mealName);
+    const response = await axios.post(CREATE_USER_FAVORITE_MEAL, params);
     return response.data;
   } catch (error) {
     throw error;
@@ -103,9 +103,12 @@ export const createUserFavoriteMeal = async (email, mealName) => {
 
 export const deleteUserFavoriteMeal = async (email, mealName) => {
   try {
-    const response = await axios.delete(DELETE_USER_FAVORITE_MEAL, {
-      data: { email, mealName },
-    });
+    const params = new URLSearchParams();
+    params.append("email", email);
+    params.append("meal_name", mealName);
+    const response = await axios.delete(
+      `${DELETE_USER_FAVORITE_MEAL}?${params.toString()}`,
+    );
     return response.data;
   } catch (error) {
     throw error;

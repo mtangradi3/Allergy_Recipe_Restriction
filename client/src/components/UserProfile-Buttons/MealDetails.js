@@ -6,6 +6,7 @@ import { getMealIngredients } from "../../api/mealAPI";
 import {
   createUserFavoriteMeal,
   deleteUserFavoriteMeal,
+  getUserFavoritesMeal,
 } from "../../api/userAPI";
 
 function MealDetails() {
@@ -15,24 +16,33 @@ function MealDetails() {
   const [error, setError] = useState(null);
   const { email } = state || {};
   const [isFavorite, setIsFavorite] = useState(false);
+  const { meal, favorites } = state || {};
 
   useEffect(() => {
-    if (!mealDetails?.ingredients) {
-      const fetchMealDetails = async () => {
-        try {
-          const ingredients = await getMealIngredients(mealName);
-          setMealDetails((prevDetails) => ({
-            ...prevDetails,
-            ingredients: ingredients,
-          }));
-        } catch (error) {
-          setError("Failed to fetch meal details.");
+    const fetchMealDetailsAndFavorites = async () => {
+      try {
+        let ingredients;
+        // Fetch meal details if not already provided
+        if (!mealDetails?.ingredients) {
+          ingredients = await getMealIngredients(mealName);
         }
-      };
 
-      fetchMealDetails();
-    }
-  }, [mealName, mealDetails?.ingredients]);
+        // Fetch user's favorite meals
+        const userFavorites = email ? await getUserFavoritesMeal(email) : [];
+
+        // Set meal details and favorite status
+        setMealDetails((prevDetails) => ({
+          ...prevDetails,
+          ingredients: ingredients || prevDetails.ingredients,
+        }));
+        setIsFavorite(userFavorites.includes(mealName));
+      } catch (error) {
+        setError("Failed to fetch data.");
+      }
+    };
+
+    fetchMealDetailsAndFavorites();
+  }, [mealName, mealDetails?.ingredients, email]); // Add email to the dependency array
 
   const handleFavorite = async () => {
     try {
@@ -72,6 +82,7 @@ function MealDetails() {
       <span
         className={`heart-icon ${isFavorite ? "favorited" : ""}`}
         onClick={isFavorite ? handleUnfavorite : handleFavorite}
+        style={{ fontSize: "5rem", cursor: "pointer" }} // Increase font-size and add pointer cursor on hover
       >
         {isFavorite ? "❤️" : "♡"}
       </span>
