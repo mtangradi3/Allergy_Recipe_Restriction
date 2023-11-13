@@ -72,3 +72,6 @@ export const CREATE_USER_FAVORITE_MEAL =
 
 export const DELETE_USER_FAVORITE_MEAL =
   "http://localhost:8080/api/user/delete_user_favorites_meal";
+
+export const GET_USER_FAVORITES_MEAL =
+  "http://localhost:8080/api/user/get_user_favorites_meal";

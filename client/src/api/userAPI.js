@@ -12,6 +12,7 @@ import {
   REMOVE_USER_ALLERGIES,
   CREATE_USER_FAVORITE_MEAL,
   DELETE_USER_FAVORITE_MEAL,
+  GET_USER_FAVORITES_MEAL,
 } from "../utils/constant";
 
 /**
@@ -104,6 +105,17 @@ export const deleteUserFavoriteMeal = async (email, mealName) => {
   try {
     const response = await axios.delete(DELETE_USER_FAVORITE_MEAL, {
       data: { email, mealName },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserFavoritesMeal = async (email) => {
+  try {
+    const response = await axios.get(GET_USER_FAVORITES_MEAL, {
+      params: { email },
     });
     return response.data;
   } catch (error) {

@@ -73,8 +73,9 @@ function MealDetails() {
         className={`heart-icon ${isFavorite ? "favorited" : ""}`}
         onClick={isFavorite ? handleUnfavorite : handleFavorite}
       >
-        ❤
+        {isFavorite ? "❤️" : "♡"}
       </span>
+
       <h2>Ingredients:</h2>
       <ul>
         {mealDetails.ingredients &&
