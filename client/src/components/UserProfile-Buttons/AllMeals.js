@@ -4,10 +4,6 @@
  *   */
 import React, { useState, useEffect } from "react";
 import { getAllMeals, getMealIngredients } from "../../api/mealAPI";
-import {
-  createUserFavoriteMeal,
-  deleteUserFavoriteMeal,
-} from "../../api/userAPI";
 import "../../App.css";
 import CreateMeal from "./CreateMeal";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -18,7 +14,6 @@ function AllMeals() {
   const [expandedMealIndex, setExpandedMealIndex] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const [favorites, setFavorites] = useState({});
   const { email } = location.state || {};
 
   useEffect(() => {
@@ -36,12 +31,7 @@ function AllMeals() {
 
   const handleMealClick = (meal) => {
     // Navigate to the meal details page with the meal object
-    navigate(`/meal-details/${meal.meal_name}`, { state: { meal } });
-  };
-
-  const handleNewMealClick = () => {
-    alert("Create New Meal button clicked!");
-    // Replace the alert with your desired logic, e.g., navigation, modal display, etc.
+    navigate(`/meal-details/${meal.meal_name}`, { state: { email, meal } });
   };
 
   if (error) {

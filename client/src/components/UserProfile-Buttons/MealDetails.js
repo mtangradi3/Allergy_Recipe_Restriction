@@ -3,12 +3,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { getMealIngredients } from "../../api/mealAPI";
+import {
+  createUserFavoriteMeal,
+  deleteUserFavoriteMeal,
+} from "../../api/userAPI";
 
 function MealDetails() {
   const { mealName } = useParams();
   const { state } = useLocation();
   const [mealDetails, setMealDetails] = useState(state?.meal);
   const [error, setError] = useState(null);
+  const { email } = state || {};
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     if (!mealDetails?.ingredients) {
@@ -28,6 +34,24 @@ function MealDetails() {
     }
   }, [mealName, mealDetails?.ingredients]);
 
+  const handleFavorite = async () => {
+    try {
+      await createUserFavoriteMeal(email, mealDetails.meal_name);
+      setIsFavorite(true);
+    } catch (error) {
+      console.error("Failed to favorite meal:", error);
+    }
+  };
+
+  const handleUnfavorite = async () => {
+    try {
+      await deleteUserFavoriteMeal(email, mealDetails.meal_name);
+      setIsFavorite(false);
+    } catch (error) {
+      console.error("Failed to un-favorite meal:", error);
+    }
+  };
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -45,6 +69,12 @@ function MealDetails() {
           alt={mealDetails.meal_name}
         />
       )}
+      <span
+        className={`heart-icon ${isFavorite ? "favorited" : ""}`}
+        onClick={isFavorite ? handleUnfavorite : handleFavorite}
+      >
+        ❤
+      </span>
       <h2>Ingredients:</h2>
       <ul>
         {mealDetails.ingredients &&
