@@ -8,9 +8,7 @@
     import org.springframework.jdbc.core.namedparam.SqlParameterSource;
     import org.springframework.jdbc.core.simple.SimpleJdbcCall;
     import org.springframework.stereotype.Service;
-    import org.springframework.web.multipart.MultipartFile;
 
-    import java.io.IOException;
     import java.util.ArrayList;
     import java.util.Base64;
     import java.util.List;
@@ -218,5 +216,32 @@
             return mealIngredients;
 
 
+        }
+
+        public List<Map<String, Object>> getRatesForMeal(String meal) {
+            List<Map<String, Object>>rates =  new ArrayList<>();
+            List<Map<String, Object>> tempmal = new ArrayList<>();
+
+            SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_rates_for_meal");
+
+
+            SqlParameterSource mealIn = new MapSqlParameterSource()
+                    .addValue("meal", meal);
+
+            try {
+                Map<String, Object> out = call.execute(mealIn);
+                tempmal = (List<Map<String, Object>>) out.get("#result-set-1");
+
+                tempmal.forEach(tempMap ->{
+                    rates.add(tempMap);
+                });
+
+
+
+            } catch (DataAccessException e) {
+                throw new CustomDatabaseException("Error getting rates for meal ", e);
+            }
+
+            return rates;
         }
     }

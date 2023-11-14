@@ -67,6 +67,11 @@ export const GET_GROUP_ALLERGIES =
 export const CREATE_NEW_INGREDIENT =
   "http://localhost:8080/api/allergy/create_ingredient";
 
-// favorites
-export const GET_FAVORITES =
+export const CREATE_USER_FAVORITE_MEAL =
+  "http://localhost:8080/api/user/create_user_favorites_meal";
+
+export const DELETE_USER_FAVORITE_MEAL =
+  "http://localhost:8080/api/user/delete_user_favorites_meal";
+
+export const GET_USER_FAVORITES_MEAL =
   "http://localhost:8080/api/user/get_user_favorites_meal";

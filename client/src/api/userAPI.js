@@ -10,8 +10,9 @@ import {
   INSERT_NEW_USER,
   ADD_USER_ALLERGIES,
   REMOVE_USER_ALLERGIES,
-  GET_FAVORITES,
-  GET_GROUP_ALLERGIES,
+  CREATE_USER_FAVORITE_MEAL,
+  DELETE_USER_FAVORITE_MEAL,
+  GET_USER_FAVORITES_MEAL,
 } from "../utils/constant";
 
 /**
@@ -88,17 +89,37 @@ export const removeUserAllergy = async (allergy, email) => {
   }
 };
 
-export const getFavorites = async (email) => {
+export const createUserFavoriteMeal = async (email, mealName) => {
   try {
-    const response = await axios.get(GET_FAVORITES, {
-      params: {
-        email: email,
-      },
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+    const params = new URLSearchParams();
+    params.append("email", email);
+    params.append("meal_name", mealName);
+    const response = await axios.post(CREATE_USER_FAVORITE_MEAL, params);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteUserFavoriteMeal = async (email, mealName) => {
+  try {
+    const params = new URLSearchParams();
+    params.append("email", email);
+    params.append("meal_name", mealName);
+    const response = await axios.delete(
+      `${DELETE_USER_FAVORITE_MEAL}?${params.toString()}`,
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserFavoritesMeal = async (email) => {
+  try {
+    const response = await axios.get(GET_USER_FAVORITES_MEAL, {
+      params: { email },
     });
-    // console.log("response", response.data);
     return response.data;
   } catch (error) {
     throw error;
