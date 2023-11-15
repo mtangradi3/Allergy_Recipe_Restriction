@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { getAllMeals, getMealIngredients } from "../../api/mealAPI";
 import "../../App.css";
 import CreateMeal from "./CreateMeal";
+import { getUserFavoritesMeal } from "../../api/userAPI";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function AllMeals() {
@@ -14,43 +15,33 @@ function AllMeals() {
   const [expandedMealIndex, setExpandedMealIndex] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [favorites, setFavorites] = useState([]); // State to hold favorite meals
   const { email } = location.state || {};
 
   useEffect(() => {
-    const fetchMeals = async () => {
+    const fetchMealsAndFavorites = async () => {
       try {
-        const data = await getAllMeals();
-        setMeals(data);
+        // Fetch all meals
+        const mealsData = await getAllMeals();
+        setMeals(mealsData);
+
+        // Fetch user favorites
+        if (email) {
+          const favoritesData = await getUserFavoritesMeal(email);
+          setFavorites(favoritesData);
+        }
       } catch (err) {
-        setError(err.message || "An error occurred while fetching meals.");
+        setError(err.message || "An error occurred.");
       }
     };
 
-    fetchMeals();
-  }, []);
+    fetchMealsAndFavorites();
+  }, [email]);
 
-  const handleMealClick = async (mealName, index) => {
-    // Toggle the expanded meal index
-    const newIndex = index === expandedMealIndex ? null : index;
-    setExpandedMealIndex(newIndex);
-
-    // If we're expanding a new meal, fetch its ingredients
-    if (newIndex !== null) {
-      try {
-        const ingredients = await getMealIngredients(mealName);
-        const updatedMeals = [...meals];
-        updatedMeals[index].ingredients = ingredients;
-        setMeals(updatedMeals);
-      } catch (error) {
-        console.error("Failed to fetch ingredients:", error);
-        setError("Failed to fetch ingredients.");
-      }
-    }
-  };
-
-  const handleNewMealClick = () => {
-    alert("Create New Meal button clicked!");
-    // Replace the alert with your desired logic, e.g., navigation, modal display, etc.
+  const handleMealClick = (meal) => {
+    navigate(`/meal-details/${meal.meal_name}`, {
+      state: { email, meal, favorites },
+    });
   };
 
   if (error) {
@@ -63,9 +54,7 @@ function AllMeals() {
       <ul>
         {meals.map((meal, index) => (
           <li key={meal.meal_name}>
-            <h2 onClick={() => handleMealClick(meal.meal_name, index)}>
-              {meal.meal_name}
-            </h2>
+            <h2 onClick={() => handleMealClick(meal)}>{meal.meal_name}</h2>
             {index === expandedMealIndex && meal.ingredients && (
               <>
                 <p>Ingredients:</p>

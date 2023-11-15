@@ -13,6 +13,7 @@ import UserProfile from "./UserProfile";
 import CreateMeal from "./UserProfile-Buttons/CreateMeal";
 import CreateIngredient from "./UserProfile-Buttons/CreateIngredient";
 import CreateReview from "./UserProfile-Buttons/CreateReview";
+import MealDetails from "./UserProfile-Buttons/MealDetails";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           path="/create-meal/create-ingredient"
           element={<CreateIngredient />}
         />
+        <Route path="/meal-details/:mealName" element={<MealDetails />} />
       </Routes>
     </Router>
   );
