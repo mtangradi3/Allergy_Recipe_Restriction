@@ -46,7 +46,6 @@ function CreateReview() {
 
   const handleFormSubmit = () => {
 
-    alert(`Rating: ${userRating} Review: ${UserReview} email: ${email} meal: ${meal}`);
     try {
       if(userRating !== '' && UserReview !== '') {
         //newRating(userRating, UserReview, email, meal).then(r => console.log(r));
