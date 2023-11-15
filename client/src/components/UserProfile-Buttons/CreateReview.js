@@ -34,8 +34,8 @@ function CreateReview() {
 
   const location = useLocation();
   //const {email, meal } = location.state || {};
-  const {email } = location.state || {};
-  const meal = 'Milk';
+  const {email, firstName, lastName } = location.state || {};
+  const meal = 'Tuna Salad Sandwich';
 
   const [userRating, setUserRating] = useState(null);
   const [UserReview, setUserReview] = useState('');
@@ -52,13 +52,13 @@ function CreateReview() {
         newRating(userRating, UserReview, email, meal).then(r => console.log(r));
       }
       else if (userRating !== '') {
-        //newRating(userRating, email, meal).then(r => console.log(r));
+        newRating(userRating, email, meal).then(r => console.log(r));
       }
     }
     catch (err) {
       console.log(err.message || "An error occurred while adding a Review.");
     }
-
+    setRatingList([...ratingList, { rating: userRating, review: UserReview, name: firstName + ' ' + lastName }]);
   };
 
   return <div>
@@ -91,7 +91,13 @@ function CreateReview() {
         ><div>
           <div className="p-2">Name: {item.name}</div>
           <div className="p-2">Rating: {item.rating}</div>
-          <div className="p-2">Review: {item.review}</div>
+          <div className="p-2">
+            {item.review !== 'null' && (
+                <React.Fragment>
+                  Review: {item.review}
+                </React.Fragment>
+            )}
+          </div>
 
 
         </div>

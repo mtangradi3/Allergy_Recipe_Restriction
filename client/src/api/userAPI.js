@@ -128,7 +128,7 @@ export const getUserFavoritesMeal = async (email) => {
 };
 
 
-export const newRating = async (rating, review, email, meal) => {
+export const newRating = async (rating, email, meal, review) => {
   const formData = new FormData();
   formData.append("rating", rating);
   formData.append("review", review);
