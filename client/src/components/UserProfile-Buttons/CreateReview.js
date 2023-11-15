@@ -46,19 +46,26 @@ function CreateReview() {
 
   const handleFormSubmit = () => {
 
+    const name = firstName + ' ' + lastName;
+    const ratingExists = ratingList.some((user) => user.name === name);
+
     try {
-      if(userRating !== '' && UserReview !== '') {
-        //newRating(userRating, UserReview, email, meal).then(r => console.log(r));
+      if(ratingExists){
+        alert("One rating per user")
+      }
+      else if(userRating !== '' && UserReview !== '') {
         newRating(userRating, UserReview, email, meal).then(r => console.log(r));
+        setRatingList([...ratingList, { rating: userRating, review: UserReview, name: firstName + ' ' + lastName }]);
       }
       else if (userRating !== '') {
         newRating(userRating, email, meal).then(r => console.log(r));
+        setRatingList([...ratingList, { rating: userRating, name: firstName + ' ' + lastName }]);
       }
     }
     catch (err) {
       console.log(err.message || "An error occurred while adding a Review.");
     }
-    setRatingList([...ratingList, { rating: userRating, review: UserReview, name: firstName + ' ' + lastName }]);
+
   };
 
   return <div>
@@ -92,7 +99,7 @@ function CreateReview() {
           <div className="p-2">Name: {item.name}</div>
           <div className="p-2">Rating: {item.rating}</div>
           <div className="p-2">
-            {item.review !== 'null' && (
+            {(item.review !== 'undefined' && item.review !== '' )  && (
                 <React.Fragment>
                   Review: {item.review}
                 </React.Fragment>
