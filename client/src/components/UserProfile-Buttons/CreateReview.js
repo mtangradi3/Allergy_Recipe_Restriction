@@ -50,7 +50,10 @@ function CreateReview() {
     const ratingExists = ratingList.some((user) => user.name === name);
 
     try {
-      if(ratingExists){
+      if(userRating > 5 || userRating < 1){
+        alert("rating must be between 1 and 5")
+      }
+      else if(!ratingExists){
         alert("One rating per user")
       }
       else if(userRating !== '' && UserReview !== '') {
