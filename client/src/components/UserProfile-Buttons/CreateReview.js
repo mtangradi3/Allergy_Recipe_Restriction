@@ -58,8 +58,8 @@ function CreateReview() {
         setRatingList([...ratingList, { rating: userRating, review: UserReview, name: firstName + ' ' + lastName }]);
       }
       else if (userRating !== '') {
-        newRating(userRating, email, meal).then(r => console.log(r));
-        setRatingList([...ratingList, { rating: userRating, name: firstName + ' ' + lastName }]);
+       newRating(userRating, email, meal).then(r => console.log(r));
+        setRatingList([...ratingList, { rating: userRating, review: 'undefined', name: firstName + ' ' + lastName }]);
       }
     }
     catch (err) {
@@ -99,7 +99,7 @@ function CreateReview() {
           <div className="p-2">Name: {item.name}</div>
           <div className="p-2">Rating: {item.rating}</div>
           <div className="p-2">
-            {(item.review !== 'undefined' && item.review !== '' )  && (
+            {(item.review !== 'undefined')  && (
                 <React.Fragment>
                   Review: {item.review}
                 </React.Fragment>
