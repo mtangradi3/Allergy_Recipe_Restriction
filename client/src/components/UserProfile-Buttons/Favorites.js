@@ -45,7 +45,11 @@ function Favorites() {
       <ul>
         {favorites.length > 0 ? (
           favorites.map((favorite) => (
-            <li key={favorite.id} onClick={() => handleFavoriteClick(favorite)}>
+            <li
+              key={favorite.id}
+              onClick={() => handleFavoriteClick(favorite)}
+              className="favorite-item"
+            >
               {favorite.name}
             </li>
           ))
