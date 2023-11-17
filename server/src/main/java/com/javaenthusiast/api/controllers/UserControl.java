@@ -163,5 +163,16 @@ public class UserControl {
 
         }
     }
+    @DeleteMapping("/delete_user_rates_meal")
+    public ResponseEntity<?> deleteUserRatesMeal(@RequestParam String email ,@RequestParam String meal_name){
+        try {
+            userService.deleteUserRatesMeal(email, meal_name);
+            return ResponseEntity.ok("  rating was successfully deleted ");
+        } catch (CustomDatabaseException e) {
+            System.err.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
 }
 
