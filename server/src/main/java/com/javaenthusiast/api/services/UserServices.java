@@ -212,7 +212,7 @@ public class UserServices {
 
     }
 
-    public void user_rates_meal(int rating, String review, String email, String meal) {
+    public void user_rates_meal(String rating, String review, String email, String meal) {
         SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("user_rates_meal");
         SqlParameterSource in = new MapSqlParameterSource()
                 .addValue("rating",rating)
