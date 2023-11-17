@@ -50,8 +50,8 @@ function CreateReview() {
     const ratingExists = ratingList.some((user) => user.name === name);
 
     try {
-      if(userRating > 5 || userRating < 1){
-        alert("rating must be between 1 and 5")
+      if(userRating > 5 || userRating < 0){
+        alert("rating must be between 0 and 5")
       }
       else if(ratingExists){
         alert("One rating per user")
@@ -77,7 +77,7 @@ function CreateReview() {
       <Form.Label><h4>New Rating</h4></Form.Label>
       <Form.Group className="mb-3" controlId="rating">
         <Form.Label>Rating</Form.Label>
-        <Form.Control placeholder="1-5" onChange={(e) => setUserRating(parseInt(e.target.value))} />
+        <Form.Control placeholder="0-5" onChange={(e) => setUserRating(parseInt(e.target.value))} />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="review">
@@ -102,7 +102,7 @@ function CreateReview() {
           <div className="p-2">Name: {item.name}</div>
           <div className="p-2">Rating: {item.rating}</div>
           <div className="p-2">
-            {(item.review !== 'undefined')  && (
+            {(item.review !== null)  && (
                 <React.Fragment>
                   Review: {item.review}
                 </React.Fragment>

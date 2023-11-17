@@ -128,12 +128,14 @@ export const getUserFavoritesMeal = async (email) => {
 };
 
 
-export const newRating = async (rating, email, meal, review) => {
+export const newRating = async (rating, email, meal, review=null) => {
   const formData = new FormData();
   formData.append("rating", rating);
-  formData.append("review", review);
   formData.append("email", email);
   formData.append("meal", meal);
+  if (review != null){
+    formData.append("review", review);
+  }
 
 
   try {
