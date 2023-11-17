@@ -151,7 +151,7 @@ public class UserControl {
         }
     }
     @PostMapping("/user_rates_meal")
-    public ResponseEntity<?> user_rates_meal(@RequestParam int rating,@RequestParam(required = false) String review,@RequestParam String email,@RequestParam String meal) {
+    public ResponseEntity<?> user_rates_meal(@RequestParam String rating,@RequestParam(required = false) String review,@RequestParam String email,@RequestParam String meal) {
 
 
         try {
