@@ -3,9 +3,8 @@
  *  Contains information about all meals
  *   */
 import React, { useState, useEffect } from "react";
-import { getAllMeals, getMealIngredients } from "../../api/mealAPI";
+import { getAllMeals } from "../../api/mealAPI";
 import "../../App.css";
-import CreateMeal from "./CreateMeal";
 import { getUserFavoritesMeal } from "../../api/userAPI";
 import { useNavigate, useLocation } from "react-router-dom";
 
