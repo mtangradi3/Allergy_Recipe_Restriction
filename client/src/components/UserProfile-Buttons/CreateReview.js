@@ -17,7 +17,7 @@ function CreateReview() {
   useEffect(() => {
     const fetchRatings = async () => {
       try {
-        const data = await getMealReviews(meal);
+        const data = await getMealReviews(meal_name);
         setRatingList(data);
         console.log(data);
 
@@ -33,9 +33,8 @@ function CreateReview() {
 
 
   const location = useLocation();
-  //const {email, meal } = location.state || {};
-  const {email, firstName, lastName } = location.state || {};
-  const meal = 'Tuna Salad Sandwich';
+  const {email, firstName, lastName, meal_name } = location.state || {};
+
 
   const [userRating, setUserRating] = useState(null);
   const [UserReview, setUserReview] = useState('');
@@ -57,11 +56,11 @@ function CreateReview() {
         alert("One rating per user")
       }
       else if(userRating !== '' && UserReview !== '') {
-        newRating(userRating, UserReview, email, meal).then(r => console.log(r));
+        newRating(userRating, UserReview, email, meal_name).then(r => console.log(r));
         setRatingList([...ratingList, { rating: userRating, review: UserReview, name: firstName + ' ' + lastName }]);
       }
       else if (userRating !== '') {
-       newRating(userRating, email, meal).then(r => console.log(r));
+       newRating(userRating, email, meal_name).then(r => console.log(r));
         setRatingList([...ratingList, { rating: userRating, review: 'undefined', name: firstName + ' ' + lastName }]);
       }
     }
@@ -72,7 +71,7 @@ function CreateReview() {
   };
 
   return <div>
-    <h1>Reviews for {meal}</h1>
+    <h1>Reviews for {meal_name}</h1>
     <Form>
       <Form.Label><h4>New Rating</h4></Form.Label>
       <Form.Group className="mb-3" controlId="rating">
