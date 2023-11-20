@@ -132,3 +132,7 @@
     cursor: pointer;
     margin-bottom: 20px;
 }
+
+.favorite-item {
+    cursor: pointer;
+}
