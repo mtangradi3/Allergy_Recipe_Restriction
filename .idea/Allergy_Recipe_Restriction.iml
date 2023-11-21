@@ -6,4 +6,7 @@
     <orderEntry type="jdk" jdkName="Python 3.10.12 WSL (Ubuntu): (/home/pollo809/.virtualenvs/SPMC/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="PyDocumentationSettings">
+    <option name="renderExternalDocumentation" value="true" />
+  </component>
 </module>
