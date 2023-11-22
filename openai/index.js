@@ -1,5 +1,5 @@
 
-const openai = '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';
+const openai = 'key_goes_here';
 const apiEndpoint = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
 
 
