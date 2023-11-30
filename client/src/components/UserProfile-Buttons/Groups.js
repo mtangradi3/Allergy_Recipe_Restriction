@@ -311,7 +311,11 @@ function DropdownContent({
       <h4>Meals</h4>
       <ul>
         {groupFoods.map((food, index) => (
-          <li key={index} onClick={() => handleFoodClick(food)}>
+          <li
+            key={index}
+            onClick={() => handleFoodClick(food)}
+            className="group-meal-item"
+          >
             {food}
           </li>
         ))}
