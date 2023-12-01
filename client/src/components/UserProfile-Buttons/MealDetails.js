@@ -1,7 +1,7 @@
 // MealDetails.js
 
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import {useParams, useLocation, useNavigate} from "react-router-dom";
 import { getMealIngredients } from "../../api/mealAPI";
 import {
   createUserFavoriteMeal,
@@ -14,9 +14,10 @@ function MealDetails() {
   const { state } = useLocation();
   const [mealDetails, setMealDetails] = useState(state?.meal);
   const [error, setError] = useState(null);
-  const { email } = state || {};
+  const { email, firstName, lastName } = state || {};
   const [isFavorite, setIsFavorite] = useState(false);
   const { meal, favorites } = state || {};
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMealDetailsAndFavorites = async () => {
@@ -39,6 +40,7 @@ function MealDetails() {
       } catch (error) {
         setError("Failed to fetch data.");
       }
+
     };
 
     fetchMealDetailsAndFavorites();
@@ -60,6 +62,16 @@ function MealDetails() {
     } catch (error) {
       console.error("Failed to un-favorite meal:", error);
     }
+  };
+
+  const handleMealClick = () => {
+    const meal_name = meal.meal_name;
+    console.log(meal_name)
+    navigate(`/user-profile/create-review/`, {
+      state: {  email, firstName, lastName, meal_name },
+    });
+
+    //navigate("/user-profile/create-review", { state: { email, firstName, lastName, meal } })}
   };
 
   if (error) {
@@ -95,6 +107,13 @@ function MealDetails() {
           ))}
       </ul>
       {/* Add more meal details here */}
+      <button
+          className="buttonStyle"
+          onClick={() => handleMealClick()}
+
+      >
+        Create a Review
+      </button>
     </div>
   );
 }

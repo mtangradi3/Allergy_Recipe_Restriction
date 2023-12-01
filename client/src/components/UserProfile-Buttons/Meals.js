@@ -10,7 +10,8 @@ function Meals() {
   const navigate = useNavigate();
   const location = useLocation();
   const [favorites, setFavorites] = useState([]); // State to hold favorite meals
-  const { email } = location.state || {};
+  const { email, firstName, lastName } = location.state || {};
+
 
   useEffect(() => {
     const fetchSuitableMeals = async () => {
@@ -27,7 +28,7 @@ function Meals() {
 
   const handleMealClick = (meal) => {
     navigate(`/meal-details/${meal.meal_name}`, {
-      state: { email, meal, favorites }, // Pass the necessary state
+      state: { email, meal, favorites, firstName, lastName  }, // Pass the necessary state
     });
   };
 

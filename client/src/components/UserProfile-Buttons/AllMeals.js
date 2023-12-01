@@ -15,7 +15,7 @@ function AllMeals() {
   const navigate = useNavigate();
   const location = useLocation();
   const [favorites, setFavorites] = useState([]); // State to hold favorite meals
-  const { email } = location.state || {};
+  const { email, firstName, lastName } = location.state || {};
 
   useEffect(() => {
     const fetchMealsAndFavorites = async () => {
@@ -73,7 +73,7 @@ function AllMeals() {
           </li>
         ))}
       </ul>
-      <button onClick={() => navigate("/create-meal", { state: { email } })}>
+      <button onClick={() => navigate("/create-meal", { state: { email, firstName, lastName } })}>
         Create New Meal
       </button>
     </div>
