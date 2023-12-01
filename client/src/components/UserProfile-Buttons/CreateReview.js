@@ -71,7 +71,7 @@ function CreateReview() {
   };
 
   return <div>
-    <h1>Reviews for {meal_name}</h1>
+    <h1>Reviews for {meal_name} {firstName} {lastName}</h1>
     <Form>
       <Form.Label><h4>New Rating</h4></Form.Label>
       <Form.Group className="mb-3" controlId="rating">
@@ -101,10 +101,10 @@ function CreateReview() {
           <div className="p-2">Name: {item.name}</div>
           <div className="p-2">Rating: {item.rating}</div>
           <div className="p-2">
-            {(item.review !== null)  && (
-                <React.Fragment>
+            {(item.review)  && (
+                <div>
                   Review: {item.review}
-                </React.Fragment>
+                </div>
             )}
           </div>
 
