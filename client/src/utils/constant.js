@@ -81,3 +81,6 @@ export const GET_USER_FAVORITES_MEAL =
 
 export const GET_MEAL_RATINGS =
     "http://localhost:8080/api/meal/get_rates_for_meal";
+
+export const DELETE_USER_RATING =
+    "http://localhost:8080/api/user/delete_user_rates_meal";

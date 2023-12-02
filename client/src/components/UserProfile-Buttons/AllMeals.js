@@ -39,7 +39,7 @@ function AllMeals() {
 
   const handleMealClick = (meal) => {
     navigate(`/meal-details/${meal.meal_name}`, {
-      state: { email, meal, favorites },
+      state: { email, meal, favorites, firstName, lastName },
     });
   };
 

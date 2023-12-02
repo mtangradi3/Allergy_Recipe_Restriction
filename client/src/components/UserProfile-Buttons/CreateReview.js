@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import 'bootstrap/dist/css/bootstrap.css';
 import {useLocation} from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import {newRating} from "../../api/userAPI";
+import {newRating, removeUserReview} from "../../api/userAPI";
 import {getMealReviews} from "../../api/mealAPI";
 import Stack from "react-bootstrap/Stack";
 
@@ -19,7 +19,6 @@ function CreateReview() {
       try {
         const data = await getMealReviews(meal_name);
         setRatingList(data);
-        console.log(data);
 
       } catch (err) {
         console.log(err.message || "An error occurred while fetching Allergies.");
@@ -39,6 +38,18 @@ function CreateReview() {
   const [userRating, setUserRating] = useState(null);
   const [UserReview, setUserReview] = useState('');
   const [ratingList, setRatingList] = useState([]);
+
+  const handleRemoveReview = (index) => {
+    try {
+      removeUserReview(meal_name, email).then(r => console.log(r));
+      const updatedItems = [...ratingList];
+      updatedItems.splice(index, 1);
+      setRatingList(updatedItems);
+
+    } catch (err) {
+      console.log(err.message || "An error occurred while deleting the review.");
+    }
+  };
 
 
 
@@ -71,7 +82,7 @@ function CreateReview() {
   };
 
   return <div>
-    <h1>Reviews for {meal_name} {firstName} {lastName}</h1>
+    <h1>Reviews for {meal_name}</h1>
     <Form>
       <Form.Label><h4>New Rating</h4></Form.Label>
       <Form.Group className="mb-3" controlId="rating">
@@ -110,7 +121,17 @@ function CreateReview() {
 
 
         </div>
-
+          <div className="p-2 ms-auto">
+            {(item.name === firstName + ' ' + lastName)  && (
+            <Button
+              variant="outline-danger"
+              size="sm"
+              onClick={() => handleRemoveReview(index)}
+          >
+            Remove
+          </Button>
+            )}
+          </div>
 
 
         </Stack>
