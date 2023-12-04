@@ -13,6 +13,7 @@ import {
   CREATE_USER_FAVORITE_MEAL,
   DELETE_USER_FAVORITE_MEAL,
   GET_USER_FAVORITES_MEAL,
+  CREATE_NEW_RATING,
 } from "../utils/constant";
 
 /**
@@ -119,6 +120,29 @@ export const getUserFavoritesMeal = async (email) => {
   try {
     const response = await axios.get(GET_USER_FAVORITES_MEAL, {
       params: { email },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const newRating = async (rating, email, meal, review=null) => {
+  const formData = new FormData();
+  formData.append("rating", rating);
+  formData.append("email", email);
+  formData.append("meal", meal);
+  if (review != null){
+    formData.append("review", review);
+  }
+
+
+  try {
+    const response = await axios.post(CREATE_NEW_RATING, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return response.data;
   } catch (error) {

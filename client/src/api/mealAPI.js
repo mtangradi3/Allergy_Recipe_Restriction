@@ -8,6 +8,7 @@ import {
   GET_ALL_INGREDIENTS,
   GET_MEALS_WITH_ALLERGY,
   CREATE_NEW_INGREDIENT,
+  GET_MEAL_RATINGS,
 } from "../utils/constant"; // Add these constants to your constants file
 
 /**
@@ -159,6 +160,26 @@ export const createNewIngredient = async (ingredientName, allergy) => {
     return response.data;
   } catch (error) {
     console.error("Failed to create ingredient:", error.message);
+    throw error;
+  }
+};
+
+/**
+ * Fetches all reviews for a meal.
+ *
+ * @param {string} meal - The meal.
+ * @returns {Promise<Array>} List reviews.
+ */
+export const getMealReviews = async (meal) => {
+  try {
+    const response = await axios.get(GET_MEAL_RATINGS, {
+      params: { meal: meal },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    return response.data;
+  } catch (error) {
     throw error;
   }
 };

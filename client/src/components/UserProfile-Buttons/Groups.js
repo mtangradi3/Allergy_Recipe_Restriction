@@ -11,9 +11,10 @@ import {
   removeUserFromGroup,
   getGroupAllergies,
 } from "../../api/groupAPI";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { all, create } from "axios";
+import { getUserFavoritesMeal } from "../../api/userAPI";
 
 // The button used to open a pop-up that will allow the user to create or add themselves to a group.
 function CreateOrJoinGroup({ userGroups }) {
@@ -230,6 +231,34 @@ function DropdownContent({
   // useEffect(() => {
   //   console.log("content groupmembers", groupMembers);
   // }, []);
+  const [favorites, setFavorites] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { email } = location.state || {};
+
+  async function fetchUserFavoritesMeal(email) {
+    try {
+      const data = await getUserFavoritesMeal(email);
+      const favoritesWithIds = data.map((favorite, index) => ({
+        id: index + 1,
+        name: favorite,
+      }));
+      return favoritesWithIds;
+    } catch (error) {
+      console.error("Error fetching favorites:", error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    fetchUserFavoritesMeal(email)
+      .then((data) => {
+        setFavorites(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching favorites:", error);
+      });
+  }, [email]);
 
   const handleDeleteClick = () => {
     if (
@@ -251,6 +280,18 @@ function DropdownContent({
     }
   };
 
+  const handleFoodClick = (food) => {
+    // Navigate to the meal-details page for the clicked food
+    navigate(`/meal-details/${food}`, {
+      state: {
+        email,
+        groupName,
+        favorites,
+        // Add any additional state you want to pass to the meal-details page
+      },
+    });
+  };
+
   return (
     <div className="dropdown-content">
       <h4>Members</h4>
@@ -270,7 +311,13 @@ function DropdownContent({
       <h4>Meals</h4>
       <ul>
         {groupFoods.map((food, index) => (
-          <li key={index}>{food}</li>
+          <li
+            key={index}
+            onClick={() => handleFoodClick(food)}
+            className="group-meal-item"
+          >
+            {food}
+          </li>
         ))}
       </ul>
       <button onClick={handleLeaveClick} className="leave-button orange">

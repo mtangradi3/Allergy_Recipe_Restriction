@@ -133,6 +133,7 @@
     margin-bottom: 20px;
 }
 
-.favorite-item {
+.favorite-item:hover, .group-meal-item:hover {
+    color: blue;
     cursor: pointer;
 }
