@@ -7,7 +7,7 @@ const CreateMealBasedOnIngredients = () => {
     const [generatedMeal, setGeneratedMeal] = useState("");
     const [error, setError] = useState(null);
 
-    const openaiApiKey = "Insert api key here"; // Replace with your OpenAI API key
+    const openaiApiKey = "Inset Key Here"; // Replace with your OpenAI API key
     const apiEndpoint = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
 
     const handleCustomIngredientsChange = (event) => {
@@ -35,7 +35,8 @@ const CreateMealBasedOnIngredients = () => {
                 }
             );
 
-            setGeneratedMeal(response.data.choices[0].text);
+            const formattedText = response.data.choices[0].text.trim();
+            setGeneratedMeal(formattedText);
         } catch (error) {
             console.error("Error calling OpenAI API:", error);
             setError("Failed to generate meal. Please try again.");
@@ -68,7 +69,7 @@ const CreateMealBasedOnIngredients = () => {
             {generatedMeal && (
                 <div>
                     <h3>Generated Meal:</h3>
-                    <p>{generatedMeal}</p>
+                    <pre>{generatedMeal}</pre>
                 </div>
             )}
         </div>
