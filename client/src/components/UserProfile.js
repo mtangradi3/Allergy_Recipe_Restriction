@@ -61,6 +61,13 @@ function UserProfile() {
         >
           All Meals
         </button>
+        <button
+          className="buttonStyle"
+          onClick={()=>
+              navigate("/user-profile/create-meal-based-on-ingredients", { state: { email } })
+          }>
+          Create Meal Based on Ingredients
+        </button>
         {/* Logout button */}
         <button className="buttonStyle" onClick={() => navigate("/")}>
           Logout
