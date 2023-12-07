@@ -41,7 +41,7 @@ function CreateReview() {
 
   const handleRemoveReview = (index) => {
     try {
-      removeUserReview(meal_name, email).then(r => console.log(r));
+      removeUserReview(email, meal_name).then(r => console.log(r));
       const updatedItems = [...ratingList];
       updatedItems.splice(index, 1);
       setRatingList(updatedItems);
@@ -72,7 +72,7 @@ function CreateReview() {
       }
       else if (userRating !== '') {
        newRating(userRating, email, meal_name).then(r => console.log(r));
-        setRatingList([...ratingList, { rating: userRating, review: 'undefined', name: firstName + ' ' + lastName }]);
+        setRatingList([...ratingList, { rating: userRating, review: undefined, name: firstName + ' ' + lastName }]);
       }
     }
     catch (err) {
@@ -112,7 +112,7 @@ function CreateReview() {
           <div className="p-2">Name: {item.name}</div>
           <div className="p-2">Rating: {item.rating}</div>
           <div className="p-2">
-            {(item.review)  && (
+            {(item.review )  && (
                 <div>
                   Review: {item.review}
                 </div>
