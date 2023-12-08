@@ -239,11 +239,12 @@ function DropdownContent({
   async function fetchUserFavoritesMeal(email) {
     try {
       const data = await getUserFavoritesMeal(email);
-      const favoritesWithIds = data.map((favorite, index) => ({
-        id: index + 1,
-        name: favorite,
-      }));
-      return favoritesWithIds;
+      // const favoritesWithIds = data.map((favorite, index) => ({
+      //   id: index + 1,
+      //   name: favorite,
+      // }));
+      // return favoritesWithIds;
+      return data;
     } catch (error) {
       console.error("Error fetching favorites:", error);
       return [];
@@ -284,6 +285,7 @@ function DropdownContent({
     // Navigate to the meal-details page for the clicked food
     navigate(`/meal-details/${food}`, {
       state: {
+        food,
         email,
         groupName,
         favorites,
