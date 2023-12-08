@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { all, create } from "axios";
 import { getUserFavoritesMeal } from "../../api/userAPI";
+import { getMealIngredients } from "../../api/mealAPI";
 
 // The button used to open a pop-up that will allow the user to create or add themselves to a group.
 function CreateOrJoinGroup({ userGroups }) {
@@ -281,17 +282,39 @@ function DropdownContent({
     }
   };
 
-  const handleFoodClick = (food) => {
-    // Navigate to the meal-details page for the clicked food
-    navigate(`/meal-details/${food}`, {
-      state: {
-        food,
-        email,
-        groupName,
-        favorites,
-        // Add any additional state you want to pass to the meal-details page
-      },
-    });
+  // const handleFoodClick = (food) => {
+  //   // Navigate to the meal-details page for the clicked food
+  //   navigate(`/meal-details/${food}`, {
+  //     state: {
+  //       food,
+  //       email,
+  //       groupName,
+  //       favorites,
+  //       // Add any additional state you want to pass to the meal-details page
+  //     },
+  //   });
+  // };
+  const handleFoodClick = async (food) => {
+    try {
+      // Fetch detailed meal information based on the favorite name
+      const detailedMeal = await getMealIngredients(food); // Assuming this function fetches meal details by name
+
+      if (detailedMeal) {
+        const mealData = {
+          meal_name: food,
+          ingredients: detailedMeal, // Assuming this is how the ingredients are fetched
+          // Other necessary fields...
+        };
+
+        navigate(`/meal-details/${food}`, {
+          state: { email, meal: mealData, favorites },
+        });
+      } else {
+        console.error("Meal details not found");
+      }
+    } catch (error) {
+      console.error("Error fetching meal details:", error);
+    }
   };
 
   return (
