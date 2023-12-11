@@ -14,6 +14,7 @@ import CreateMeal from "./UserProfile-Buttons/CreateMeal";
 import CreateIngredient from "./UserProfile-Buttons/CreateIngredient";
 import CreateReview from "./UserProfile-Buttons/CreateReview";
 import MealDetails from "./UserProfile-Buttons/MealDetails";
+import CreateMealBasedOnIngredients from "./UserProfile-Buttons/CreateMealBasedOnIngredients";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/user-profile/meals" element={<Meals />} />
         <Route path="/user-profile/allmeals" element={<AllMeals />} />
         <Route path="/user-profile/create-review" element={<CreateReview />} />
+        <Route path="/user-profile/create-meal-based-on-ingredients" element={<CreateMealBasedOnIngredients/>} />
         <Route path="/create-meal" element={<CreateMeal />} />
         <Route
           path="/create-meal/create-ingredient"
