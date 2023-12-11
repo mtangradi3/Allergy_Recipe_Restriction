@@ -19,30 +19,31 @@ function Allergies() {
 
     useEffect(() => {
         const fetchAllergies = async () => {
+            let user;
+            let all;
             try {
-                const data = await getAllAllergies();
-                setAllAllergies(data);
-                setSearchAllergies(data);
-                console.log(data);
+                all = await getAllAllergies();
+                setAllAllergies(all);
+                setSearchAllergies(all);
+                console.log(all);
 
             } catch (err) {
                 console.log(err.message || "An error occurred while fetching Allergies.");
             }
-        };
 
-        const fetchUserAllergies = async (email) => {
             try {
-                const data = await getUserAllergies(email);
-                setUserAllergies(data);
-                console.log(data);
+                user = await getUserAllergies(email);
+                setUserAllergies(user);
+                console.log(user);
 
             } catch (err) {
                 console.log(err.message || "An error occurred while fetching User Allergies.");
             }
+            updateSearch(user, all);
         };
 
         fetchAllergies();
-        fetchUserAllergies(email);
+
     }, []);
 
 
