@@ -13,7 +13,7 @@ import {
   CREATE_USER_FAVORITE_MEAL,
   DELETE_USER_FAVORITE_MEAL,
   GET_USER_FAVORITES_MEAL,
-  CREATE_NEW_RATING,
+  CREATE_NEW_RATING, DELETE_USER_RATING,
 } from "../utils/constant";
 
 /**
@@ -140,6 +140,24 @@ export const newRating = async (rating, email, meal, review=null) => {
 
   try {
     const response = await axios.post(CREATE_NEW_RATING, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeUserReview = async (email, meal_name) => {
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("meal_name", meal_name);
+
+  try {
+    const response = await axios.delete(DELETE_USER_RATING, {
+      data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
       },

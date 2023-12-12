@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import 'bootstrap/dist/css/bootstrap.css';
 import {useLocation} from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import {newRating} from "../../api/userAPI";
+import {newRating, removeUserReview} from "../../api/userAPI";
 import {getMealReviews} from "../../api/mealAPI";
 import Stack from "react-bootstrap/Stack";
 
@@ -19,7 +19,6 @@ function CreateReview() {
       try {
         const data = await getMealReviews(meal_name);
         setRatingList(data);
-        console.log(data);
 
       } catch (err) {
         console.log(err.message || "An error occurred while fetching Allergies.");
@@ -40,6 +39,18 @@ function CreateReview() {
   const [UserReview, setUserReview] = useState('');
   const [ratingList, setRatingList] = useState([]);
 
+  const handleRemoveReview = (index) => {
+    try {
+      removeUserReview(email, meal_name).then(r => console.log(r));
+      const updatedItems = [...ratingList];
+      updatedItems.splice(index, 1);
+      setRatingList(updatedItems);
+
+    } catch (err) {
+      console.log(err.message || "An error occurred while deleting the review.");
+    }
+  };
+
 
 
 
@@ -56,12 +67,12 @@ function CreateReview() {
         alert("One rating per user")
       }
       else if(userRating !== '' && UserReview !== '') {
-        newRating(userRating, UserReview, email, meal_name).then(r => console.log(r));
+        newRating(userRating, email, meal_name, UserReview).then(r => console.log(r));
         setRatingList([...ratingList, { rating: userRating, review: UserReview, name: firstName + ' ' + lastName }]);
       }
       else if (userRating !== '') {
        newRating(userRating, email, meal_name).then(r => console.log(r));
-        setRatingList([...ratingList, { rating: userRating, review: 'undefined', name: firstName + ' ' + lastName }]);
+        setRatingList([...ratingList, { rating: userRating, review: undefined, name: firstName + ' ' + lastName }]);
       }
     }
     catch (err) {
@@ -101,16 +112,26 @@ function CreateReview() {
           <div className="p-2">Name: {item.name}</div>
           <div className="p-2">Rating: {item.rating}</div>
           <div className="p-2">
-            {(item.review !== null)  && (
-                <React.Fragment>
+            {(item.review )  && (
+                <div>
                   Review: {item.review}
-                </React.Fragment>
+                </div>
             )}
           </div>
 
 
         </div>
-
+          <div className="p-2 ms-auto">
+            {(item.name === firstName + ' ' + lastName)  && (
+            <Button
+              variant="outline-danger"
+              size="sm"
+              onClick={() => handleRemoveReview(index)}
+          >
+            Remove
+          </Button>
+            )}
+          </div>
 
 
         </Stack>
