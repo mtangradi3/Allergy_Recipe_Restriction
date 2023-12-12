@@ -67,7 +67,7 @@ function CreateReview() {
         alert("One rating per user")
       }
       else if(userRating !== '' && UserReview !== '') {
-        newRating(userRating, UserReview, email, meal_name).then(r => console.log(r));
+        newRating(userRating, email, meal_name, UserReview).then(r => console.log(r));
         setRatingList([...ratingList, { rating: userRating, review: UserReview, name: firstName + ' ' + lastName }]);
       }
       else if (userRating !== '') {
