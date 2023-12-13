@@ -1,7 +1,10 @@
+// Favorites.js
+
 import React, { useState, useEffect } from "react";
 import "../../styles/Buttons.css";
 import { getUserFavoritesMeal } from "../../api/userAPI";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getMealIngredients } from "../../api/mealAPI"; // Import the function to fetch meal details
 
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
@@ -33,10 +36,27 @@ function Favorites() {
       });
   }, [email]);
 
-  const handleFavoriteClick = (favorite) => {
-    navigate(`/meal-details/${favorite.name}`, {
-      state: { email, meal: favorite, favorites },
-    });
+  const handleFavoriteClick = async (favorite) => {
+    try {
+      // Fetch detailed meal information based on the favorite name
+      const detailedMeal = await getMealIngredients(favorite.name); // Assuming this function fetches meal details by name
+
+      if (detailedMeal) {
+        const mealData = {
+          meal_name: favorite.name,
+          ingredients: detailedMeal, // Assuming this is how the ingredients are fetched
+          // Other necessary fields...
+        };
+
+        navigate(`/meal-details/${favorite.name}`, {
+          state: { email, meal: mealData, favorites },
+        });
+      } else {
+        console.error("Meal details not found");
+      }
+    } catch (error) {
+      console.error("Error fetching meal details:", error);
+    }
   };
 
   return (
