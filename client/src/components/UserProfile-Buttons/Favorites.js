@@ -1,13 +1,13 @@
-// Favorites.js
-
 import React, { useState, useEffect } from "react";
 import "../../styles/Buttons.css";
 import { getUserFavoritesMeal } from "../../api/userAPI";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getMealIngredients } from "../../api/mealAPI"; // Import the function to fetch meal details
+import { getAllMeals, getMealIngredients } from "../../api/mealAPI";
+import allMeals from "./AllMeals"; // Import the function to fetch meal details
 
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
+  const [mealImages, setMealImages] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const { email, firstName, lastName } = location.state || {};
@@ -15,6 +15,13 @@ function Favorites() {
   async function fetchUserFavoritesMeal(email) {
     try {
       const data = await getUserFavoritesMeal(email);
+      const allMealWImages = await getAllMeals(email);
+      const images = allMealWImages.map((meal) => ({
+        mealImage: meal.meal_image,
+        mealName: meal.meal_name,
+      }));
+      setMealImages(images);
+
       const favoritesWithIds = data.map((favorite, index) => ({
         id: index + 1,
         name: favorite,
@@ -28,23 +35,23 @@ function Favorites() {
 
   useEffect(() => {
     fetchUserFavoritesMeal(email)
-      .then((data) => {
-        setFavorites(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching favorites:", error);
-      });
+        .then((data) => {
+          setFavorites(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching favorites:", error);
+        });
   }, [email]);
 
   const handleFavoriteClick = async (favorite) => {
     try {
       // Fetch detailed meal information based on the favorite name
-      const detailedMeal = await getMealIngredients(favorite.name); // Assuming this function fetches meal details by name
+      const detailedMeal = await getMealIngredients(favorite.name);
 
       if (detailedMeal) {
         const mealData = {
           meal_name: favorite.name,
-          ingredients: detailedMeal, // Assuming this is how the ingredients are fetched
+          ingredients: detailedMeal,
           // Other necessary fields...
         };
 
@@ -60,24 +67,35 @@ function Favorites() {
   };
 
   return (
-    <div>
-      <h1>Favorites Page</h1>
-      <ul>
-        {favorites.length > 0 ? (
-          favorites.map((favorite) => (
-            <li
-              key={favorite.id}
-              onClick={() => handleFavoriteClick(favorite)}
-              className="favorite-item"
-            >
-              {favorite.name}
-            </li>
-          ))
-        ) : (
-          <li>No favorites found</li>
-        )}
-      </ul>
-    </div>
+      <div>
+        <h1>Favorites Page</h1>
+        <ul>
+          {favorites.length > 0 ? (
+              favorites.map((favorite) => {
+                const imageObj = mealImages.find(
+                    (image) => image.mealName === favorite.name
+                );
+                return (
+                    <li
+                        key={favorite.id}
+                        onClick={() => handleFavoriteClick(favorite)}
+                        className="favorite-item"
+                    >
+                      <img
+                          src={`data:image/jpeg;base64, ${imageObj ? imageObj.mealImage : ""}`}
+                          alt={favorite.name}
+                          width="100"
+                          height="100"
+                      />
+                      {favorite.name}
+                    </li>
+                );
+              })
+          ) : (
+              <li>No favorites found</li>
+          )}
+        </ul>
+      </div>
   );
 }
 
