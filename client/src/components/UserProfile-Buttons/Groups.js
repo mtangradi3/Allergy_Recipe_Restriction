@@ -235,7 +235,7 @@ function DropdownContent({
   const [favorites, setFavorites] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
-  const { email } = location.state || {};
+  const { email, firstName, lastName } = location.state || {};
 
   async function fetchUserFavoritesMeal(email) {
     try {
@@ -307,7 +307,7 @@ function DropdownContent({
         };
 
         navigate(`/meal-details/${food}`, {
-          state: { email, meal: mealData, favorites },
+          state: { email, meal: mealData, favorites, firstName, lastName },
         });
       } else {
         console.error("Meal details not found");

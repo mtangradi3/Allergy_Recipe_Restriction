@@ -27,14 +27,14 @@ function UserProfile() {
         </button>
         <button
           className="buttonStyle"
-          onClick={() => navigate("/user-profile/groups", { state: { email } })}
+          onClick={() => navigate("/user-profile/groups", { state: { email, firstName, lastName } })}
         >
           Groups
         </button>
         <button
           className="buttonStyle"
           onClick={() =>
-            navigate("/user-profile/favorites", { state: { email } })
+            navigate("/user-profile/favorites", { state: { email, firstName, lastName } })
           }
         >
           Favorites
