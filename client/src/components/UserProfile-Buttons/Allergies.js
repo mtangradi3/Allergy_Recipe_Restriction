@@ -60,7 +60,7 @@ function Allergies() {
     const handleAddUserAllergy = (item) => {
 
         if (!userAllergies.includes(item)) {
-            let sev = prompt("allergy severity 1-10")
+
             setUserAllergies([...userAllergies, item]);
             try {
                 addUserAllergy(email,[item]).then(r => console.log(r))
@@ -105,7 +105,6 @@ function Allergies() {
 
 
     const updateSearch = (allergies = userAllergies, all_Allergies = allAllergies) => {
-        if (search.trim() !== '') {
             const filteredAllergies1 = all_Allergies.filter(allergy =>
                 allergy.toLowerCase().includes(search.toLowerCase())
             );
@@ -113,11 +112,7 @@ function Allergies() {
                 !allergies.some(existingAllergy => existingAllergy[0].toLowerCase() === allergy.toLowerCase())
             );
             setSearchAllergies(filteredAllergies2);
-        } else {
-            const filteredAllergies2 = all_Allergies.filter(allergy =>
-                !allergies.includes(allergy));
-            setSearchAllergies(filteredAllergies2);
-        }
+
     };
 
     const handleNewAllergy = () => {

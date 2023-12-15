@@ -83,7 +83,7 @@ function Favorites() {
                     >
                       <img
                           src={`data:image/jpeg;base64, ${imageObj ? imageObj.mealImage : ""}`}
-                          alt={favorite.name}
+                          alt={' '}
                           width="100"
                           height="100"
                       />
