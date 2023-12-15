@@ -60,7 +60,7 @@ function Allergies() {
     const handleAddUserAllergy = (item) => {
 
         if (!userAllergies.includes(item)) {
-
+            let sev = prompt("allergy severity 1-10")
             setUserAllergies([...userAllergies, item]);
             try {
                 addUserAllergy(email,[item]).then(r => console.log(r))

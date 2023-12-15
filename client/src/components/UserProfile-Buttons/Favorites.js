@@ -10,7 +10,7 @@ function Favorites() {
   const [mealImages, setMealImages] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
-  const { email, firstName, lastName } = location.state || {};
+  const { email } = location.state || {};
 
   async function fetchUserFavoritesMeal(email) {
     try {
@@ -56,7 +56,7 @@ function Favorites() {
         };
 
         navigate(`/meal-details/${favorite.name}`, {
-          state: { email, meal: mealData, favorites, firstName, lastName },
+          state: { email, meal: mealData, favorites },
         });
       } else {
         console.error("Meal details not found");
