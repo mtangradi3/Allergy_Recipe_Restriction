@@ -34,8 +34,6 @@ function Allergies() {
             try {
                 user = await getUserAllergies(email);
                 setUserAllergies(user);
-                console.log(user);
-
             } catch (err) {
                 console.log(err.message || "An error occurred while fetching User Allergies.");
             }
