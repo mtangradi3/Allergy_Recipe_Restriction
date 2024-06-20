@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { getAllIngredients, insertNewMeal } from "../../api/mealAPI";
 import "../../CreateMeal.css";
 
+// Andy Prototype
 function CreateMeal() {
   const navigate = useNavigate();
   const [ingredients, setIngredients] = useState([]);

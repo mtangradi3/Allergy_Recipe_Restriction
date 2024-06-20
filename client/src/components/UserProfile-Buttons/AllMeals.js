@@ -8,6 +8,7 @@ import "../../App.css";
 import CreateMeal from "./CreateMeal";
 import { useNavigate, useLocation } from "react-router-dom";
 
+// Andy Prototype
 function AllMeals() {
   const [meals, setMeals] = useState([]);
   const [error, setError] = useState(null);
